@@ -1,0 +1,12 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+
+namespace Group_Project_Offical.Pages
+{
+    public class Stock_Manager_Recieve_StockModel : PageModel
+    {
+        public void OnGet()
+        {
+        }
+    }
+}
