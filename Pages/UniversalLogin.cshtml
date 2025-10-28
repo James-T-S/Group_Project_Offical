@@ -1,4 +1,72 @@
 ﻿@page
 @model Group_Project_Offical.Pages.UniversalLoginModel
 @{
+
 }
+
+<!DOCTYPE html>
+    <head>
+         <title>@ViewData["Title"]</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1"
+
+    </head>
+    <body>
+        <div>
+            <div>
+                <div>
+                    <h1>Welcome</h1>
+                   <p>Please Sign into your account</p>
+                </div>
+                <div>
+                    <span>Admin</span>
+                    <span>Donation Manager</span>
+                    <span>Stock Manager</span>
+                    <span>Doner</span>
+                </div>
+            @if (!string.IsNullOrEmpty(Model.Message))
+            {
+                   <div>
+                    @Model.Message
+                       <button type="button">x</button>
+                       </div>
+
+            }
+
+            @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+            {
+                          <div>
+                    @Model.ErrorMessage
+                           <button type="button">x</button>
+                           </div>
+
+            }
+            <form method="post">
+                <input type="hidden" asp-for="LoginForm.ReturnUrl"/>
+
+
+                <div>
+                  <label asp-for="LoginForm.Username">Username</label>
+                  <input asp-for="LoginForm.Username"/>
+                  <span asp-validation-for="LoginForm.Username"></span>
+                </div>
+
+                 <div>
+                  <label asp-for="LoginForm.Password">Password</label>
+                  <input asp-for="LoginForm.Password"/>
+                  <span asp-validation-for="LoginForm.Password"></span>
+                </div>
+
+                <div>
+                  <input asp-for="LoginForm.RememberMe" type="checkbox"/>
+                  <label asp-for="LoginForm.RememberMe">Remember Me</label>
+                </div>
+
+                <div>
+                    <button type="submit">Sign In</button>
+                </div>
+            </form>
+        </div>
+        </div>
+
+    </body>
+</html>
