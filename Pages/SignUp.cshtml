@@ -2,3 +2,82 @@
 @model Group_Project_Offical.Pages.SignUpModel
 @{
 }
+
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>@ViewData["Title"]</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1"
+    </head>
+    <body>
+        <h1>Sign Up</h1>
+    @if (!string.IsNullOrEmpty(Model.Message))
+    {
+            <div>
+            @Model.Message
+            </div>
+    }
+    @if (!string.IsNullOrEmpty(Model.ErroredMessage))
+    {
+                <div>
+            @Model.ErroredMessage
+                </div>
+    }
+
+    <form method="post" asp-antiforgery="true">
+        <div>
+            <label for="FirstName">First Name</label>
+            <input type="text" id="FirstName" asp-for="DonerSignUpForm.FirstName" />
+            <span asp-validation-for="DonerSignUpForm.FirstName"></span>
+        </div>
+
+         <div>
+            <label for="LastName">Last Name</label>
+            <input type="text" id="LastName" asp-for="DonerSignUpForm.LastName" />
+            <span asp-validation-for="DonerSignUpForm.LastName"></span>
+        </div>
+
+        <div>
+            <label for="Username">User Name</label>
+            <input type="text" id="Username" asp-for="DonerSignUpForm.UserName" />
+            <span asp-validation-for="DonerSignUpForm.UserName"></span>
+        </div>
+
+             <div>
+            <label for="Email">Email</label>
+            <input type="text" id="Email" asp-for="DonerSignUpForm.Email" />
+            <span asp-validation-for="DonerSignUpForm.Email"></span>
+        </div>
+
+             <div>
+            <label for="Password">Password</label>
+            <input type="password" id="Password" asp-for="DonerSignUpForm.Password" />
+            <span asp-validation-for="DonerSignUpForm.Password"></span>
+        </div>
+
+          <div>
+            <label for="PhoneNumber">Phone Number</label>
+            <input type="tel" id="PhoneNumber" asp-for="DonerSignUpForm.PhoneNumber" />
+            <span asp-validation-for="DonerSignUpForm.PhoneNumber"></span>
+        </div>
+
+          <div>
+            <label for="Address">Address</label>
+            <textarea id="Address" asp-for="DonerSignUpForm.Address" rows="3"></textarea>
+
+        </div>
+
+        <div>
+            <button type="submit">Create Account</button>
+             <button type="reset">Clear Form</button>
+        </div>
+
+
+
+    </form>
+
+
+</body>
+
+</html>
