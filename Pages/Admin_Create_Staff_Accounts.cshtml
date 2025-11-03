@@ -1,4 +1,84 @@
 ﻿@page
 @model Group_Project_Offical.Pages.Admin_Create_Staff_AccountsModel
 @{
+	ViewData["Title"] = "Create Staff";
 }
+
+<h1>Create Staff Accounts</h1>
+
+@if (!string.IsNullOrEmpty(Model.Message))
+{
+	<div>@Model.Message</div>
+}
+
+@if(!string.IsNullOrEmpty(Model.ErroredMessage))
+{
+	<div>@Model.ErroredMessage</div>
+}
+
+<form method="post">
+	<div asp-validation-summary="All"></div>
+
+		<div>
+		<label asp-for="StaffForm.FirstName"></label>
+		<input asp-for="StaffForm.FirstName"/>
+		<span asp-validation-for="StaffForm.FirstName"></span>
+	</div>
+
+
+	<div>
+		<label asp-for="StaffForm.LastName"></label>
+		<input asp-for="StaffForm.LastName"/>
+		<span asp-validation-for="StaffForm.LastName"></span>
+	</div>
+
+
+	<div>
+		<label asp-for="StaffForm.UserName"></label>
+		<input asp-for="StaffForm.UserName"/>
+		<span asp-validation-for="StaffForm.UserName"></span>
+	</div>
+
+
+	<div>
+		<label asp-for="StaffForm.Email"></label>
+		<input asp-for="StaffForm.Email"/>
+		<span asp-validation-for="StaffForm.Email"></span>
+	</div>
+
+	<div>
+		<label asp-for="StaffForm.Password"></label>
+		<input asp-for="StaffForm.Password"/>
+		<span asp-validation-for="StaffForm.Password"></span>
+	</div>
+
+	<div>
+		<label asp-for="StaffForm.Address"></label>
+		<input asp-for="StaffForm.Address"/>
+		<span asp-validation-for="StaffForm.Address"></span>
+	</div>
+
+
+	<div>
+		<label asp-for="StaffForm.PhoneNumber"></label>
+		<input asp-for="StaffForm.PhoneNumber"/>
+		<span asp-validation-for="StaffForm.PhoneNumber"></span>
+	</div>
+
+	<div>
+		<label asp-for="StaffForm.Role">Role</label>
+		<select asp-for="StaffForm.Role">
+			<option value="">-- select role --</option>
+			<option value="DonationManager">-- Donation Manager --</option>
+			<option value="StockManager">-- Stock Manager --</option>
+			<option value="User">-- User --</option>
+		</select>
+		<span asp-validation-for="StaffForm.Role"></span>
+	</div>
+
+	<button type="submit">Create Account</button>
+	<a asp-asp-page="/Admin_Dashboard">Return</a>
+
+
+</form>
+
