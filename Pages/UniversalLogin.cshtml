@@ -5,68 +5,67 @@
 }
 
 <!DOCTYPE html>
-    <head>
-         <title>@ViewData["Title"]</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1"
+<head>
+    <title>@ViewData["Title"]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"
 
-    </head>
-    <body>
-        <div>
+</head>
+<body>
+    <div class="centred-items">
+        <h1 class="roboto-black">Welcome</h1>
+        <div class="border-shadow">
             <div>
-                <div>
-                    <h1>Welcome</h1>
-                   <p>Please Sign into your account</p>
-                </div>
-                <div>
-                    <span>Admin</span>
-                    <span>Donation Manager</span>
-                    <span>Stock Manager</span>
-                    <span>Doner</span>
-                </div>
+                <p class="login-p">Please Sign In</p>
+            </div>
+            <div>
+                <span>Admin</span>
+                <span>Donation Manager</span>
+                <span>Stock Manager</span>
+                <span>Doner</span>
+            </div>
             @if (!string.IsNullOrEmpty(Model.Message))
             {
-                   <div>
+                <div>
                     @Model.Message
-                       <button type="button">x</button>
-                       </div>
+                    <button type="button">x</button>
+                </div>
 
             }
 
             @if (!string.IsNullOrEmpty(Model.ErrorMessage))
             {
-                          <div>
+                <div>
                     @Model.ErrorMessage
-                           <button type="button">x</button>
-                           </div>
+                    <button type="button">x</button>
+                </div>
 
             }
-            <form method="post">
-                <input type="hidden" asp-for="LoginForm.ReturnUrl"/>
+            <form method="post" class="login-form">
+                <input type="hidden" asp-for="LoginForm.ReturnUrl" />
 
 
                 <div>
-                  <label asp-for="LoginForm.Username">Username</label>
-                  <input asp-for="LoginForm.Username"/>
-                  <span asp-validation-for="LoginForm.Username"></span>
-                </div>
-
-                 <div>
-                  <label asp-for="LoginForm.Password">Password</label>
-                  <input asp-for="LoginForm.Password"/>
-                  <span asp-validation-for="LoginForm.Password"></span>
+                    <label asp-for="LoginForm.Username" class="login-text-field">Username</label>
+                    <input asp-for="LoginForm.Username" class="login-text-field" />
+                    <span asp-validation-for="LoginForm.Username" class="login-text-field"></span>
                 </div>
 
                 <div>
-                  <input asp-for="LoginForm.RememberMe" type="checkbox"/>
-                  <label asp-for="LoginForm.RememberMe">Remember Me</label>
+                    <label asp-for="LoginForm.Password" class="login-text-field">Password</label>
+                    <input asp-for="LoginForm.Password" class="login-text-field" />
+                    <span asp-validation-for="LoginForm.Password" class="login-text-field"></span>
+                </div>
+
+                <div class="login-checkbox">
+                    <input asp-for="LoginForm.RememberMe" type="checkbox"/>
+                    <label asp-for="LoginForm.RememberMe">Remember Me</label>
                 </div>
 
                 <div>
-                    <button type="submit">Sign In</button>
+                    <button type="submit" class="login-button">Sign In</button>
                 </div>
             </form>
         </div>
-        </div>
-
-    </body>
+    </div>
+</body>
 </html>

@@ -13,7 +13,7 @@ namespace Group_Project_Offical.Pages
     {
         private readonly string _connectionString;
         private readonly SessionService _sessionService;
-        UserInfo userInfo = new UserInfo();
+        UserInfo UserInfo = new UserInfo();
 
         [BindProperty]
         public StaffLoginForm LoginForm { get; set; } = new StaffLoginForm();
