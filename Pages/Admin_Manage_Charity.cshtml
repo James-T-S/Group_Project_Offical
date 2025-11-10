@@ -1,0 +1,143 @@
+﻿@page
+@model Group_Project_Offical.Pages.Admin_Manage_CharityModel
+@{
+  
+}
+<!--CHATGPT IAM GETTING ERROR IN THE BELOW CODE PLEASE FIX!-->
+<h1>Manage charities</h1>
+
+
+@if(!string.IsNullOrWhiteSpace(Model.errormessage))
+{
+	<div>@Model.errormessage</div>
+}
+@if (!string.IsNullOrWhiteSpace(Model.Message))
+{
+		<div>@Model.Message</div>
+}
+
+
+<form method="get">
+	<input type="text" name="query" value="@Model.query" placeholder="please enter to search" />
+	<button type="submit">search</button>
+</form>
+
+<hr />
+
+<form method="post" asp-page-handler="">
+	<h2>Create Charity</h2>
+
+
+
+	<div>
+		<label>
+			Charity Name
+		</label>
+		<input name="charity.CharityName" value="@Model.charity.CharityName" />
+	</div>
+
+
+
+	<div>
+		<label>
+			Description
+		</label>
+		<input name="charity.Description" value="@Model.charity.Description" />
+	</div>
+
+
+	<div>
+		<label>
+			Email
+		</label>
+		<input name="charity.Email" value="@Model.charity.Email" />
+	</div>
+
+
+		<div>
+		<label>
+			Phone Number
+		</label>
+		<input name="charity.PhoneNum" value="@Model.charity.PhoneNum" />
+	</div>
+
+		<div>
+		<label>
+			Address
+		</label>
+		<input name="charity.Address" value="@Model.charity.Address" />
+	</div>
+
+
+
+		<div>
+		<label>
+			Registration
+		</label>
+		<input name="charity.RegistrationNum" value="@Model.charity.RegistrationNum" />
+	</div>
+
+
+	<!--this is what GPT FOUND AS THE ERROR -->
+		<div>
+	<label>Active</label>
+<input type="checkbox" name="charity.Isactive" @(Model.charity.IsActive ? "checked" : "")
+  </div>
+  <button type="submit">Create</button>
+</form>
+<hr />
+
+<h2>Charities</h2>
+
+@if (Model.c == null || Model.c.Count == 0)
+{
+	<p>No charities Found</p>
+}
+
+
+else
+{
+	<table>
+		<thead>
+			<tr>
+			<th>ID</th>
+			<th>NAME</th>
+		    <th>EMAIL</th>
+		    <th>PHONE</th>
+			<th>REG</th>
+		    <th>REGISTERED</th>
+			<th>ACTIVE</th>
+			<th>ACTIONS</th>
+			</tr>
+			
+		</thead>
+		<tbody>
+			@foreach (var x in Model.c)
+			{
+				<tr>
+					<td>@x.CharityID</td>
+					<td>@x.CharityName</td>
+				    <td>@x.Email</td>
+				    <td>@x.PhoneNum</td>
+					<td>@x.RegistrationNum</td>
+					<td>@x.DateRegistered</td>
+					<td>@(x.IsActive ? "Yes" : "No")</td>
+					<td>
+						
+
+					   <form method="post" asp-page-handler="ToggleActive" style="display:inline">
+                        <input type="hidden" name="charityID" value="@x.CharityID" />
+                        <input type="hidden" name="makeActive" value="@(!x.IsActive)" />
+                        <button type="submit">@((x.IsActive) ? "Freeze" : "Activate")</button>
+                    </form>
+
+                    <form method="post" asp-page-handler="ToggleDelete" style="display:inline" onsubmit="return confirm('Delete this charity?');">
+                        <input type="hidden" name="charityID" value="@x.CharityID" />
+                        <button type="submit">Delete</button>
+					</form>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
