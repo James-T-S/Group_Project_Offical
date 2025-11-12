@@ -13,16 +13,11 @@
 <body>
     <div class="centred-items">
         <h1 class="roboto-black">Welcome</h1>
-        <div class="border-shadow">
+        <div class="login-container">
             <div>
                 <p class="login-p">Please Sign In</p>
             </div>
-            <div>
-                <span>Admin</span>
-                <span>Donation Manager</span>
-                <span>Stock Manager</span>
-                <span>Doner</span>
-            </div>
+
             @if (!string.IsNullOrEmpty(Model.Message))
             {
                 <div>
@@ -62,7 +57,7 @@
                 </div>
 
                 <div>
-                    <button type="submit" class="login-button">Sign In</button>
+                    <button type="submit" class="btn">Sign In</button>
                 </div>
             </form>
         </div>
