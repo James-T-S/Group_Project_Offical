@@ -1,0 +1,90 @@
+﻿@page
+@model Group_Project_Offical.Pages.Doner_Delete_AccountModel
+@{
+    ViewData["Title"] = "My Donor Account";
+}
+
+
+<h1>Privacy Policy</h1>
+
+@if(!string.IsNullOrWhiteSpace(Model.error))
+{
+    <div>@Model.error</div>
+}
+
+@if(!string.IsNullOrWhiteSpace(Model.message))
+{
+    <div>@Model.message</div>
+}
+
+
+@if(Model.profile is null)
+{
+    <p>ERROR</p>
+}
+
+else
+{
+    <form method="post" asp-page-handler="Update">
+        <input type="hidden" />
+
+        <div>
+            <label>Username</label><br />
+            <input value="@Model.profile.Username" disabled />
+
+        </div>
+        
+        <div>
+            <label asp-for="profile.Email"></label><br />
+            <input asp-for="profile.Email"/>
+            <span asp-validation-for="profile.Email"></span>
+        </div>
+
+             <div>
+                <label asp-for="profile.FirstName"></label><br />
+                    <input asp-for="profile.FirstName"/>
+                    <span asp-validation-for="profile.FirstName"></span>
+            </div>
+
+                 <div>
+                <label asp-for="profile.LastName"></label><br />
+                    <input asp-for="profile.LastName"/>
+                    <span asp-validation-for="profile.LastName"></span>
+            </div>
+
+                 <div>
+                    <label asp-for="profile.PhoneNumber"></label><br />
+                            <input asp-for="profile.PhoneNumber"/>
+                            <span asp-validation-for="profile.PhoneNumber"></span>
+                </div>
+
+                     <div>
+                        <label asp-for="profile.PhoneNumber"></label><br />
+                            <input asp-for="profile.PhoneNumber"/>
+                            <span asp-validation-for="profile.PhoneNumber"></span>
+                </div>
+
+                     <div>
+                            <label asp-for="profile.Address"></label><br />
+                                    <input asp-for="profile.Address"/>
+                                    <span asp-validation-for="profile.Address"></span>
+                    </div>
+
+                    <div>
+                        <label>Active</label><br />
+                        <input asp-for="profile.IsActive" disable/>
+
+                    </div>
+
+                    <button type="submit">Save</button>
+
+    </form>
+
+    <hr  />
+
+    <form method="post" asp-page-handler="Delete" onsubmit="return confirm('ARE YOU SURE!')">
+        <button type="submit">Delete ACCOUNT</button>
+    </form>
+
+
+}
