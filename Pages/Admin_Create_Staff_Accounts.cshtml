@@ -1,84 +1,88 @@
 ﻿@page
 @model Group_Project_Offical.Pages.Admin_Create_Staff_AccountsModel
 @{
-	ViewData["Title"] = "Create Staff";
+    ViewData["Title"] = "Create Staff";
 }
 
-<h1>Create Staff Accounts</h1>
+<div class="centred-items">
+    <h1 class="roboto-black">Create Staff Accounts</h1>
+    <div class="login-container">
+        @if (!string.IsNullOrEmpty(Model.Message))
+        {
+            <div class="error-msg">@Model.Message</div>
+        }
 
-@if (!string.IsNullOrEmpty(Model.Message))
-{
-	<div>@Model.Message</div>
-}
+        @if (!string.IsNullOrEmpty(Model.ErroredMessage))
+        {
+            <div class="error-msg">@Model.ErroredMessage</div>
+        }
 
-@if(!string.IsNullOrEmpty(Model.ErroredMessage))
-{
-	<div>@Model.ErroredMessage</div>
-}
+        <div class="login-form">
+            <form method="post">
+                <div asp-validation-summary="All"></div>
 
-<form method="post">
-	<div asp-validation-summary="All"></div>
-
-		<div>
-		<label asp-for="StaffForm.FirstName"></label>
-		<input asp-for="StaffForm.FirstName"/>
-		<span asp-validation-for="StaffForm.FirstName"></span>
-	</div>
-
-
-	<div>
-		<label asp-for="StaffForm.LastName"></label>
-		<input asp-for="StaffForm.LastName"/>
-		<span asp-validation-for="StaffForm.LastName"></span>
-	</div>
+                <div>
+                    <label asp-for="StaffForm.FirstName" class="login-text-field" style="margin-top: 0 !important;"></label>
+                    <input asp-for="StaffForm.FirstName" class="login-text-field" />
+                    <span asp-validation-for="StaffForm.FirstName" class="login-text-field"></span>
+                </div>
 
 
-	<div>
-		<label asp-for="StaffForm.UserName"></label>
-		<input asp-for="StaffForm.UserName"/>
-		<span asp-validation-for="StaffForm.UserName"></span>
-	</div>
+                <div>
+                    <label asp-for="StaffForm.LastName" class="login-text-field"></label>
+                    <input asp-for="StaffForm.LastName" class="login-text-field" />
+                    <span asp-validation-for="StaffForm.LastName" class="login-text-field"></span>
+                </div>
 
 
-	<div>
-		<label asp-for="StaffForm.Email"></label>
-		<input asp-for="StaffForm.Email"/>
-		<span asp-validation-for="StaffForm.Email"></span>
-	</div>
-
-	<div>
-		<label asp-for="StaffForm.Password"></label>
-		<input asp-for="StaffForm.Password"/>
-		<span asp-validation-for="StaffForm.Password"></span>
-	</div>
-
-	<div>
-		<label asp-for="StaffForm.Address"></label>
-		<input asp-for="StaffForm.Address"/>
-		<span asp-validation-for="StaffForm.Address"></span>
-	</div>
+                <div>
+                    <label asp-for="StaffForm.UserName" class="login-text-field"></label>
+                    <input asp-for="StaffForm.UserName" class="login-text-field" />
+                    <span asp-validation-for="StaffForm.UserName" class="login-text-field"></span>
+                </div>
 
 
-	<div>
-		<label asp-for="StaffForm.PhoneNumber"></label>
-		<input asp-for="StaffForm.PhoneNumber"/>
-		<span asp-validation-for="StaffForm.PhoneNumber"></span>
-	</div>
+                <div>
+                    <label asp-for="StaffForm.Email" class="login-text-field"></label>
+                    <input asp-for="StaffForm.Email" class="login-text-field" />
+                    <span asp-validation-for="StaffForm.Email" class="login-text-field"></span>
+                </div>
 
-	<div>
-		<label asp-for="StaffForm.Role">Role</label>
-		<select asp-for="StaffForm.Role">
-			<option value="">-- select role --</option>
-			<option value="DonationManager">-- Donation Manager --</option>
-			<option value="StockManager">-- Stock Manager --</option>
-			<option value="User">-- User --</option>
-		</select>
-		<span asp-validation-for="StaffForm.Role"></span>
-	</div>
+                <div>
+                    <label asp-for="StaffForm.Password" class="login-text-field"></label>
+                    <input asp-for="StaffForm.Password" class="login-text-field" />
+                    <span asp-validation-for="StaffForm.Password" class="login-text-field"></span>
+                </div>
 
-	<button type="submit">Create Account</button>
-	<a asp-asp-page="/Admin_Dashboard">Return</a>
+                <div>
+                    <label asp-for="StaffForm.Address" class="login-text-field"></label>
+                    <input asp-for="StaffForm.Address" class="login-text-field" />
+                    <span asp-validation-for="StaffForm.Address" class="login-text-field"></span>
+                </div>
 
 
-</form>
+                <div>
+                    <label asp-for="StaffForm.PhoneNumber" class="login-text-field"></label>
+                    <input asp-for="StaffForm.PhoneNumber" class="login-text-field" />
+                    <span asp-validation-for="StaffForm.PhoneNumber" class="login-text-field"></span>
+                </div>
+
+                <div class="admin-select-role">
+                    <label asp-for="StaffForm.Role">Role</label>
+                    <select asp-for="StaffForm.Role">
+                        <option value="">-- select role --</option>
+                        <option value="DonationManager">-- Donation Manager --</option>
+                        <option value="StockManager">-- Stock Manager --</option>
+                        <option value="User">-- User --</option>
+                    </select>
+                    <span asp-validation-for="StaffForm.Role"></span>
+                </div>
+
+            <button type="submit" class="btn">Create Account</button>
+            </form>
+            <button href="Admin_Dashboard" class="btn">Return</button>
+        </div>
+    </div>
+
+</div>
 

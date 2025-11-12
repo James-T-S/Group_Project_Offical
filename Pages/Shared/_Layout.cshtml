@@ -8,43 +8,27 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Group_Project_Offical.styles.css" asp-append-version="true" />
 </head>
+
+
 <body>
     <header>
         <nav>
             <ul>
                 <li>
-                    <a class="nav-link" href="UniversalLogin">Donate</a>
+                    <button class="btn nav-donate-btn" href="UniversalLogin">Donate</button>
                 </li>
-                <li class="nav-item">
+                <li>
                     <a class="nav-link active" aria-current="page" href="UniversalLogin">Login</a>
                 </li>
-                <li class="nav-item">
+                <li>
                     <a class="nav-link" href="SignUp">Signup</a>
                 </li>
             </ul>
         </nav>
 
-        @*         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">Group_Project_Offical</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav> *@
+
     </header>
-    <div class="container">
+    <div>
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
