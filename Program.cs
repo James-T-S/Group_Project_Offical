@@ -1,3 +1,4 @@
+using Group_Project_Offical.Pages;
 using Group_Project_Offical.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -37,3 +38,4 @@ app.UseAuthorization();
 app.MapRazorPages();
 
 app.Run();
+

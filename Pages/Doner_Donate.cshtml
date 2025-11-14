@@ -1,4 +1,63 @@
 ﻿@page
-@model Group_Project_Offical.Pages.Doner_DonateModel
+@model Group_Project_Offical.Pages.Doner_Donate_AccountModel
 @{
+
 }
+@if (!string.IsNullOrEmpty(Model.Error))
+{
+	<p>@Model.Error</p>
+}
+
+@if (!string.IsNullOrEmpty(Model.Message))
+{
+		<p>@Model.Message</p>
+}
+
+<form method="post">
+	<div>
+		<label asp-for="CharityID">Choose Charity</label>
+		<select asp-for="CharityID" asp-items="Model.CharityOptions">
+			<option value="">---SELECT CHARITY---</option>
+		</select>
+	</div>
+
+	<div>
+		<label asp-for="Item.ItemName">item name</label>
+		<input asp-for="Item.ItemName"/>
+	</div>
+
+	<div>
+		<label asp-for="Item.Description">item description</label>
+		<input asp-for="Item.Description"/>
+	</div>
+
+	<div>
+		<label asp-for="Item.size">item size</label>
+		<input asp-for="Item.size"/>
+	</div>
+
+
+	<div>
+		<label asp-for="Item.gender">item gender</label>
+		<input asp-for="Item.gender"/>
+	</div>
+
+
+	<div>
+		<label asp-for="Item.condition">item condition</label>
+		<input asp-for="Item.condition"/>
+	</div>
+
+	<div>
+		<label>photo</label>
+		<input asp-for="Photos" type="file" multiple />
+	</div>
+
+	<button type="submit">Submit Donations</button>
+</form>
+
+
+
+
+
+

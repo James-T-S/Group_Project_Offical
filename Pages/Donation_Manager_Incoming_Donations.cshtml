@@ -1,4 +1,95 @@
 ﻿@page
 @model Group_Project_Offical.Pages.Donation_Manager_Incoming_DonationsModel
-@{
+
+
+<h1>INCOMING DONATIONS</h1>
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+	<p>@Model.ErrorMessage</p>
 }
+
+@if (!string.IsNullOrEmpty(Model.Message))
+{
+		<p>@Model.Message</p>
+
+}
+
+@if (Model.IncomingDonations == null || Model.IncomingDonations.Count == 0)
+{
+	<p>Pending Donations NO MORE</p>
+}
+
+<table>
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>date</th>
+			<th>doner</th>
+			<th>total items</th>
+			<th>estimated value</th>
+			<th>items</th>
+			<th>action</th>
+		</tr>
+
+	</thead>
+	<tbody>
+		@foreach (var d in Model.IncomingDonations)
+		{
+			<tr>
+				<td>@d.DonationID</td>
+				<td>@d.DonationDate</td>
+				<td>@d.DonerName</td>
+				<td>@d.TotalItems</td>
+				<td>@d.EstimatedValue</td>
+				<td>
+					@if(d.Items == null || d.Items.Count == 0)
+					{
+						<span>NO ITEMS</span>
+					}
+					else
+					{
+						<ul>
+							@foreach(var item in d.Items)
+							{
+								<li>
+									<strong>@item.ItemName</strong>
+									(@item.size, @item.Gender, @item.Condition)
+									@if (!string.IsNullOrWhiteSpace(item.Description))
+									{
+										<br />
+										<span>@item.Description</span>
+									}
+									@if (!string.IsNullOrWhiteSpace(item.PhotoURL))
+									{
+										<br />
+										<img src="@item.PhotoURL" alt="ERROR" style="max-width:150px;max-height:150px;" />
+
+									}
+									</li>
+
+								
+							}
+						</ul>
+					}
+				</td>
+				<td>
+					<form method="post" asp-page-handler="Accept">
+						<input type="hidden" name="donationId" value="@d.DonationID"/>
+						<button type="submit">ACCEPT</button>
+
+					</form>
+						<form method="post" asp-page-handler="Reject">
+							<input type="hidden" name="donationId" value="@d.DonationID"/>
+							<button type="submit">Reject</button>
+
+						</form>
+				</td>
+
+		</tr>
+
+
+
+		}
+	</tbody>
+</table>
+
