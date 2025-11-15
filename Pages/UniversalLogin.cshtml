@@ -5,60 +5,56 @@
 }
 
 <!DOCTYPE html>
+<html lang="en">
 <head>
     <title>@ViewData["Title"]</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1"
-
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
 <body>
-    <div class="centred-items">
-        <h1 class="roboto-black">Welcome</h1>
-        <div class="login-container">
-            <div>
-                <p class="login-p">Please Sign In</p>
-            </div>
+    <div class="d-flex flex-column align-items-center min-vh-100">
+        <h1 class="roboto-black mt-4">Welcome</h1>
+
+        <div class="login-container mt-3 w-100" style="max-width:400px;">
+
+            <p class="login-p text-center mb-4">Please Sign In</p>
 
             @if (!string.IsNullOrEmpty(Model.Message))
             {
-                <div>
+                <div class="alert alert-info d-flex justify-content-between align-items-center">
                     @Model.Message
-                    <button type="button">x</button>
+                    <button type="button" class="btn-close"></button>
                 </div>
-
             }
 
             @if (!string.IsNullOrEmpty(Model.ErrorMessage))
             {
-                <div>
+                <div class="alert alert-danger d-flex justify-content-between align-items-center">
                     @Model.ErrorMessage
-                    <button type="button">x</button>
+                    <button type="button" class="btn-close"></button>
                 </div>
-
             }
-            <form method="post" class="login-form">
+
+            <form method="post" class="login-form d-flex flex-column align-items-center w-100">
                 <input type="hidden" asp-for="LoginForm.ReturnUrl" />
 
-
-                <div>
-                    <label asp-for="LoginForm.Username" class="login-text-field">Username</label>
-                    <input asp-for="LoginForm.Username" class="login-text-field" />
-                    <span asp-validation-for="LoginForm.Username" class="login-text-field"></span>
+                <div class="mb-3 w-100">
+                    <label asp-for="LoginForm.Username" class="form-label">Username</label>
+                    <input asp-for="LoginForm.Username" class="form-control" />
+                    <span asp-validation-for="LoginForm.Username" class="text-danger"></span>
                 </div>
 
-                <div>
-                    <label asp-for="LoginForm.Password" class="login-text-field">Password</label>
-                    <input asp-for="LoginForm.Password" class="login-text-field" />
-                    <span asp-validation-for="LoginForm.Password" class="login-text-field"></span>
+                <div class="mb-3 w-100">
+                    <label asp-for="LoginForm.Password" class="form-label">Password</label>
+                    <input asp-for="LoginForm.Password" class="form-control" />
+                    <span asp-validation-for="LoginForm.Password" class="text-danger"></span>
                 </div>
 
-                <div class="login-checkbox">
-                    <input asp-for="LoginForm.RememberMe" type="checkbox"/>
-                    <label asp-for="LoginForm.RememberMe">Remember Me</label>
+                <div class="form-check mb-4 w-100">
+                    <input asp-for="LoginForm.RememberMe" type="checkbox" class="form-check-input" id="rememberCheck" />
+                    <label asp-for="LoginForm.RememberMe" class="form-check-label" for="rememberCheck">Remember Me</label>
                 </div>
 
-                <div>
-                    <button type="submit" class="btn">Sign In</button>
-                </div>
+                <button type="submit" class="btn btn-primary w-100 py-2">Sign In</button>
             </form>
         </div>
     </div>

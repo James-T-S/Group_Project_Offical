@@ -11,8 +11,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"
 </head>
 <body>
-    <div class="centred-items">
-        <h1 class="roboto-black" style="margin-top: 4vh;">Welcome</h1>
+    <div class="d-flex flex-column align-items-center min-vh-100">
+        <h1 class="roboto-black mt-4">Welcome</h1>
         @if (!string.IsNullOrEmpty(Model.Message))
         {
             <div>
@@ -25,58 +25,58 @@
                 @Model.ErroredMessage
             </div>
         }
-        <div class="login-container">
-            <h1 class="login-p">Sign Up</h1>
-            <form method="post" asp-antiforgery="true">
+        <div class="login-container mt-4 w-100" style="max-width:480px;">
+            <h1 class="login-p text-center">Sign Up</h1>
+            <form method="post" asp-antiforgery="true" class="d-flex flex-column align-items-center">
 
-                <div>
-                    <label for="Username" class="login-text-field">User Name</label>
-                    <input type="text" id="Username" asp-for="DonerSignUpForm.UserName" class="login-text-field" />
-                    <span asp-validation-for="DonerSignUpForm.UserName" class="login-text-field"></span>
+                <div class="text-field mb-3 w-100">
+                    <label for="Username" class="form-label d-block">User Name</label>
+                    <input type="text" id="Username" asp-for="DonerSignUpForm.UserName" class="form-control w-100" />
+                    <span asp-validation-for="DonerSignUpForm.UserName" class="text-danger"></span>
                 </div>
 
-                <div>
-                    <label for="Password" class="login-text-field">Password</label>
-                    <input type="password" id="Password" asp-for="DonerSignUpForm.Password" class="login-text-field" />
-                    <span asp-validation-for="DonerSignUpForm.Password" class="login-text-field"></span>
+                <div class="text-field mb-3 w-100">
+                    <label for="Password" class="form-label d-block">Password</label>
+                    <input type="password" id="Password" asp-for="DonerSignUpForm.Password" class="form-control w-100" />
+                    <span asp-validation-for="DonerSignUpForm.Password" class="text-danger"></span>
                 </div>
 
-                <div>
-                    <label for="FirstName" class="login-text-field">First Name</label>
-                    <input type="text" id="FirstName" asp-for="DonerSignUpForm.FirstName" class="login-text-field" />
-                    <span asp-validation-for="DonerSignUpForm.FirstName" class="login-text-field"></span>
+                <div class="text-field mb-3 w-100 d-md-flex gap-3">
+                    <div class="w-100">
+                        <label for="FirstName" class="form-label d-block">First Name</label>
+                        <input type="text" id="FirstName" asp-for="DonerSignUpForm.FirstName" class="form-control w-100" />
+                        <span asp-validation-for="DonerSignUpForm.FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="w-100 mt-3 mt-md-0">
+                        <label for="LastName" class="form-label d-block">Last Name</label>
+                        <input type="text" id="LastName" asp-for="DonerSignUpForm.LastName" class="form-control w-100" />
+                        <span asp-validation-for="DonerSignUpForm.LastName" class="text-danger"></span>
+                    </div>
                 </div>
 
-                <div>
-                    <label for="LastName" class="login-text-field">Last Name</label>
-                    <input type="text" id="LastName" asp-for="DonerSignUpForm.LastName" class="login-text-field" />
-                    <span asp-validation-for="DonerSignUpForm.LastName" class="login-text-field"></span>
+                <div class="text-field mb-3 w-100">
+                    <label for="Email" class="form-label d-block">Email</label>
+                    <input type="text" id="Email" asp-for="DonerSignUpForm.Email" class="form-control w-100" />
+                    <span asp-validation-for="DonerSignUpForm.Email" class="text-danger"></span>
                 </div>
 
-                <div>
-                    <label for="Email" class="login-text-field">Email</label>
-                    <input type="text" id="Email" asp-for="DonerSignUpForm.Email" class="login-text-field" />
-                    <span asp-validation-for="DonerSignUpForm.Email" class="login-text-field"></span>
+                <div class="text-field mb-3 w-100 d-md-flex gap-3">
+                    <div class="w-100">
+                        <label for="PhoneNumber" class="form-label d-block">Phone Number</label>
+                        <input type="tel" id="PhoneNumber" asp-for="DonerSignUpForm.PhoneNumber" class="form-control w-100" />
+                        <span asp-validation-for="DonerSignUpForm.PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <div class="w-100 mt-3 mt-md-0">
+                        <label for="Address" class="form-label d-block">Address</label>
+                        <textarea id="Address" asp-for="DonerSignUpForm.Address" rows="2" class="form-control w-100"></textarea>
+                        <span asp-validation-for="DonerSignUpForm.Address" class="text-danger"></span>
+                    </div>
                 </div>
 
-                <div>
-                    <label for="PhoneNumber" class="login-text-field">Phone Number</label>
-                    <input type="tel" id="PhoneNumber" asp-for="DonerSignUpForm.PhoneNumber" class="login-text-field" />
-                    <span asp-validation-for="DonerSignUpForm.PhoneNumber" class="login-text-field"></span>
+                <div class="d-flex justify-content-center gap-3 mt-4 w-100">
+                    <button type="submit" class="btn btn-primary px-4">Create Account</button>
+                    <button type="reset" class="btn btn-secondary px-4">Clear Form</button>
                 </div>
-
-                <div>
-                    <label for="Address" class="login-text-field">Address</label>
-                    <textarea id="Address" asp-for="DonerSignUpForm.Address" rows="2" class="login-text-field"></textarea>
-
-                </div>
-
-                <div style="margin-top: 5vh;">
-                    <button type="submit" class="btn">Create Account</button>
-                    <button type="reset" class="btn">Clear Form</button>
-                </div>
-
-
 
             </form>
         </div>

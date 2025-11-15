@@ -4,87 +4,79 @@
     ViewData["Title"] = "My Donor Account";
 }
 
+<div class="d-flex flex-column align-items-center mt-4">
 
-<h1>Privacy Policy</h1>
+    <h1 class="mb-4">Privacy Policy</h1>
 
-@if(!string.IsNullOrWhiteSpace(Model.error))
-{
-    <div>@Model.error</div>
-}
+    @if (!string.IsNullOrWhiteSpace(Model.error))
+    {
+        <div class="text-danger mb-2">@Model.error</div>
+    }
 
-@if(!string.IsNullOrWhiteSpace(Model.message))
-{
-    <div>@Model.message</div>
-}
+    @if (!string.IsNullOrWhiteSpace(Model.message))
+    {
+        <div class="text-success mb-2">@Model.message</div>
+    }
 
+    @if (Model.profile is null)
+    {
+        <p>ERROR</p>
+    }
+    else
+    {
+        <div class="card p-4 shadow-sm mb-5" style="width: 100%; max-width: 450px;">
 
-@if(Model.profile is null)
-{
-    <p>ERROR</p>
-}
+            <form method="post" asp-page-handler="Update">
 
-else
-{
-    <form method="post" asp-page-handler="Update">
-        <input type="hidden" />
-
-        <div>
-            <label>Username</label><br />
-            <input value="@Model.profile.Username" disabled />
-
-        </div>
-        
-        <div>
-            <label asp-for="profile.Email"></label><br />
-            <input asp-for="profile.Email"/>
-            <span asp-validation-for="profile.Email"></span>
-        </div>
-
-             <div>
-                <label asp-for="profile.FirstName"></label><br />
-                    <input asp-for="profile.FirstName"/>
-                    <span asp-validation-for="profile.FirstName"></span>
-            </div>
-
-                 <div>
-                <label asp-for="profile.LastName"></label><br />
-                    <input asp-for="profile.LastName"/>
-                    <span asp-validation-for="profile.LastName"></span>
-            </div>
-
-                 <div>
-                    <label asp-for="profile.PhoneNumber"></label><br />
-                            <input asp-for="profile.PhoneNumber"/>
-                            <span asp-validation-for="profile.PhoneNumber"></span>
+                <div class="mb-3">
+                    <label class="form-label">Username</label>
+                    <input value="@Model.profile.Username" disabled class="form-control" />
                 </div>
 
-                     <div>
-                        <label asp-for="profile.PhoneNumber"></label><br />
-                            <input asp-for="profile.PhoneNumber"/>
-                            <span asp-validation-for="profile.PhoneNumber"></span>
+                <div class="mb-3">
+                    <label asp-for="profile.Email" class="form-label"></label>
+                    <input asp-for="profile.Email" class="form-control" />
+                    <span asp-validation-for="profile.Email" class="text-danger small"></span>
                 </div>
 
-                     <div>
-                            <label asp-for="profile.Address"></label><br />
-                                    <input asp-for="profile.Address"/>
-                                    <span asp-validation-for="profile.Address"></span>
-                    </div>
+                <div class="mb-3">
+                    <label asp-for="profile.FirstName" class="form-label"></label>
+                    <input asp-for="profile.FirstName" class="form-control" />
+                    <span asp-validation-for="profile.FirstName" class="text-danger small"></span>
+                </div>
 
-                    <div>
-                        <label>Active</label><br />
-                        <input asp-for="profile.IsActive" disable/>
+                <div class="mb-3">
+                    <label asp-for="profile.LastName" class="form-label"></label>
+                    <input asp-for="profile.LastName" class="form-control" />
+                    <span asp-validation-for="profile.LastName" class="text-danger small"></span>
+                </div>
 
-                    </div>
+                <div class="mb-3">
+                    <label asp-for="profile.PhoneNumber" class="form-label"></label>
+                    <input asp-for="profile.PhoneNumber" class="form-control" />
+                    <span asp-validation-for="profile.PhoneNumber" class="text-danger small"></span>
+                </div>
 
-                    <button type="submit">Save</button>
+                <div class="mb-3">
+                    <label asp-for="profile.Address" class="form-label"></label>
+                    <input asp-for="profile.Address" class="form-control" />
+                    <span asp-validation-for="profile.Address" class="text-danger small"></span>
+                </div>
 
-    </form>
+                <div class="mb-4 d-flex align-items-center gap-2">
+                    <input asp-for="profile.IsActive" type="checkbox" class="form-check-input" disabled />
+                    <label class="form-check-label">Active</label>
+                </div>
 
-    <hr  />
+                <div class="text-center">
+                    <button type="submit" class="btn mx-auto d-block mb-2">Save</button>
+                </div>
+            </form>
 
-    <form method="post" asp-page-handler="Delete" onsubmit="return confirm('ARE YOU SURE!')">
-        <button type="submit">Delete ACCOUNT</button>
-    </form>
+            <form method="post" asp-page-handler="Delete" onsubmit="return confirm('ARE YOU SURE!')" class="text-center">
+                <button type="submit" class="btn mx-auto d-block">Delete Account</button>
+            </form>
+        </div>
+    }
 
-
-}
+</div>

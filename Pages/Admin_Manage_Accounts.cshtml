@@ -3,61 +3,67 @@
 @{
 }
 
-<h1>Manage Accounts</h1>
+<div class="container">
+    <h1>Manage Accounts</h1>
 
 
-@if (!string.IsNullOrEmpty(Model.StatusMessage))
-{
-		<div>@Model.StatusMessage</div>
-}
+    @if (!string.IsNullOrEmpty(Model.StatusMessage))
+    {
+        <div>@Model.StatusMessage</div>
+    }
 
-@if (!string.IsNullOrEmpty(Model.ErrorMessage))
-{
-		<div>@Model.ErrorMessage</div>
-}
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div>@Model.ErrorMessage</div>
+    }
 
 
-<form method="get">
-	<label for="q">Search</label>
-	<input id="q" name="Query" value="@Model.Query"/>
-	<button type="submit">Apply</button>
-	<a asp-page="/Admin_Manage_Accounts">Clear</a>
-</form>
+    <form method="get">
+        <label for="q">Search</label>
+        <input id="q" name="Query" value="@Model.Query" class=""/>
+        <button type="submit" class="btn">Apply</button>
+        <a asp-page="/Admin_Manage_Accounts">Clear</a>
+    </form>
 
-<table>
-	<thead>
-		<tr>
-			<th>Username</th>
-			<th>Email</th>
-			<th>Role</th>
-			<th>Active</th>
-			<th>Actions</th>
-		</tr>
+    <table>
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Active</th>
+                <th>Actions</th>
+            </tr>
 
-	</thead>
-	<tbody>
-		@foreach (var u in Model.Users)
-		{
-			<tr>
-				<td>@u.Username</td>
-				<td>@u.Email</td>
-			    <td>@u.UserRole</td>
-			    <td>@u.IsActive ? "Yes" : "No"</td>
-				<td>
-					<form method="post" asp-page-handler="ToggleActive">
-						<input type="hidden" name=Username value="@u.Username" />
-						<input type="hidden" name="MakeActive" value="@(u.IsActive ? "false" : "true")" />
-						<button type="submit">@(u.IsActive ? "Freeze" : "Unfreeze")</button>
+        </thead>
+        <tbody>
+            @foreach (var u in Model.Users)
+            {
+                <tr>
+                    <td>@u.Username</td>
+                    <td>@u.Email</td>
+                    <td>@u.UserRole</td>
+                    <td>@u.IsActive ? "Yes" : "No"</td>
+                    <td>
+                        <form method="post" asp-page-handler="ToggleActive">
+                            <div class="mb-3">
+                                <input type="hidden" name=Username value="@u.Username" class="form-control" />
+                                <input type="hidden" name="MakeActive" value="@(u.IsActive ? "false" : "true")" class="form-control" />
+                                <button type="submit">@(u.IsActive ? "Freeze" : "Unfreeze")</button>
+                            </div>
+                        </form>
 
-					</form>
+                        <form method="post" asp-page-handler="Delete" onsubmit="return confirm('Delete @u.Username?');">
+                            <div class="mb-3">
+                                <input type="hidden" name=Username value="@u.Username" class="form-control" />
+                                <button type="submit" class="btn btn-light">Delete</button>
+                            </div>
+                        </form>
+                    </td>
 
-					<form method="post" asp-page-handler="Delete" onsubmit="return confirm('Delete @u.Username?');">
-							<input type="hidden" name=Username value="@u.Username" />
-							<button type="submit">Delete</button>
-					</form>
-				</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 
-			</tr>
-		}
-	</tbody>
-</table>

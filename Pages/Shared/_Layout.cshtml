@@ -5,38 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Group_Project_Offical</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Group_Project_Offical.styles.css" asp-append-version="true" />
 </head>
 
 
+
 <body>
     <header>
-        <nav>
-            <ul>
-                <li>
-                    <button class="btn nav-donate-btn" href="UniversalLogin">Donate</button>
-                </li>
-                <li>
-                    <a class="nav-link active" aria-current="page" href="UniversalLogin">Login</a>
-                </li>
-                <li>
-                    <a class="nav-link" href="SignUp">Signup</a>
-                </li>
-            </ul>
+
+        <nav class="navbar navbar-expand-lg" style="background-color: #C2A68C; padding: 0.5vh; margin: 0;">
+            <div class="container-fluid justify-content-end">
+                <ul class="navbar-nav mb-0 me-3 d-flex flex-row">
+                    <li class="nav-item d-flex justify-content-center align-items-center">
+                        <a href="UniversalLogin" class="btn nav-donate-btn fw-semibold text-black">Donate</a>
+                    </li>
+                    <li class="nav-item d-flex justify-content-center align-items-center ms-3">
+                        <a class="nav-link active fw-semibold text-white" aria-current="page" href="UniversalLogin">Login</a>
+                    </li>
+                    <li class="nav-item d-flex justify-content-center align-items-center ms-3">
+                        <a class="nav-link fw-semibold text-white" href="SignUp">Signup</a>
+                    </li>
+                </ul>
+            </div>
         </nav>
-
-
     </header>
+
+
     <div>
-        <main role="main" class="pb-3">
+        <main role="main">
             @RenderBody()
         </main>
     </div>
 
-    <footer>
-        <div>
-            &copy; 2025 - SustainWear - <a asp-area="" asp-page="/Privacy">Privacy</a>
+    <footer class="bg-secondary w-100 mt-auto">
+        <div class="text-white ps-5 py-2">
+            &copy; 2025 - SustainWear - <a asp-area="" asp-page="/Privacy" class="text-white text-decoration-none">Privacy</a>
         </div>
     </footer>
 

@@ -9,9 +9,9 @@ html {
 }
 
 @media (min-width: 768px) {
-    html {
-        font-size: 16px;
-    }
+}
+
+@media (max-width: 767) {
 }
 
 
@@ -29,58 +29,14 @@ body {
 
 
 
-nav {
-    margin: 0;
-    padding: 0.5vh;
-    width: 100vw;
-    background-color: #C2A68C;
-}
-
-    nav ul {
-        display: flex;
-        justify-content: flex-end;
-        list-style: none;
-        margin: 0;
-        margin-right: 1vw;
-        padding: 0;
-    }
-
-        nav ul li {
-            display: flex;
-            justify-content: center;
-        }
-
-.nav-link {
-    font-weight: 600;
-    color: white !important;
-    text-decoration: none;
-}
-
+/*Nav*/
 .nav-donate-btn {
     margin-top: 0 !important;
     padding: 0.5vh 0.5vh !important;
 }
 
 
-
-
-
-footer {
-    background-color: dimgray;
-    width: 100%;
-    margin-top: auto;
-}
-
-    footer div {
-        padding-left: 10vh;
-        color: white;
-    }
-
-
-
-
-
-
+/*Universal Ones*/
 .max-width {
     max-width: 70%;
     margin: 0 auto;
@@ -90,8 +46,7 @@ footer {
 .btn {
     display: block;
     width: 15vh;
-    margin: 3vh auto;
-    margin-bottom: 0;
+    margin: 0;
     background-color: #5D866C;
     border-radius: 2vh;
     padding: 1vh 2vh 1vh 2vh;
@@ -99,24 +54,37 @@ footer {
     font-weight: 550;
     font-size: 1rem;
     transition: 0.3s ease-in-out;
+    color: black;
 }
 
     .btn:hover {
         background-color: #374f40;
-        color: white;
+        color: white !important;
     }
 
+.text-field {
+    align-content: flex-start;
+    border: none;
+    width: 100%;
+    max-width: 300px;
+    text-align: left;
+    box-sizing: border-box;
+    border-radius: 2px;
+}
 
-
-
-
+    .text-field label {
+        margin-top: 2vh;
+        font-family: sans-serif;
+        font-weight: 550;
+        font-size: 1rem;
+    }
 
 
 /*Index*/
 .hero-container {
     position: relative;
-    width: 100%;
-    height: 70vh;
+    width: 100% !important;
+    height: 70vh !important;
     overflow: hidden;
 }
 
@@ -200,13 +168,6 @@ footer {
     }
 
 
-
-
-
-
-
-
-
 /*login*/
 .centred-items {
     display: flex;
@@ -240,30 +201,7 @@ footer {
     font-size: 2rem;
 }
 
-.login-text-field {
-    border: none;
-    width: 100%;
-    max-width: 300px;
-    text-align: left;
-    box-sizing: border-box;
-}
 
-label.login-text-field {
-    margin-top: 2vh;
-    font-family: sans-serif;
-    font-weight: 550;
-    font-size: 1rem;
-}
-
-input.login-text-field {
-    background: #F5F5F0;
-    border-radius: 2px;
-}
-
-textarea.login-text-field {
-    background: #F5F5F0;
-    border-radius: 2px;
-}
 
 .login-checkbox {
     margin-top: 3vh;
@@ -284,11 +222,6 @@ textarea.login-text-field {
     }
 
 
-
-
-
-
-
 /*Dashboards*/
 .dashboard-container {
     display: flex;
@@ -297,7 +230,6 @@ textarea.login-text-field {
 
 .dashboard-sidebar {
     align-items: center;
-
     width: auto;
     background-color: #C2A68C;
     padding: 2vh 2vw;
@@ -306,21 +238,15 @@ textarea.login-text-field {
     .dashboard-sidebar a {
         display: block;
         margin: 20px 0;
-
         text-decoration: none;
         color: white;
-    transition: color 0.3s ease-in-out;
+        transition: color 0.3s ease-in-out;
     }
 
 
-    .dashboard-sidebar a:hover {
-        color: black; 
-    }
-
-
-
-
-
+        .dashboard-sidebar a:hover {
+            color: black;
+        }
 
 
 /*admin create staff acounts*/
