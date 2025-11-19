@@ -79,6 +79,10 @@ body {
         font-size: 1rem;
     }
 
+.custom-table td, .custom-table th {
+    vertical-align: middle !important;
+}
+
 
 /*Index*/
 .hero-container {
@@ -279,4 +283,11 @@ body {
     text-align: center;
     font-weight: bold;
     display: block;
+}
+
+
+/**/
+select {
+    appearance: auto !important;
+    background-image: initial !important;
 }
