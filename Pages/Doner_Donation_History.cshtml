@@ -4,40 +4,44 @@
 @{
 }
 
-<style>
-    .custom-table td, .custom-table th {
-        vertical-align: middle !important;
-    }
-</style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>@ViewData["Title"]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
 
-<div class="container my-5" style="max-width: 800px;">
-    <h1 class="mb-4" style="font-family: 'Roboto', sans-serif; font-weight: 800;">History</h1>
+<body>
+    <div class="container my-5" style="max-width: 800px;">
+        <h1 class="mb-4" style="font-family: 'Roboto', sans-serif; font-weight: 800;">History</h1>
 
-    <div class="table-responsive">
-        <table class="table table-bordered table-striped text-center custom-table">
-            <thead style="background-color: #C2A68C;">
-                <tr>
-                    <th>Donation ID</th>
-                    <th>Date</th>
-                    <th>Total Items</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody class="table-group-divider">
-                @foreach (DonationRecord donation in Model.Donations)
-                {
-                    <tr class="bg-light">
-                        <td>@donation.DonationID</td>
-                        <td>@donation.DonationDate</td>
-                        <td>@donation.DonationTotalItems</td>
-                        <td>
-                            <form method="post" asp-page-handler="Delete" onsubmit="return confirm('Delete @donation.DonationID?');" class="d-inline">
-                                <button type="submit" class="btn">Delete</button>
-                            </form>
-                        </td>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped text-center custom-table">
+                <thead style="background-color: #C2A68C;">
+                    <tr>
+                        <th>Donation ID</th>
+                        <th>Date</th>
+                        <th>Total Items</th>
+                        <th>Actions</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody class="table-group-divider">
+                    @foreach (DonationRecord donation in Model.Donations)
+                    {
+                        <tr class="bg-light">
+                            <td>@donation.DonationID</td>
+                            <td>@donation.DonationDate</td>
+                            <td>@donation.DonationTotalItems</td>
+                            <td>
+                                <form method="post" asp-page-handler="Delete" onsubmit="return confirm('Delete @donation.DonationID?');" class="d-inline">
+                                    <button type="submit" class="btn">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
+</body>
+</html>
