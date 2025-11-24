@@ -1,7 +1,8 @@
 ﻿@page
 @model Group_Project_Offical.Pages.UniversalLoginModel
 @{
-
+    Layout = "_Layout";
+    ViewData["HideNav"] = true;
 }
 
 <!DOCTYPE html>
@@ -54,7 +55,7 @@
                     <label asp-for="LoginForm.RememberMe" class="form-check-label" for="rememberCheck">Remember Me</label>
                 </div>
 
-                <button type="submit" class="btn btn-primary w-100 py-2">Sign In</button>
+                <button type="submit" class="btn w-100 py-2">Sign In</button>
             </form>
         </div>
     </div>

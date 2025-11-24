@@ -1,4 +1,28 @@
 ﻿@page
 @model Group_Project_Offical.Pages.Stock_Manager_DashboardModel
 @{
+    Layout = "_Layout";
+    ViewData["HideNav"] = true;
 }
+
+<!doctype html>
+<html lang="en">
+<head>
+    <title>SustainWear</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+    <div class="d-flex flex-grow-1">
+        <div class="d-flex flex-column pt-4" style="width:250px; background-color:#C2A68C; min-height:100vh;">
+            <a href="Stock_Manager_Recieve_Stock" class="text-decoration-none text-white py-3 px-4 d-block">Recieve Stock</a>
+            <a href="Stock_Manager_Handle_Stock" class="text-decoration-none text-white py-3 px-4 d-block">Handle Stock</a>
+        </div>
+
+        <div class="flex-grow-1">
+        </div>
+    </div>
+
+</body>
+
+</html>
