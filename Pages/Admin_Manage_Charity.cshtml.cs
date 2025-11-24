@@ -2,27 +2,28 @@ using Group_Project_Offical.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Data.SQLite;
-using System.Runtime.CompilerServices;
-using System.Security.AccessControl;
-///CHATGPT GETTING ERROR NOT SURE WHATS CAUSING IT PLEASE FIX
+using System.ComponentModel.DataAnnotations;
 
 namespace Group_Project_Offical.Pages
 {
     public class Admin_Manage_CharityModel : PageModel
     {
-
-
         private readonly string _connectionstring;
 
         public Admin_Manage_CharityModel(IConfiguration configuration)
         {
             _connectionstring = configuration.GetConnectionString("DefaultConnection");
         }
-       [BindProperty] public List<Charity> c { get; set; } = new(0);
+
+        [BindProperty]
+        public List<Charity> c { get; set; } = new List<Charity>();
+
         [BindProperty]
         public Charity charity { get; set; } = new Charity();
+
         public string Message { get; set; } = string.Empty;
-         public string errormessage { get; set; } =string.Empty;
+        public string errormessage { get; set; } = string.Empty;
+
         [BindProperty(SupportsGet = true)]
         public string? query { get; set; }
 
@@ -30,82 +31,148 @@ namespace Group_Project_Offical.Pages
         {
             c = await GetCharitiesAsync(query);
         }
-		public async Task<IActionResult> OnPostAsync()
-		{
-			// FIX: Minimal server-side validation to avoid NRE and bad inserts
-			if (charity == null || string.IsNullOrWhiteSpace(charity.CharityName))
-			{
-				errormessage = "Charity name is required.";
-				await OnGetAsync();
-				return Page();
-			}
 
-			////if (!ModelState.IsValid)
-			//{
-			//	errormessage = "error";
-			//	await OnGetAsync();
-			//	return Page();
-			//}
-
-			if (await CharityExistAsync(charity.CharityName)) // uses fix below
-			{
-				errormessage = "charity already exist";
-				await OnGetAsync();
-				return Page();
-			}
-
-			await createcharityasync(charity);
-			Message = "charity created";
-			ModelState.Clear();
-			charity = new Charity();
-			await OnGetAsync();
-			return Page();
-		}
-
-
-		public async Task<IActionResult> OnPostToggleActiveAsync([FromForm] int charityID, [FromForm] bool makeActive)
+        public async Task<IActionResult> OnPostAsync()
         {
-            var exist = await CharityExistIDAsync(charityID);
-            if(!exist)
+            // Enhanced validation
+            if (charity == null)
             {
-                errormessage = "error";
+                errormessage = "Charity data is required.";
+                await OnGetAsync();
                 return Page();
             }
-            await SetActiveAsync(charityID, makeActive);
-            Message = makeActive ? "charity set to active" : "charity set to frozen";
-            await OnGetAsync();
-            return Page();
+
+            if (string.IsNullOrWhiteSpace(charity.CharityName))
+            {
+                errormessage = "Charity name is required.";
+                await OnGetAsync();
+                return Page();
+            }
+
+            if (string.IsNullOrWhiteSpace(charity.Email))
+            {
+                errormessage = "Email is required.";
+                await OnGetAsync();
+                return Page();
+            }
+
+            if (string.IsNullOrWhiteSpace(charity.PhoneNum))
+            {
+                errormessage = "Phone number is required.";
+                await OnGetAsync();
+                return Page();
+            }
+
+            if (string.IsNullOrWhiteSpace(charity.Address))
+            {
+                errormessage = "Address is required.";
+                await OnGetAsync();
+                return Page();
+            }
+
+            if (string.IsNullOrWhiteSpace(charity.RegistrationNum))
+            {
+                errormessage = "Registration number is required.";
+                await OnGetAsync();
+                return Page();
+            }
+
+            // Email format validation
+            if (!new EmailAddressAttribute().IsValid(charity.Email))
+            {
+                errormessage = "Please enter a valid email address.";
+                await OnGetAsync();
+                return Page();
+            }
+
+            if (await CharityExistAsync(charity.CharityName))
+            {
+                errormessage = "Charity already exists.";
+                await OnGetAsync();
+                return Page();
+            }
+
+            try
+            {
+                await createcharityasync(charity);
+                Message = "Charity created successfully!";
+                ModelState.Clear();
+                charity = new Charity();
+                await OnGetAsync();
+                return Page();
+            }
+            catch (Exception ex)
+            {
+                errormessage = $"Error creating charity: {ex.Message}";
+                await OnGetAsync();
+                return Page();
+            }
         }
+
+        public async Task<IActionResult> OnPostToggleActiveAsync([FromForm] int charityID, [FromForm] bool makeActive)
+        {
+            try
+            {
+                var exist = await CharityExistIDAsync(charityID);
+                if (!exist)
+                {
+                    errormessage = "Charity not found.";
+                    await OnGetAsync();
+                    return Page();
+                }
+
+                await SetActiveAsync(charityID, makeActive);
+                Message = makeActive ? "Charity activated successfully!" : "Charity frozen successfully!";
+                await OnGetAsync();
+                return Page();
+            }
+            catch (Exception ex)
+            {
+                errormessage = $"Error updating charity status: {ex.Message}";
+                await OnGetAsync();
+                return Page();
+            }
+        }
+
         public async Task<IActionResult> OnPostToggleDeleteAsync([FromForm] int charityID)
         {
-            var exist = await CharityExistIDAsync(charityID);
-            if (!exist)
+            try
             {
-                errormessage = "error";
+                var exist = await CharityExistIDAsync(charityID);
+                if (!exist)
+                {
+                    errormessage = "Charity not found.";
+                    await OnGetAsync();
+                    return Page();
+                }
+
+                await deletecharityasync(charityID);
+                Message = "Charity deleted successfully!";
+                await OnGetAsync();
                 return Page();
             }
-            await deletecharityasync(charityID);
-            Message = "deleted";
-            await OnGetAsync();
-            return Page();
+            catch (Exception ex)
+            {
+                errormessage = $"Error deleting charity: {ex.Message}";
+                await OnGetAsync();
+                return Page();
+            }
         }
 
+        private async Task<bool> CharityExistAsync(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name)) return false;
 
-		// FIX: null-safe check
-		private async Task<bool> CharityExistAsync(string name)
-		{
-			if (string.IsNullOrWhiteSpace(name)) return false;
+            using var con = new SQLiteConnection(_connectionstring);
+            await con.OpenAsync();
+            using var command = con.CreateCommand();
+            command.CommandText = @"SELECT COUNT(*) FROM Charities WHERE CharityName = @n;";
+            command.Parameters.AddWithValue("@n", name.Trim());
+            var count = (long)await command.ExecuteScalarAsync();
+            return count > 0;
+        }
 
-			using var con = new SQLiteConnection(_connectionstring);
-			await con.OpenAsync();
-			using var command = con.CreateCommand();
-			command.CommandText = @"SELECT COUNT(*) FROM Charities WHERE CharityName = @n;";
-			command.Parameters.AddWithValue("@n", name.Trim());
-			var count = (long)await command.ExecuteScalarAsync();
-			return count > 0;
-		}
-
-		private async Task<bool> CharityExistIDAsync(int charityID)
+        private async Task<bool> CharityExistIDAsync(int charityID)
         {
             using var con = new SQLiteConnection(_connectionstring);
             await con.OpenAsync();
@@ -117,22 +184,22 @@ namespace Group_Project_Offical.Pages
             return count > 0;
         }
 
-
         private async Task createcharityasync(Charity charity)
         {
-            var con = new SQLiteConnection(_connectionstring);  
+            using var con = new SQLiteConnection(_connectionstring);
             await con.OpenAsync();
             using var command = con.CreateCommand();
-            command.CommandText = @"INSERT INTO Charities (CharityName, Description, Email, PhoneNum, Address, RegistrationNum, DateRegistered, IsActive) VALUES (@CharityName, @Description, @Email, @PhoneNum, @Address, @RegistrationNum, @DateRegistered, @IsActive);";
+            command.CommandText = @"INSERT INTO Charities (CharityName, Description, Email, PhoneNum, Address, RegistrationNum, DateRegistered, IsActive) 
+                                  VALUES (@CharityName, @Description, @Email, @PhoneNum, @Address, @RegistrationNum, @DateRegistered, @IsActive);";
 
-            command.Parameters.AddWithValue("@CharityName", charity.CharityName);
-            command.Parameters.AddWithValue("@Description", charity.Description);
-            command.Parameters.AddWithValue("@Email", charity.Email);
-            command.Parameters.AddWithValue("@PhoneNum", charity.PhoneNum);
-            command.Parameters.AddWithValue("@Address", charity.Address);
-            command.Parameters.AddWithValue("@RegistrationNum", charity.RegistrationNum);
+            command.Parameters.AddWithValue("@CharityName", charity.CharityName ?? "");
+            command.Parameters.AddWithValue("@Description", charity.Description ?? "");
+            command.Parameters.AddWithValue("@Email", charity.Email ?? "");
+            command.Parameters.AddWithValue("@PhoneNum", charity.PhoneNum ?? "");
+            command.Parameters.AddWithValue("@Address", charity.Address ?? "");
+            command.Parameters.AddWithValue("@RegistrationNum", charity.RegistrationNum ?? "");
             command.Parameters.AddWithValue("@DateRegistered", DateTime.UtcNow);
-            command.Parameters.AddWithValue("@IsActive", charity.IsActive ? 1: 0);
+            command.Parameters.AddWithValue("@IsActive", charity.IsActive ? 1 : 0);
 
             await command.ExecuteNonQueryAsync();
         }
@@ -142,7 +209,7 @@ namespace Group_Project_Offical.Pages
             using var con = new SQLiteConnection(_connectionstring);
             await con.OpenAsync();
             using var command = con.CreateCommand();
-            command.CommandText = @"UPDATE Charities SET IsActive =@a WHERE CharityID = @id;";
+            command.CommandText = @"UPDATE Charities SET IsActive = @a WHERE CharityID = @id;";
             command.Parameters.AddWithValue("@a", active ? 1 : 0);
             command.Parameters.AddWithValue("@id", charityID);
             await command.ExecuteNonQueryAsync();
@@ -153,13 +220,10 @@ namespace Group_Project_Offical.Pages
             using var con = new SQLiteConnection(_connectionstring);
             await con.OpenAsync();
             using var command = con.CreateCommand();
-            command.CommandText = @"DELETE FROM Charities WHERE CharityID =@id;";
+            command.CommandText = @"DELETE FROM Charities WHERE CharityID = @id;";
             command.Parameters.AddWithValue("@id", charityID);
             await command.ExecuteNonQueryAsync();
-
-            
         }
-
 
         private async Task<List<Charity>> GetCharitiesAsync(string? q)
         {
@@ -171,16 +235,18 @@ namespace Group_Project_Offical.Pages
             if (string.IsNullOrWhiteSpace(q))
             {
                 command.CommandText = @"SELECT CharityID, CharityName, Email, PhoneNum, RegistrationNum, DateRegistered, IsActive FROM Charities ORDER BY DateRegistered DESC;";
-
             }
             else
             {
-                command.CommandText = @"SELECT CharityID, CharityName, Email, PhoneNum, RegistrationNum, DateRegistered, IsActive FROM Charities WHERE CharityName LIKE @q OR IFNULL(Description,'') LIKE @q OR Email Like @q OR RegistrationNum LIKE @q ORDER BY DateRegistered DESC;";
+                command.CommandText = @"SELECT CharityID, CharityName, Email, PhoneNum, RegistrationNum, DateRegistered, IsActive 
+                                      FROM Charities 
+                                      WHERE CharityName LIKE @q OR IFNULL(Description,'') LIKE @q OR Email LIKE @q OR RegistrationNum LIKE @q 
+                                      ORDER BY DateRegistered DESC;";
                 command.Parameters.AddWithValue("@q", $"%{q.Trim()}%");
             }
 
             using var r = await command.ExecuteReaderAsync();
-            while(await r.ReadAsync())
+            while (await r.ReadAsync())
             {
                 list.Add(new Charity
                 {
@@ -191,13 +257,9 @@ namespace Group_Project_Offical.Pages
                     RegistrationNum = r.GetString(4),
                     DateRegistered = r.IsDBNull(5) ? null : r.GetValue(5)?.ToString(),
                     IsActive = r.GetInt32(6) == 1
-
                 });
             }
             return list;
-
         }
-
-
     }
 }

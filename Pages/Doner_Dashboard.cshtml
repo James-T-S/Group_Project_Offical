@@ -1,10 +1,177 @@
 ﻿@page
 @model Group_Project_Offical.Pages.Doner_DashboardModel
 @{
+    ViewData["Title"] = "Donor Dashboard";
 }
 
-<a href="Doner_Delete_Account">Delete Account</a>
-<a href="Doner_Donate">Donate</a>
-<a href="Doner_Donation_History">History</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>@ViewData["Title"]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body>
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="mb-4">Welcome to Your Dashboard</h1>
+                
+                <!-- ADDED: Sustainability Metrics Section -->
+                @if (Model.sustainabilitymetrics != null)
+                {
+                    <div class="row mb-5">
+                        <div class="col-12">
+                            <h3 class="mb-3">Your Environmental Impact</h3>
+                            <div class="row">
+                                <div class="col-md-2 col-6 mb-3">
+                                    <div class="card text-center bg-success text-white">
+                                        <div class="card-body">
+                                                <h4 class="card-title">@Model.sustainabilitymetrics.TotalCO2Saved.ToString("F1") kg</h4>
+                                            <p class="card-text small">CO₂ Saved</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-6 mb-3">
+                                    <div class="card text-center bg-info text-white">
+                                        <div class="card-body">
+                                                <h4 class="card-title">@Model.sustainabilitymetrics.TotalWaterSaved.ToString("F0") L</h4>
+                                            <p class="card-text small">Water Saved</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-6 mb-3">
+                                    <div class="card text-center bg-warning text-dark">
+                                        <div class="card-body">
+                                                <h4 class="card-title">@Model.sustainabilitymetrics.TotalLandfillReduction.ToString("F1") kg</h4>
+                                            <p class="card-text small">Landfill Reduced</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-6 mb-3">
+                                    <div class="card text-center bg-primary text-white">
+                                        <div class="card-body">
+                                                <h4 class="card-title">@Model.sustainabilitymetrics.TotalItemsSaved</h4>
+                                            <p class="card-text small">Items Saved</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-6 mb-3">
+                                    <div class="card text-center bg-secondary text-white">
+                                        <div class="card-body">
+                                                <h4 class="card-title">@Model.sustainabilitymetrics.TotalBeneficiariesSupported</h4>
+                                            <p class="card-text small">People Helped</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-6 mb-3">
+                                    <div class="card text-center bg-dark text-white">
+                                        <div class="card-body">
+                                            <h4 class="card-title">@Model.TotalDonations</h4>
+                                            <p class="card-text small">Total Donations</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
 
+                <!-- Quick Stats -->
+                <div class="row mb-4">
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <h5 class="card-title">Recent Donations</h5>
+                                <p class="card-text display-6">@Model.RecentDonationsCount</p>
+                                <p class="card-text text-muted">Last 30 days</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <h5 class="card-title">Total Impact</h5>
+                                <p class="card-text display-6">@Model.TotalItemsDonated</p>
+                                <p class="card-text text-muted">Items Donated</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <h5 class="card-title">Account Status</h5>
+                                <p class="card-text display-6">Active</p>
+                                <p class="card-text text-muted">Since @Model.AccountCreatedDate?.ToString("MMM yyyy")</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
+                <!-- Navigation Cards -->
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <h5 class="card-title">Make a Donation</h5>
+                                <p class="card-text">Donate clothes and items to support charities and reduce waste.</p>
+                                <a href="Doner_Donate" class="btn btn-primary w-100">Donate Now</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <h5 class="card-title">Donation History</h5>
+                                <p class="card-text">View your previous donations and track their impact.</p>
+                                <a href="Doner_Donation_History" class="btn btn-outline-primary w-100">View History</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <h5 class="card-title">Account Settings</h5>
+                                <p class="card-text">Manage your profile, update information, or delete your account.</p>
+                                <a href="Doner_Delete_Account" class="btn btn-outline-secondary w-100">Manage Account</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ADDED: Recent Activity Section -->
+                @if (Model.RecentDonations.Any())
+                {
+                    <div class="row mt-5">
+                        <div class="col-12">
+                            <h3 class="mb-3">Recent Donations</h3>
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Items</th>
+                                            <th>Status</th>
+                                            <th>Value</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var donation in Model.RecentDonations)
+                                        {
+                                            <tr>
+                                                <td>@donation.DonationDate.ToString("MMM dd, yyyy")</td>
+                                                <td>@donation.TotalItems</td>
+                                                <td><span class="badge bg-info">@donation.Status</span></td>
+                                                <td>£@donation.EstimatedValue.ToString("F2")</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</body>
+</html>

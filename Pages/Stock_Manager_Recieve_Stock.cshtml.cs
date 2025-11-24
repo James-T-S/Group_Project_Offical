@@ -67,7 +67,7 @@ namespace Group_Project_Offical.Pages
             command.CommandText = $@"SELECT di.DonationID, di.DonationItemID, di.ItemName 
                 FROM DonationItems di JOIN Donations d ON di.DonationID = d.DonationID JOIN DonationStatus s 
                 ON d.StatusID = s.StatusID WHERE di.DonationID IN ({string.Join(", ", IDs)}) 
-                AND lower(s.StatusName) = 'shipped';";
+                AND lower(s.StatusName) = 'Shipped';";
 
 
             Dictionary<int, Donation> DonationItemDictionary = Donations.ToDictionary(d => d.DonationID, d => d);

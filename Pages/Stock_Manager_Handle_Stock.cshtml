@@ -41,11 +41,6 @@
         });
     </script>
 
-
-
-
-
-
     <div class="container">
         <table class="table table-bordered table-striped text-center centred-items">
             <thead>
@@ -80,7 +75,6 @@
         </table>
     </div>
 
-
     <div class="modal fade" id="donationModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -93,7 +87,12 @@
                 <form method="post" asp-page-handler="Update">
                     <div class="modal-body d-flex flex-column gap-4">
 
-                        <input type="hidden" name="Id" id="DonationID" />
+                        <input type="hidden" name="Id" value="@Model.SelectedDonation?.DonationID" />
+                        
+                        <!-- Show current estimated value -->
+                        <div>
+                            <label>Current Estimated Value: £@Model.SelectedDonation?.EstimatedValue</label>
+                        </div>
 
                         <select id="ItemSelect" name="DonationItemID" class="form-select">
                             @if (Model.SelectedDonation != null)
@@ -126,13 +125,21 @@
                             }
                         </select>
 
+                        <!-- Updated status options with Sold -->
                         <select name="UpdateStatusName" class="form-control">
                             <option value="Pending">Pending</option>
                             <option value="Processing">Processing</option>
                             <option value="Completed">Completed</option>
+                            <option value="Sold">Sold</option>
                         </select>
 
-                        <input type="number" name="UpdateEstimatedValue" class="form-control" placeholder="Estimated Value" />
+                        <!-- Show current value and allow updating -->
+                        <div>
+                            <label>Update Estimated Value (£)</label>
+                            <input type="number" name="UpdateEstimatedValue" class="form-control" 
+                                   placeholder="Estimated Value" value="@Model.SelectedDonation?.EstimatedValue" 
+                                   step="0.01" min="0" />
+                        </div>
 
                         <button type="submit" class="btn btn-primary mx-auto">Update</button>
                     </div>
@@ -140,9 +147,6 @@
             </div>
         </div>
     </div>
-
-
-
 
 </body>
 </html>

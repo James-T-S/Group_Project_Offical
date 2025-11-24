@@ -23,14 +23,11 @@ namespace Group_Project_Offical.Pages
         public int? Id { get; set; }
         public Donation? SelectedDonation { get; set; }
 
-
         public Stock_Manager_Handle_StockModel(IConfiguration configuration, SessionService sessionService)
         {
             _connectionString = configuration.GetConnectionString("DefaultConnection");
             _SessionService = sessionService;
         }
-
-
 
         public async Task OnGetAsync()
         {
@@ -65,6 +62,7 @@ namespace Group_Project_Offical.Pages
 
             return list;
         }
+
         private async Task GetDonationsItemsAsync(string? query)
         {
             if (Donations.Count == 0) return;
@@ -89,8 +87,6 @@ namespace Group_Project_Offical.Pages
                 ON di.DonationID = d.DonationID JOIN DonationStatus s ON d.StatusID = s.StatusID
                 JOIN Categories c ON di.CategoryID = c.CategoryID WHERE di.DonationID IN ({string.Join(", ", IDs)});";
 
-
-
             Dictionary<int, Donation> DonationItemDictionary = Donations.ToDictionary(d => d.DonationID, d => d);
 
             using DbDataReader reader = await command.ExecuteReaderAsync();
@@ -100,6 +96,7 @@ namespace Group_Project_Offical.Pages
                     reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetString(5)));
             }
         }
+
         public async Task<Dictionary<int, string>> GetCategoriesAsync()
         {
             Dictionary<int, string> categories = new Dictionary<int, string>();
@@ -121,10 +118,9 @@ namespace Group_Project_Offical.Pages
             return categories;
         }
 
-
-        public async void OnPostUpdateAsync(int Id, string UpdateStatusName, decimal UpdateEstimatedValue,
+        public async Task<IActionResult> OnPostUpdateAsync(int Id, string UpdateStatusName, decimal UpdateEstimatedValue,
             string UpdatedItemName, string UpdatedItemDesc, string UpdatedItemSize, string UpdatedItemCategory,
-            int DonationItemID) 
+            int DonationItemID)
         {
             using SQLiteConnection connection = new SQLiteConnection(_connectionString);
             await connection.OpenAsync();
@@ -143,10 +139,9 @@ namespace Group_Project_Offical.Pages
             await command.ExecuteNonQueryAsync();
             command.Parameters.Clear();
 
-
             command.CommandText = @"UPDATE DonationItems SET ItemName = @name, Description = @desc,
             Size = @size, CategoryID = (SELECT CategoryID FROM Categories 
-            WHERE CategoryName = @category)WHERE DonationItemID = @itemId;";
+            WHERE CategoryName = @category) WHERE DonationItemID = @itemId;";
 
             command.Parameters.AddWithValue("@name", UpdatedItemName);
             command.Parameters.AddWithValue("@desc", UpdatedItemDesc);
@@ -158,17 +153,9 @@ namespace Group_Project_Offical.Pages
 
             transaction.Commit();
 
-            Donations = await GetDonationsAsync();
-            Categories = await GetCategoriesAsync();
-            await GetDonationsItemsAsync(null);
-
-            if (Id != null)
-            {
-                SelectedDonation = Donations.FirstOrDefault(d => d.DonationID == Id);
-            }
+            // Redirect back to the page to refresh the data
+            return RedirectToPage(new { id = (int?)null });
         }
-
-
 
         public class Donation
         {
@@ -186,6 +173,7 @@ namespace Group_Project_Offical.Pages
                 this.EstimatedValue = EstimatedValue;
             }
         }
+
         public class DonationItem
         {
             public int DonationItemID { get; set; }

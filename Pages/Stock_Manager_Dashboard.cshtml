@@ -1,4 +1,26 @@
 ﻿@page
 @model Group_Project_Offical.Pages.Stock_Manager_DashboardModel
 @{
+        <h2>Stock Manager</h2>
+
+    <ul>
+        <li>
+            <!-- This is the important bit -->
+                <a asp-page="/Stock_Manager_Recieve_Stock">
+                View incoming donations
+            </a>
+        </li>
+    </ul>
+
+
+    <ul>
+        <li>
+            <!-- This is the important bit -->
+                <a asp-page="/Stock_Manager_Handle_Stock">
+               Send donations
+            </a>
+        </li>
+    </ul>
+
+
 }

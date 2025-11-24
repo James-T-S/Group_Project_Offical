@@ -2,6 +2,7 @@ using Group_Project_Offical.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Data.Sqlite;
+using System.ComponentModel.DataAnnotations;
 using System.Data.SQLite;
 using System.Security.Cryptography;
 using System.Text;
@@ -10,12 +11,10 @@ namespace Group_Project_Offical.Pages
 {
     public class Admin_Create_Staff_AccountsModel : PageModel
     {
-		[BindProperty]
-		public StaffFormModel StaffForm { get; set; } = new StaffFormModel();
+        [BindProperty]
+        public StaffFormModel StaffForm { get; set; } = new StaffFormModel();
 
         private readonly string _connectionString;
-        [BindProperty]
-        public DonerSignUpForm DonerSignUpForm { get; set; } = new DonerSignUpForm();
 
         public string Message { get; set; } = string.Empty;
 
@@ -26,27 +25,27 @@ namespace Group_Project_Offical.Pages
             _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
-
         public async Task<IActionResult> OnPostAsync()
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 ErroredMessage = string.Empty;
                 return Page();
             }
 
-            if(StaffForm.Role is not ("DonationManager" or "StockManager" or "User"))
+            if (StaffForm.Role is not ("DonationManager" or "StockManager" or "User"))
             {
-                ModelState.AddModelError(nameof(StaffForm.Role), "Invalid");
+                ModelState.AddModelError(nameof(StaffForm.Role), "Invalid role selected.");
                 ErroredMessage = "Error";
                 return Page();
             }
-            if (!ModelState.IsValid)
+
+            if (StaffForm.Password != StaffForm.ConfirmPassword)
             {
+                ModelState.AddModelError(nameof(StaffForm.ConfirmPassword), "Password and confirmation password do not match.");
                 ErroredMessage = "Please fix the errors and try again.";
                 return Page();
             }
-
 
             if (await UserExistAsync(StaffForm.UserName, StaffForm.Email))
             {
@@ -54,9 +53,7 @@ namespace Group_Project_Offical.Pages
                 return Page();
             }
 
-
             var passwordHash = HashPassword(StaffForm.Password);
-
 
             await CreateUserAsync(
                 StaffForm.FirstName,
@@ -67,18 +64,13 @@ namespace Group_Project_Offical.Pages
                 StaffForm.PhoneNumber,
                 StaffForm.Address,
                 StaffForm.Role
-                
             );
 
-            Message = "Account created successfully!";
+            Message = "Staff account created successfully!";
             ModelState.Clear();
-            DonerSignUpForm = new DonerSignUpForm();
+            StaffForm = new StaffFormModel();
             return Page();
-
         }
-
-
-
 
         public async Task<bool> UserExistAsync(string username, string email)
         {
@@ -95,10 +87,9 @@ namespace Group_Project_Offical.Pages
             return count > 0;
         }
 
-
         private async Task CreateUserAsync(string firstName, string lastName, string Username, string email, string passwordHash, string phonenumber, string address, string role)
         {
-            using var connection = new SqliteConnection(_connectionString);
+            using var connection = new SQLiteConnection(_connectionString);
             await connection.OpenAsync();
 
             var command = connection.CreateCommand();
@@ -116,12 +107,7 @@ namespace Group_Project_Offical.Pages
             command.Parameters.AddWithValue("@IsActive", true);
 
             await command.ExecuteNonQueryAsync();
-
         }
-
-
-
-
 
         private string HashPassword(string password)
         {
@@ -131,26 +117,41 @@ namespace Group_Project_Offical.Pages
             return Convert.ToBase64String(hash);
         }
 
-
         public class StaffFormModel
         {
+            [Required(ErrorMessage = "First Name is required")]
+            [StringLength(50, ErrorMessage = "First Name cannot exceed 50 characters")]
             public string FirstName { get; set; } = string.Empty;
 
+            [Required(ErrorMessage = "Last Name is required")]
+            [StringLength(50, ErrorMessage = "Last Name cannot exceed 50 characters")]
             public string LastName { get; set; } = string.Empty;
 
+            [Required(ErrorMessage = "Username is required")]
+            [StringLength(20, MinimumLength = 3, ErrorMessage = "Username must be between 3 and 20 characters")]
+            [RegularExpression(@"^[a-zA-Z0-9_]+$", ErrorMessage = "Username can only contain letters, numbers, and underscores")]
             public string UserName { get; set; } = string.Empty;
 
+            [Required(ErrorMessage = "Email is required")]
+            [EmailAddress(ErrorMessage = "Invalid email address format")]
             public string Email { get; set; } = string.Empty;
 
+            [Required(ErrorMessage = "Password is required")]
+            [StringLength(100, MinimumLength = 6, ErrorMessage = "Password must be at least 6 characters")]
             public string Password { get; set; } = string.Empty;
 
+            [Required(ErrorMessage = "Please confirm your password")]
+            [Compare("Password", ErrorMessage = "Password and confirmation password do not match")]
+            public string ConfirmPassword { get; set; } = string.Empty;
+
+            [Required(ErrorMessage = "Role is required")]
             public string Role { get; set; } = string.Empty;
 
+            [Phone(ErrorMessage = "Invalid phone number format")]
             public string PhoneNumber { get; set; } = string.Empty;
 
+            [StringLength(200, ErrorMessage = "Address cannot exceed 200 characters")]
             public string Address { get; set; } = string.Empty;
-
         }
-
     }
 }
