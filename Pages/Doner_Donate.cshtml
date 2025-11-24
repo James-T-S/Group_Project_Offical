@@ -5,59 +5,74 @@
 }
 @if (!string.IsNullOrEmpty(Model.Error))
 {
-	<p>@Model.Error</p>
+		<p>@Model.Error</p>
 }
 
 @if (!string.IsNullOrEmpty(Model.Message))
 {
-		<p>@Model.Message</p>
+			<p>@Model.Message</p>
 }
 
-<form method="post">
+<form method="post" enctype="multipart/form-data">
 	<div>
-		<label asp-for="CharityID">Choose Charity</label>
+		<label asp-for="CharityID">Choose Charity *</label>
 		<select asp-for="CharityID" asp-items="Model.CharityOptions">
 			<option value="">---SELECT CHARITY---</option>
 		</select>
+		<span asp-validation-for="CharityID" class="text-danger"></span>
+	</div>
+
+	<!-- CHANGED: Item Name to dropdown -->
+	<div>
+		<label asp-for="Item.ItemName">Item Type *</label>
+		<select asp-for="Item.ItemName" asp-items="Model.ItemNameOptions">
+			<option value="">---SELECT ITEM TYPE---</option>
+		</select>
+		<span asp-validation-for="Item.ItemName" class="text-danger"></span>
 	</div>
 
 	<div>
-		<label asp-for="Item.ItemName">item name</label>
-		<input asp-for="Item.ItemName"/>
-	</div>
-
-	<div>
-		<label asp-for="Item.Description">item description</label>
+		<label asp-for="Item.Description">Item Description</label>
 		<input asp-for="Item.Description"/>
 	</div>
 
+	<!-- CHANGED: Currency to Pounds -->
 	<div>
-		<label asp-for="Item.size">item size</label>
-		<input asp-for="Item.size"/>
+		<label asp-for="Item.EstimatedValue">Estimated Value (£)</label>
+		<input asp-for="Item.EstimatedValue" type="number" step="0.01" min="0"/>
 	</div>
 
-
+	<!-- CHANGED: Size to dropdown -->
 	<div>
-		<label asp-for="Item.gender">item gender</label>
-		<input asp-for="Item.gender"/>
+		<label asp-for="Item.Size">Item Size *</label>
+		<select asp-for="Item.Size" asp-items="Model.SizeOptions">
+			<option value="">---SELECT SIZE---</option>
+		</select>
+		<span asp-validation-for="Item.Size" class="text-danger"></span>
 	</div>
 
-
+	<!-- CHANGED: Gender to dropdown -->
 	<div>
-		<label asp-for="Item.condition">item condition</label>
-		<input asp-for="Item.condition"/>
+		<label asp-for="Item.Gender">Item Gender *</label>
+		<select asp-for="Item.Gender" asp-items="Model.GenderOptions">
+			<option value="">---SELECT GENDER---</option>
+		</select>
+		<span asp-validation-for="Item.Gender" class="text-danger"></span>
+	</div>
+
+	<!-- CHANGED: Condition to dropdown -->
+	<div>
+		<label asp-for="Item.Condition">Item Condition *</label>
+		<select asp-for="Item.Condition" asp-items="Model.ConditionOptions">
+			<option value="">---SELECT CONDITION---</option>
+		</select>
+		<span asp-validation-for="Item.Condition" class="text-danger"></span>
 	</div>
 
 	<div>
-		<label>photo</label>
+		<label>Photo</label>
 		<input asp-for="Photos" type="file" multiple />
 	</div>
 
-	<button type="submit">Submit Donations</button>
+	<button type="submit">Submit Donation</button>
 </form>
-
-
-
-
-
-

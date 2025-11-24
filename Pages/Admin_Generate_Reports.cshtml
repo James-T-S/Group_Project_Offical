@@ -1,4 +1,43 @@
 ﻿@page
 @model Group_Project_Offical.Pages.Admin_Generate_ReportsModel
-@{
-}
+
+<h1>Total Sustainability Metrics</h1>
+
+<div>
+    <h2>Overall System Impact</h2>
+
+    <div>
+        <h3>CO2 Saved</h3>
+        <p>@Model.TotalMetrics.TotalCO2Saved kg</p>
+        <p>Carbon dioxide reduction</p>
+    </div>
+
+    <div>
+        <h3>Water Saved</h3>
+        <p>@Model.TotalMetrics.TotalWaterSaved liters</p>
+        <p>Water conservation</p>
+    </div>
+
+    <div>
+        <h3>Landfill Reduced</h3>
+        <p>@Model.TotalMetrics.TotalLandfillReduction kg</p>
+        <p>Waste diversion from landfills</p>
+    </div>
+
+    <div>
+        <h3>Items Saved</h3>
+        <p>@Model.TotalMetrics.TotalItemsSaved</p>
+        <p>Items rescued from disposal</p>
+    </div>
+
+    <div>
+        <h3>Beneficiaries Supported</h3>
+        <p>@Model.TotalMetrics.TotalBeneficiariesSupported</p>
+        <p>People helped by donations</p>
+    </div>
+</div>
+
+<form method="post" asp-page-handler="GeneratePdf">
+    <button type="submit">Export Total Report to PDF</button>
+</form>
+<p>Download a PDF report showing the total sustainability metrics for the entire system.</p>

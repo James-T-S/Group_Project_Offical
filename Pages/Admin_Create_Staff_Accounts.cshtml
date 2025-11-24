@@ -11,13 +11,15 @@
     <div class="card p-4 shadow-sm" style="width: 100%; max-width: 600px; background-color: #C2A68C;">
 
         @if (!string.IsNullOrEmpty(Model.Message))
+
         {
-            <div class="text-danger mb-2">@Model.Message</div>
+                <div class="alert alert-success mb-2">@Model.Message</div>
         }
 
         @if (!string.IsNullOrEmpty(Model.ErroredMessage))
+
         {
-            <div class="text-danger mb-2">@Model.ErroredMessage</div>
+                <div class="alert alert-danger mb-2">@Model.ErroredMessage</div>
         }
 
         <form method="post">
@@ -50,8 +52,14 @@
 
             <div class="mb-3">
                 <label asp-for="StaffForm.Password" class="form-label"></label>
-                <input asp-for="StaffForm.Password" class="form-control" />
+                <input asp-for="StaffForm.Password" type="password" class="form-control" />
                 <span asp-validation-for="StaffForm.Password" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="StaffForm.ConfirmPassword" class="form-label">Confirm Password</label>
+                <input asp-for="StaffForm.ConfirmPassword" type="password" class="form-control" />
+                <span asp-validation-for="StaffForm.ConfirmPassword" class="text-danger small"></span>
             </div>
 
             <div class="mb-3">
@@ -82,7 +90,6 @@
             </div>
 
         </form>
-
 
         <div class="text-center d-flex justify-content-center">
             <a href="Admin_Dashboard" class="btn">Return</a>

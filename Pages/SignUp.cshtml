@@ -2,28 +2,26 @@
 @model Group_Project_Offical.Pages.SignUpModel
 @{
 }
-
-
 <!doctype html>
 <html lang="en">
 <head>
     <title>@ViewData["Title"]</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1"
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
     <div class="d-flex flex-column align-items-center min-vh-100">
         <h1 class="roboto-black mt-4">Welcome</h1>
         @if (!string.IsNullOrEmpty(Model.Message))
         {
-            <div>
+                <div>
                 @Model.Message
-            </div>
+                </div>
         }
         @if (!string.IsNullOrEmpty(Model.ErroredMessage))
         {
-            <div>
+                <div>
                 @Model.ErroredMessage
-            </div>
+                </div>
         }
         <div class="login-container mt-4 w-100" style="max-width:480px;">
             <h1 class="login-p text-center">Sign Up</h1>
@@ -39,6 +37,13 @@
                     <label for="Password" class="form-label d-block">Password</label>
                     <input type="password" id="Password" asp-for="DonerSignUpForm.Password" class="form-control w-100" />
                     <span asp-validation-for="DonerSignUpForm.Password" class="text-danger"></span>
+                </div>
+
+                <!-- ADDED: Confirm Password Field -->
+                <div class="text-field mb-3 w-100">
+                    <label for="ConfirmPassword" class="form-label d-block">Confirm Password</label>
+                    <input type="password" id="ConfirmPassword" asp-for="DonerSignUpForm.ConfirmPassword" class="form-control w-100" />
+                    <span asp-validation-for="DonerSignUpForm.ConfirmPassword" class="text-danger"></span>
                 </div>
 
                 <div class="text-field mb-3 w-100 d-md-flex gap-3">
@@ -81,7 +86,5 @@
             </form>
         </div>
     </div>
-
 </body>
-
 </html>

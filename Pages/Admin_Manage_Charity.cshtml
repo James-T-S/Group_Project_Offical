@@ -16,42 +16,47 @@
         <div class="alert alert-success w-100 text-center">@Model.Message</div>
     }
 
-
     <form method="post" class="mb-5 w-100 d-flex flex-column align-items-center" asp-page-handler="">
         <h2 class="mb-4 text-center">Create Charity</h2>
 
         <div class="mb-3 w-100" style="max-width:400px;">
-            <label class="form-label">Charity Name</label>
-            <input name="charity.CharityName" value="@Model.charity.CharityName" class="form-control text-center" />
+            <label class="form-label">Charity Name *</label>
+            <input asp-for="charity.CharityName" class="form-control text-center" required />
+            <span asp-validation-for="charity.CharityName" class="text-danger"></span>
         </div>
 
         <div class="mb-3 w-100" style="max-width:400px;">
-            <label class="form-label">Description</label>
-            <textarea name="charity.Description" class="form-control text-center" rows="4">@Model.charity.Description</textarea>
+            <label class="form-label">Description *</label>
+            <textarea asp-for="charity.Description" class="form-control text-center" rows="4" required></textarea>
+            <span asp-validation-for="charity.Description" class="text-danger"></span>
         </div>
 
         <div class="mb-3 w-100" style="max-width:400px;">
-            <label class="form-label">Email</label>
-            <input name="charity.Email" value="@Model.charity.Email" class="form-control text-center" />
+            <label class="form-label">Email *</label>
+            <input asp-for="charity.Email" class="form-control text-center" required />
+            <span asp-validation-for="charity.Email" class="text-danger"></span>
         </div>
 
         <div class="mb-3 w-100" style="max-width:400px;">
-            <label class="form-label">Phone Number</label>
-            <input name="charity.PhoneNum" value="@Model.charity.PhoneNum" class="form-control text-center" />
+            <label class="form-label">Phone Number *</label>
+            <input asp-for="charity.PhoneNum" class="form-control text-center" required />
+            <span asp-validation-for="charity.PhoneNum" class="text-danger"></span>
         </div>
 
         <div class="mb-3 w-100" style="max-width:400px;">
-            <label class="form-label">Address</label>
-            <input name="charity.Address" value="@Model.charity.Address" class="form-control text-center" />
+            <label class="form-label">Address *</label>
+            <input asp-for="charity.Address" class="form-control text-center" required />
+            <span asp-validation-for="charity.Address" class="text-danger"></span>
         </div>
 
         <div class="mb-3 w-100" style="max-width:400px;">
-            <label class="form-label">Registration</label>
-            <input name="charity.RegistrationNum" value="@Model.charity.RegistrationNum" class="form-control text-center" />
+            <label class="form-label">Registration Number *</label>
+            <input asp-for="charity.RegistrationNum" class="form-control text-center" required />
+            <span asp-validation-for="charity.RegistrationNum" class="text-danger"></span>
         </div>
 
         <div class="form-check mb-3 w-100" style="max-width:400px;">
-            <input type="checkbox" name="charity.Isactive" class="form-check-input" id="IsActiveCheck" @(Model.charity.IsActive ? "checked" : "") />
+            <input asp-for="charity.IsActive" class="form-check-input" id="IsActiveCheck" />
             <label class="form-check-label fs-5" for="IsActiveCheck">Active</label>
         </div>
 
@@ -96,7 +101,7 @@
                             <td>@x.Email</td>
                             <td>@x.PhoneNum</td>
                             <td>@x.RegistrationNum</td>
-                            <td>@x.DateRegistered</td>
+                            <td>@(x.DateRegistered?.Split('T')[0] ?? "N/A")</td>
                             <td>@(x.IsActive ? "Yes" : "No")</td>
                             <td>
                                 <form method="post" asp-page-handler="ToggleActive" class="d-inline w-auto">

@@ -2,6 +2,7 @@
 @using static Group_Project_Offical.Pages.Doner_Donation_HistoryModel
 @model Group_Project_Offical.Pages.Doner_Donation_HistoryModel
 @{
+    ViewData["Title"] = "Donation History";
 }
 
 <!DOCTYPE html>
@@ -12,36 +13,163 @@
 </head>
 
 <body>
-    <div class="container my-5" style="max-width: 800px;">
-        <h1 class="mb-4" style="font-family: 'Roboto', sans-serif; font-weight: 800;">History</h1>
+    <div class="container my-5" style="max-width: 1200px;">
+        <h1 class="mb-4" style="font-family: 'Roboto', sans-serif; font-weight: 800;">Donation History</h1>
 
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped text-center custom-table">
-                <thead style="background-color: #C2A68C;">
-                    <tr>
-                        <th>Donation ID</th>
-                        <th>Date</th>
-                        <th>Total Items</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody class="table-group-divider">
-                    @foreach (DonationRecord donation in Model.Donations)
-                    {
-                        <tr class="bg-light">
-                            <td>@donation.DonationID</td>
-                            <td>@donation.DonationDate</td>
-                            <td>@donation.DonationTotalItems</td>
-                            <td>
-                                <form method="post" asp-page-handler="Delete" onsubmit="return confirm('Delete @donation.DonationID?');" class="d-inline">
-                                    <button type="submit" class="btn">Delete</button>
-                                </form>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+        <!-- ADDED: Validation Messages -->
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+
+        {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                @Model.ErrorMessage
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+        }
+
+        @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+
+        {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                @Model.SuccessMessage
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+        }
+
+        @if (!Model.Donations.Any())
+
+        {
+                <div class="text-center py-4">
+                    <p class="text-muted">You haven't made any donations yet.</p>
+                    <a href="/Doner_Donate" class="btn btn-primary">Make Your First Donation</a>
+                </div>
+        }
+
+        else
+
+        {
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped text-center custom-table">
+                        <thead style="background-color: #C2A68C;">
+                            <tr>
+                                <th>Donation ID</th>
+                                <th>Date</th>
+                                <th>Total Items</th>
+                                <th>Estimated Value</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-group-divider">
+                        @foreach (DonationRecord donation in Model.Donations)
+
+                        {
+                                    <tr class="bg-light">
+                                        <td>@donation.DonationID</td>
+                                        <td>@donation.DonationDate.ToString("MMM dd, yyyy")</td>
+                                        <td>@donation.DonationTotalItems</td>
+                                        <td>£@donation.EstimatedValue.ToString("F2")</td>
+                                        <td>
+                                            <span class="badge @GetStatusBadgeClass(donation.Status)">@donation.Status</span>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-info btn-sm" 
+                                                    data-bs-toggle="collapse" 
+                                                    data-bs-target="#items-@donation.DonationID">
+                                                View Items
+                                            </button>
+                                            <form method="post" asp-page-handler="Delete" 
+                                                  onsubmit="return confirm('Are you sure you want to delete donation @donation.DonationID? This action cannot be undone.');" 
+                                                  class="d-inline">
+                                                <input type="hidden" name="donationId" value="@donation.DonationID" />
+                                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    <!-- ADDED: Item Details Row -->
+                                    <tr>
+                                        <td colspan="6" class="p-0">
+                                            <div id="items-@donation.DonationID" class="collapse">
+                                                <div class="p-3 bg-light">
+                                                    <h6 class="mb-3">Donation Items</h6>
+                                                    <div class="row">
+                                                @foreach (var item in donation.Items)
+
+                                                {
+                                                                <div class="col-md-6 col-lg-4 mb-3">
+                                                                    <div class="card h-100">
+                                                                        <div class="card-body">
+                                                                            <div class="row">
+                                                                                <div class="col-4">
+                                                                        @if (!string.IsNullOrEmpty(item.PhotoURL))
+
+                                                                        {
+                                                                                            <img src="@item.PhotoURL" class="img-fluid rounded" alt="@item.ItemName" style="max-height: 100px; object-fit: cover;" />
+                                                                        }
+
+                                                                        else
+
+                                                                        {
+                                                                                            <div class="bg-secondary text-white rounded d-flex align-items-center justify-content-center" style="height: 100px;">
+                                                                                                No Image
+                                                                                            </div>
+                                                                        }
+                                                                                </div>
+                                                                                <div class="col-8">
+                                                                                    <h6 class="card-title">@item.ItemName</h6>
+                                                                                    <p class="card-text small mb-1">
+                                                                                        <strong>Size:</strong> @item.Size<br/>
+                                                                                        <strong>Gender:</strong> @item.Gender<br/>
+                                                                                        <strong>Condition:</strong> @item.Condition<br/>
+                                                                            @if (!string.IsNullOrEmpty(item.Description))
+
+                                                                            {
+                                                                                                <strong>Description:</strong> @item.Description
+                                                                            }
+                                                                                    </p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+        }
     </div>
 </body>
 </html>
+
+@functions {
+    // ADDED: Helper function for status badge styling
+
+    private string GetStatusBadgeClass(string status)
+
+    {
+
+        return status?.ToLower() switch
+
+        {
+
+            "pending" => "bg-warning",
+
+            "accepted" => "bg-success",
+
+            "shipped" => "bg-info",
+
+            "completed" => "bg-success",
+
+            "cancelled" => "bg-danger",
+
+            _ => "bg-secondary"
+
+        };
+
+    }
+}
