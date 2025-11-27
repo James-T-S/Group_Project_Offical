@@ -1,84 +1,86 @@
 ﻿@page
 @model Group_Project_Offical.Pages.Donation_Manager_Send_DonationsModel
 
-<h2>SEND DONATIONS</h2>
+<div class="container my-5 px-3" style="max-width: 800px;">
+    <h1 class="mb-4" style="font-family: 'Roboto', sans-serif; font-weight: 800;">Send Donations</h1>
 
-@if(!string.IsNullOrEmpty(Model.ErrorMessage))
-{
-	<partial>@Model.ErrorMessage</partial>
-}
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <partial>@Model.ErrorMessage</partial>
+    }
 
-@if(!string.IsNullOrEmpty(Model.message))
-{
-	<p>@Model.message</p>
-}
+    @if (!string.IsNullOrEmpty(Model.message))
+    {
+        <p>@Model.message</p>
+    }
 
-@if(Model.OutgoingDonations == null || Model.OutgoingDonations.Count == 0)
-{
-	<p>NO DONATION TO SEND</p>
-}
+    @if (Model.OutgoingDonations == null || Model.OutgoingDonations.Count == 0)
+    {
+        <p>NO DONATION TO SEND</p>
+    }
 
 
-<table>
-	<thead>
-		<tr>
-			<th>ID</th>
-			<th>DATE</th>
-			<th>DONER</th>
-			<th>TOTAL ITEM</th>
-			<th>ESTIMATED VALUE</th>
-			<th>ITEMS</th>
-			<th>ACTIONS</th>
-			
-			
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (var d in Model.OutgoingDonations)
-		{
-			<tr>
-				<td>@d.DonationID</td>
-					<td>@d.DonationDate</td>
-						<td>@d.DonerName</td>
-							<td>@d.TotalItems</td>
-								<td>@d.EstimatedValue</td>
-								<td>
-									@if(d.Items == null || d.Items.Count == 0)
-					{
-						<span>NO ITEMS</span>
-					}
-					else
-					{
-						<ul>
-							@foreach (var item in d.Items)
-							{
-								<li>
-									<strong>@item.ItemName</strong>
-									(@item.size, @item.Gender, @item.Condition)
-									@if (!string.IsNullOrWhiteSpace(item.Description))
-									{
-										<br />
-										<span>@item.Description</span>
-									}
-									@if (!string.IsNullOrWhiteSpace(item.PhotoURL))
-									{
-										<br />
-										<img src="@item.PhotoURL" />
+    <table class="table table-bordered table-striped text-center align-middle custom-table">
+        <thead style="background-color: #C2A68C;">
+            <tr>
+                <th>ID</th>
+                <th>Date</th>
+                <th>Doner</th>
+                <th>Total Item</th>
+                <th>Estimated Value</th>
+                <th>Items</th>
+                <th>Actions</th>
 
-										
-									}
-								</li>
-							}
-						</ul>
-					}
-				</td>
-				<td>
-					<form method="post" asp-page-handler="Ship">
-						<input type="hidden" name="donationId" value="@d.DonationID" />
-						<button type="submit">SHIP ITEM</button>
-					</form>
-				</td>
-			</tr>
-		}
-	</tbody>
-</table>
+
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            @foreach (var d in Model.OutgoingDonations)
+            {
+                <tr>
+                    <td>@d.DonationID</td>
+                    <td>@d.DonationDate</td>
+                    <td>@d.DonerName</td>
+                    <td>@d.TotalItems</td>
+                    <td>@d.EstimatedValue</td>
+                    <td>
+                        @if (d.Items == null || d.Items.Count == 0)
+                        {
+                            <span>No Items</span>
+                        }
+                        else
+                        {
+                            <ul>
+                                @foreach (var item in d.Items)
+                                {
+                                    <li>
+                                        <strong>@item.ItemName</strong>
+                                        (@item.size, @item.Gender, @item.Condition)
+                                        @if (!string.IsNullOrWhiteSpace(item.Description))
+                                        {
+                                            <br />
+                                            <span>@item.Description</span>
+                                        }
+                                        @if (!string.IsNullOrWhiteSpace(item.PhotoURL))
+                                        {
+                                            <br />
+                                            <img src="@item.PhotoURL" />
+
+
+                                        }
+                                    </li>
+                                }
+                            </ul>
+                        }
+                    </td>
+                    <td class="d-flex justify-content-center align-items-center">
+                        <form method="post" asp-page-handler="Ship">
+                            <input type="hidden" name="donationId" value="@d.DonationID" />
+                            <button type="submit">Ship Item</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

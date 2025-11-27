@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-    <div class="d-flex flex-column align-items-center min-vh-100">
+    <div class="d-flex flex-column align-items-center min-vh-100 form-background">
         <h1 class="roboto-black mt-4">Welcome</h1>
         @if (!string.IsNullOrEmpty(Model.Message))
         {
@@ -23,9 +23,9 @@
                 @Model.ErroredMessage
                 </div>
         }
-        <div class="login-container mt-4 w-100" style="max-width:480px;">
+        <div class="card p-4 shadow-sm mb-5 form-background w-100" style="max-width:480px;">
             <h1 class="login-p text-center">Sign Up</h1>
-            <form method="post" asp-antiforgery="true" class="d-flex flex-column align-items-center">
+            <form method="post" asp-antiforgery="true" class="d-flex flex-column align-items-center gap-4">
 
                 <div class="text-field mb-3 w-100">
                     <label for="Username" class="form-label d-block">User Name</label>
@@ -39,7 +39,6 @@
                     <span asp-validation-for="DonerSignUpForm.Password" class="text-danger"></span>
                 </div>
 
-                <!-- ADDED: Confirm Password Field -->
                 <div class="text-field mb-3 w-100">
                     <label for="ConfirmPassword" class="form-label d-block">Confirm Password</label>
                     <input type="password" id="ConfirmPassword" asp-for="DonerSignUpForm.ConfirmPassword" class="form-control w-100" />

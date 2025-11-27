@@ -3,8 +3,8 @@
 @{
 }
 
-<div class="container">
-    <h1>Manage Accounts</h1>
+<div class="container my-5 px-3" style="max-width: 800px;">
+    <h1 class="mb-4" style="font-family: 'Roboto', sans-serif; font-weight: 800;">Manage Accounts</h1>
 
 
     @if (!string.IsNullOrEmpty(Model.StatusMessage))
@@ -18,41 +18,44 @@
     }
 
 
-    <form method="get">
+    <form method="get" class="mb-4 d-flex gap-2 w-100 justify-content-center">
         <label for="q">Search</label>
-        <input id="q" name="Query" value="@Model.Query" class=""/>
+        <input id="q" name="Query" value="@Model.Query" class="form-control w-auto" />
         <button type="submit" class="btn">Apply</button>
         <a asp-page="/Admin_Manage_Accounts">Clear</a>
     </form>
 
-    <table>
-        <thead>
+    <table class="table table-bordered table-striped text-center align-middle custom-table">
+        <thead style="background-color: #C2A68C;">
             <tr>
                 <th>Username</th>
                 <th>Email</th>
                 <th>Role</th>
                 <th>Active</th>
-                <th>Actions</th>
+                <th>Freeze</th>
+                <th>Delete</th>
             </tr>
 
         </thead>
-        <tbody>
+        <tbody class="table-group-divider">
             @foreach (var u in Model.Users)
             {
                 <tr>
                     <td>@u.Username</td>
                     <td>@u.Email</td>
                     <td>@u.UserRole</td>
-                    <td>@u.IsActive ? "Yes" : "No"</td>
-                    <td>
+                    <td>@(u.IsActive ? "Yes" : "No")</td>
+                    <td class="justify-content-center align-items-center">
                         <form method="post" asp-page-handler="ToggleActive">
                             <div class="mb-3">
                                 <input type="hidden" name=Username value="@u.Username" class="form-control" />
                                 <input type="hidden" name="MakeActive" value="@(u.IsActive ? "false" : "true")" class="form-control" />
-                                <button type="submit">@(u.IsActive ? "Freeze" : "Unfreeze")</button>
+                                <button type="submit" class="btn">@(u.IsActive ? "Freeze" : "Unfreeze")</button>
                             </div>
                         </form>
+                    </td>
 
+                    <td class="justify-content-center align-items-center">
                         <form method="post" asp-page-handler="Delete" onsubmit="return confirm('Delete @u.Username?');">
                             <div class="mb-3">
                                 <input type="hidden" name=Username value="@u.Username" class="form-control" />
@@ -60,7 +63,6 @@
                             </div>
                         </form>
                     </td>
-
                 </tr>
             }
         </tbody>
