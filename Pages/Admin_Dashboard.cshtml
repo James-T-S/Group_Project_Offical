@@ -1,5 +1,5 @@
 ﻿@page
-@model Group_Project_Offical.Pages.Admin_DashboardModel
+@model Group_Project_Offical.Pages.Admin_DashbaordModel
 @{
     Layout = "_Layout";
     ViewData["HideNav"] = true;
@@ -12,6 +12,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 </head>
 <body class="d-flex flex-column min-vh-100">
+
+      <h1>Total Sustainability Metrics</h1>
+
+<div>
+    <h2>Overall System Impact</h2>
+
+    <div>
+        <h3>CO2 Saved</h3>
+        <p>@Model.TotalMetrics.TotalCO2Saved kg</p>
+        <p>Carbon dioxide reduction</p>
+    </div>
+
+    <div>
+        <h3>Water Saved</h3>
+        <p>@Model.TotalMetrics.TotalWaterSaved liters</p>
+        <p>Water conservation</p>
+    </div>
+
+    <div>
+        <h3>Landfill Reduced</h3>
+        <p>@Model.TotalMetrics.TotalLandfillReduction kg</p>
+        <p>Waste diversion from landfills</p>
+    </div>
+
+    <div>
+        <h3>Items Saved</h3>
+        <p>@Model.TotalMetrics.TotalItemsSaved</p>
+        <p>Items rescued from disposal</p>
+    </div>
+
+    <div>
+        <h3>Beneficiaries Supported</h3>
+        <p>@Model.TotalMetrics.TotalBeneficiariesSupported</p>
+        <p>People helped by donations</p>
+    </div>
+</div>
+
 
     <div class="d-flex flex-grow-1">
         <div class="d-flex flex-column pt-4" style="width:250px; background-color:#C2A68C; min-height:100vh;">
@@ -27,6 +64,10 @@
 
         </div>
     </div>
+
+
+  
+
 
 </body>
 
