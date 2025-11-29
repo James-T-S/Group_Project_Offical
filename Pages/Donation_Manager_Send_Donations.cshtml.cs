@@ -194,7 +194,6 @@ namespace Group_Project_Offical.Pages
                 cominsert.Parameters.AddWithValue("@desc", $"{statusName} status");
                 var id = await cominsert.ExecuteScalarAsync();
                 return Convert.ToInt32(id);
-                ///HEY CHAT GPT GETTING ERROR CAN YOU 
             }
         }
 

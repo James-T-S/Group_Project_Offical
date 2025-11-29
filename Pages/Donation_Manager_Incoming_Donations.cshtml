@@ -1,93 +1,95 @@
 ﻿@page
 @model Group_Project_Offical.Pages.Donation_Manager_Incoming_DonationsModel
 
-<div class="container my-5 px-3" style="max-width: 800px;">
-<h1 class="mb-4" style="font-family: 'Roboto', sans-serif; font-weight: 800;">Incoming Donations</h1>
-@if (!string.IsNullOrEmpty(Model.ErrorMessage))
-{
-    <p>@Model.ErrorMessage</p>
-}
+<div class="container my-5 px-3">
+    <h1 class="mb-4" style="font-family: 'Roboto', sans-serif; font-weight: 800;">Incoming Donations</h1>
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <p>@Model.ErrorMessage</p>
+    }
 
-@if (!string.IsNullOrEmpty(Model.Message))
-{
-    <p>@Model.Message</p>
+    @if (!string.IsNullOrEmpty(Model.Message))
+    {
+        <p>@Model.Message</p>
 
-}
+    }
 
-@if (Model.IncomingDonations == null || Model.IncomingDonations.Count == 0)
-{
-    <p>Pending Donations NO MORE</p>
-}
+    @if (Model.IncomingDonations == null || Model.IncomingDonations.Count == 0)
+    {
+        <p>Pending Donations NO MORE</p>
+    }
 
-<table class="table table-bordered table-striped text-center align-middle custom-table">
-    <thead style="background-color: #C2A68C;">
-        <tr>
-            <th>ID</th>
-            <th>date</th>
-            <th>doner</th>
-            <th>total items</th>
-            <th>estimated value</th>
-            <th>items</th>
-            <th>Accept</th>
-            <th>Reject</th>
-        </tr>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped text-center align-middle custom-table">
+            <thead style="background-color: #C2A68C;">
+                <tr>
+                    <th>ID</th>
+                    <th>date</th>
+                    <th>doner</th>
+                    <th>total items</th>
+                    <th>estimated value</th>
+                    <th>items</th>
+                    <th>Accept</th>
+                    <th>Reject</th>
+                </tr>
 
-    </thead>
-    <tbody class="table-group-divider">
-        @foreach (var d in Model.IncomingDonations)
-        {
-            <tr>
-                <td>@d.DonationID</td>
-                <td>@d.DonationDate</td>
-                <td>@d.DonerName</td>
-                <td>@d.TotalItems</td>
-                <td>@d.EstimatedValue</td>
-                <td>
-                    @if (d.Items == null || d.Items.Count == 0)
-                    {
-                        <span>NO ITEMS</span>
-                    }
-                    else
-                    {
-                        <ul>
-                            @foreach (var item in d.Items)
+            </thead>
+            <tbody class="table-group-divider">
+                @foreach (var d in Model.IncomingDonations)
+                {
+                    <tr>
+                        <td>@d.DonationID</td>
+                        <td>@d.DonationDate</td>
+                        <td>@d.DonerName</td>
+                        <td>@d.TotalItems</td>
+                        <td>@d.EstimatedValue</td>
+                        <td>
+                            @if (d.Items == null || d.Items.Count == 0)
                             {
-                                <li>
-                                    <strong>@item.ItemName</strong>
-                                    (@item.size, @item.Gender, @item.Condition)
-                                    @if (!string.IsNullOrWhiteSpace(item.Description))
-                                    {
-                                        <br />
-                                        <span>@item.Description</span>
-                                    }
-                                    @if (!string.IsNullOrWhiteSpace(item.PhotoURL))
-                                    {
-                                        <br />
-                                        <img src="@item.PhotoURL" alt="ERROR" style="max-width:150px;max-height:150px;" />
-
-                                    }
-                                </li>
-
-
+                                <span>NO ITEMS</span>
                             }
-                        </ul>
-                    }
-                </td>
-                <td class="d-flex justify-content-center align-items-center">
-                    <form method="post" asp-page-handler="Accept">
-                        <input type="hidden" name="donationId" value="@d.DonationID" />
-                        <button type="submit">Accept</button>
-                    </form>
-                </td>
-                <td class="d-flex justify-content-center align-items-center">
-                    <form method="post" asp-page-handler="Reject">
-                        <input type="hidden" name="donationId" value="@d.DonationID" />
-                        <button type="submit">Reject</button>
-                    </form>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                            else
+                            {
+                                <ul>
+                                    @foreach (var item in d.Items)
+                                    {
+                                        <li>
+                                            <strong>@item.ItemName</strong>
+                                            (@item.size, @item.Gender, @item.Condition)
+                                            @if (!string.IsNullOrWhiteSpace(item.Description))
+                                            {
+                                                <br />
+                                                <span>@item.Description</span>
+                                            }
+                                            @if (!string.IsNullOrWhiteSpace(item.PhotoURL))
+                                            {
+                                                <br />
+                                                <img src="@item.PhotoURL" alt="ERROR" style="max-width:150px;max-height:150px;" />
+
+                                            }
+                                        </li>
+
+
+                                    }
+                                </ul>
+                            }
+                        </td>
+                        <td class="d-flex justify-content-center align-items-center">
+                            <form method="post" asp-page-handler="Accept">
+                                <input type="hidden" name="donationId" value="@d.DonationID" />
+                                <button type="submit">Accept</button>
+                            </form>
+                        </td>
+                        <td class="d-flex justify-content-center align-items-center">
+                            <form method="post" asp-page-handler="Reject">
+                                <input type="hidden" name="donationId" value="@d.DonationID" />
+                                <button type="submit">Reject</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
 
