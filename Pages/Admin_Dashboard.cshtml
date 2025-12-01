@@ -1,72 +1,65 @@
 ﻿@page
 @model Group_Project_Offical.Pages.Admin_DashbaordModel
 @{
+    Layout = "_Layout";
+    ViewData["HideNav"] = true;
 }
 
-<!doctype html>
-<html lang="en">
-<head>
-    <title>SustainWear</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-</head>
-<body class="d-flex flex-column min-vh-100">
-
-      <h1>Total Sustainability Metrics</h1>
-
-<div>
-    <h2>Overall System Impact</h2>
-
-    <div>
-        <h3>CO2 Saved</h3>
-        <p>@Model.TotalMetrics.TotalCO2Saved kg</p>
-        <p>Carbon dioxide reduction</p>
-    </div>
-
-    <div>
-        <h3>Water Saved</h3>
-        <p>@Model.TotalMetrics.TotalWaterSaved liters</p>
-        <p>Water conservation</p>
-    </div>
-
-    <div>
-        <h3>Landfill Reduced</h3>
-        <p>@Model.TotalMetrics.TotalLandfillReduction kg</p>
-        <p>Waste diversion from landfills</p>
-    </div>
-
-    <div>
-        <h3>Items Saved</h3>
-        <p>@Model.TotalMetrics.TotalItemsSaved</p>
-        <p>Items rescued from disposal</p>
-    </div>
-
-    <div>
-        <h3>Beneficiaries Supported</h3>
-        <p>@Model.TotalMetrics.TotalBeneficiariesSupported</p>
-        <p>People helped by donations</p>
-    </div>
-</div>
-
-
+<body>
     <div class="d-flex flex-grow-1">
         <div class="d-flex flex-column pt-4" style="width:250px; background-color:#C2A68C; min-height:100vh;">
             <a href="Admin_Create_Staff_Accounts" class="text-decoration-none text-white py-3 px-4 d-block">Create Accounts</a>
             <a href="Admin_Manage_Accounts" class="text-decoration-none text-white py-3 px-4 d-block">Manage Accounts</a>
             <a href="Admin_Manage_Charity" class="text-decoration-none text-white py-3 px-4 d-block">Manage Charities</a>
-             <a href="Admin_Generate_Reports" class="text-decoration-none text-white py-3 px-4 d-block">Generate Reports</a>
+            <a href="Admin_Generate_Reports" class="text-decoration-none text-white py-3 px-4 d-block">Generate Reports</a>
         </div>
 
 
-        <div class="flex-grow-1">
+        <div class="d-flex flex-grow-1 align-content-center justify-content-center mt-5">
+            <h1>Total Sustainability Metrics</h1>
 
+            <h2>Overall System Impact</h2>
 
+            <div class="row mb-4">
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <h3>CO2 Saved</h3>
+                        <p>@Model.TotalMetrics.TotalCO2Saved kg</p>
+                        <p>Carbon dioxide reduction</p>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <h3>Water Saved</h3>
+                        <p>@Model.TotalMetrics.TotalWaterSaved liters</p>
+                        <p>Water conservation</p>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <h3>Landfill Reduced</h3>
+                        <p>@Model.TotalMetrics.TotalLandfillReduction kg</p>
+                        <p>Waste diversion from landfills</p>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <h3>Items Saved</h3>
+                        <p>@Model.TotalMetrics.TotalItemsSaved</p>
+                        <p>Items rescued from disposal</p>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <h3>Beneficiaries Supported</h3>
+                        <p>@Model.TotalMetrics.TotalBeneficiariesSupported</p>
+                        <p>People helped by donations</p>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-
-
-  
-
-
 </body>
-
-</html>

@@ -1,10 +1,6 @@
 ﻿@page
 @model Group_Project_Offical.Pages.Stock_Manager_Handle_StockModel
 
-<!DOCTYPE html>
-<html>
-<head>
-</head>
 <body>
 
     <script>
@@ -12,9 +8,9 @@
 
             @if (Model.Id != null)
             {
-                        <text>
-                            new bootstrap.Modal(document.getElementById('donationModal')).show();
-                        </text>
+                                                <text>
+                                                    new bootstrap.Modal(document.getElementById('donationModal')).show();
+                                                </text>
             }
 
             const sel = document.getElementById("ItemSelect");
@@ -41,38 +37,49 @@
         });
     </script>
 
-    <div class="container">
-        <table class="table table-bordered table-striped text-center centred-items">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Date</th>
-                    <th>Status</th>
-                    <th>Value</th>
-                    <th>Items</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var donation in Model.Donations)
-                {
+
+
+
+
+
+    <div class="container my-5 px-3">
+        >
+        <h1 class="mb-4" style="font-family: 'Roboto', sans-serif; font-weight: 800;">Donations</h1>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped text-center align-middle custom-table">
+                <thead style="background-color: #C2A68C;">
                     <tr>
-                        <td>@donation.DonationID</td>
-                        <td>@donation.DonationDate</td>
-                        <td>@donation.StatusName</td>
-                        <td>@donation.EstimatedValue</td>
-                        <td>
-                            @foreach (var item in donation.Items)
-                            {
-                                <div>@item.ItemName</div>
-                            }
-                        </td>
-                        <td>
-                            <a href="?id=@donation.DonationID" class="btn">Edit</a>
-                        </td>
+                        <th>ID</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Value</th>
+                        <th>Items</th>
+                        <th>Edit</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody class="table-group-divider">
+                    @foreach (var donation in Model.Donations)
+                    {
+                        <tr class="bg-light">
+                            <td>@donation.DonationID</td>
+                            <td>@donation.DonationDate</td>
+                            <td>@donation.StatusName</td>
+                            <td>@donation.EstimatedValue</td>
+                            <td>
+                                @foreach (var item in donation.Items)
+                                {
+                                    <div>@item.ItemName</div>
+                                }
+                            </td>
+                            <td class="d-flex justify-content-center align-items-center">
+                                <a href="?id=@donation.DonationID" class="btn">Edit</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <div class="modal fade" id="donationModal" tabindex="-1">
@@ -88,8 +95,7 @@
                     <div class="modal-body d-flex flex-column gap-4">
 
                         <input type="hidden" name="Id" value="@Model.SelectedDonation?.DonationID" />
-                        
-                        <!-- Show current estimated value -->
+
                         <div>
                             <label>Current Estimated Value: £@Model.SelectedDonation?.EstimatedValue</label>
                         </div>
@@ -125,7 +131,6 @@
                             }
                         </select>
 
-                        <!-- Updated status options with Sold -->
                         <select name="UpdateStatusName" class="form-control">
                             <option value="Pending">Pending</option>
                             <option value="Processing">Processing</option>
@@ -133,11 +138,10 @@
                             <option value="Sold">Sold</option>
                         </select>
 
-                        <!-- Show current value and allow updating -->
                         <div>
                             <label>Update Estimated Value (£)</label>
-                            <input type="number" name="UpdateEstimatedValue" class="form-control" 
-                                   placeholder="Estimated Value" value="@Model.SelectedDonation?.EstimatedValue" 
+                            <input type="number" name="UpdateEstimatedValue" class="form-control"
+                                   placeholder="Estimated Value" value="@Model.SelectedDonation?.EstimatedValue"
                                    step="0.01" min="0" />
                         </div>
 
@@ -147,6 +151,5 @@
             </div>
         </div>
     </div>
-
 </body>
 </html>

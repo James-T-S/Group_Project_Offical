@@ -1,33 +1,21 @@
 ﻿@page
 @model Group_Project_Offical.Pages.Donation_Manager_DashboardModel
 @{
+    Layout = "_Layout";
+    ViewData["HideNav"] = true;
 }
+<h1>Donation Manager Dashboard</h1>
 
+<div class="d-flex flex-grow-1">
+    <div class="d-flex flex-column pt-4" style="width:250px; background-color:#C2A68C; min-height:100vh;">
+        <a href="/Donation_Manager_Incoming_Donations" class="text-decoration-none text-white py-3 px-4 d-block">Recieve Stock</a>
+        <a href="/Donation_Manager_Send_Donations" class="text-decoration-none text-white py-3 px-4 d-block">Handle Stock</a>
+    </div>
+</div>
 
-<h2>Donation Manager Dashboard</h2>
+<div class="flex-grow-1">
+    <h1>Total Sustainability Metrics</h1>
 
-<ul>
-    <li>
-        <!-- This is the important bit -->
-        <a asp-page="/Donation_Manager_Incoming_Donations">
-            View incoming donations
-        </a>
-    </li>
-</ul>
-
-
-<ul>
-    <li>
-        <!-- This is the important bit -->
-        <a asp-page="/Donation_Manager_Send_Donations">
-           Send donations
-        </a>
-    </li>
-</ul>
-
-  <h1>Total Sustainability Metrics</h1>
-
-<div>
     <h2>Overall System Impact</h2>
 
     <div>

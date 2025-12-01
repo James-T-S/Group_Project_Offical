@@ -15,8 +15,7 @@
         <div class="row">
             <div class="col-12">
                 <h1 class="mb-4">Welcome to Your Dashboard</h1>
-                
-                <!-- ADDED: Sustainability Metrics Section -->
+
                 @if (Model.sustainabilitymetrics != null)
                 {
                     <div class="row mb-5">
@@ -26,7 +25,7 @@
                                 <div class="col-md-2 col-6 mb-3">
                                     <div class="card text-center bg-success text-white">
                                         <div class="card-body">
-                                                <h4 class="card-title">@Model.sustainabilitymetrics.TotalCO2Saved.ToString("F1") kg</h4>
+                                            <h4 class="card-title">@Model.sustainabilitymetrics.TotalCO2Saved.ToString("F1") kg</h4>
                                             <p class="card-text small">CO₂ Saved</p>
                                         </div>
                                     </div>
@@ -34,7 +33,7 @@
                                 <div class="col-md-2 col-6 mb-3">
                                     <div class="card text-center bg-info text-white">
                                         <div class="card-body">
-                                                <h4 class="card-title">@Model.sustainabilitymetrics.TotalWaterSaved.ToString("F0") L</h4>
+                                            <h4 class="card-title">@Model.sustainabilitymetrics.TotalWaterSaved.ToString("F0") L</h4>
                                             <p class="card-text small">Water Saved</p>
                                         </div>
                                     </div>
@@ -42,7 +41,7 @@
                                 <div class="col-md-2 col-6 mb-3">
                                     <div class="card text-center bg-warning text-dark">
                                         <div class="card-body">
-                                                <h4 class="card-title">@Model.sustainabilitymetrics.TotalLandfillReduction.ToString("F1") kg</h4>
+                                            <h4 class="card-title">@Model.sustainabilitymetrics.TotalLandfillReduction.ToString("F1") kg</h4>
                                             <p class="card-text small">Landfill Reduced</p>
                                         </div>
                                     </div>
@@ -50,7 +49,7 @@
                                 <div class="col-md-2 col-6 mb-3">
                                     <div class="card text-center bg-primary text-white">
                                         <div class="card-body">
-                                                <h4 class="card-title">@Model.sustainabilitymetrics.TotalItemsSaved</h4>
+                                            <h4 class="card-title">@Model.sustainabilitymetrics.TotalItemsSaved</h4>
                                             <p class="card-text small">Items Saved</p>
                                         </div>
                                     </div>
@@ -58,7 +57,7 @@
                                 <div class="col-md-2 col-6 mb-3">
                                     <div class="card text-center bg-secondary text-white">
                                         <div class="card-body">
-                                                <h4 class="card-title">@Model.sustainabilitymetrics.TotalBeneficiariesSupported</h4>
+                                            <h4 class="card-title">@Model.sustainabilitymetrics.TotalBeneficiariesSupported</h4>
                                             <p class="card-text small">People Helped</p>
                                         </div>
                                     </div>
@@ -76,7 +75,6 @@
                     </div>
                 }
 
-                <!-- Quick Stats -->
                 <div class="row mb-4">
                     <div class="col-md-4 mb-3">
                         <div class="card">
@@ -107,7 +105,6 @@
                     </div>
                 </div>
 
-                <!-- Navigation Cards -->
                 <div class="row">
                     <div class="col-md-4 mb-3">
                         <div class="card h-100">
@@ -138,15 +135,14 @@
                     </div>
                 </div>
 
-                <!-- ADDED: Recent Activity Section -->
                 @if (Model.RecentDonations.Any())
                 {
                     <div class="row mt-5">
                         <div class="col-12">
                             <h3 class="mb-3">Recent Donations</h3>
                             <div class="table-responsive">
-                                <table class="table table-striped">
-                                    <thead>
+                                <table class="table table-bordered table-striped text-center align-middle">
+                                    <thead style="background-color: #C2A68C;">
                                         <tr>
                                             <th>Date</th>
                                             <th>Items</th>

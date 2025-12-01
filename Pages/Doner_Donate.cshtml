@@ -1,78 +1,95 @@
 ﻿@page
 @model Group_Project_Offical.Pages.Doner_Donate_AccountModel
 @{
-
-}
-@if (!string.IsNullOrEmpty(Model.Error))
-{
-		<p>@Model.Error</p>
+    ViewData["Title"] = "Donate Item";
 }
 
-@if (!string.IsNullOrEmpty(Model.Message))
-{
-			<p>@Model.Message</p>
-}
+<div class="d-flex flex-column align-items-center mt-4">
 
-<form method="post" enctype="multipart/form-data">
-	<div>
-		<label asp-for="CharityID">Choose Charity *</label>
-		<select asp-for="CharityID" asp-items="Model.CharityOptions">
-			<option value="">---SELECT CHARITY---</option>
-		</select>
-		<span asp-validation-for="CharityID" class="text-danger"></span>
-	</div>
+    <h1 class="mb-4">Donate an Item</h1>
 
-	<!-- CHANGED: Item Name to dropdown -->
-	<div>
-		<label asp-for="Item.ItemName">Item Type *</label>
-		<select asp-for="Item.ItemName" asp-items="Model.ItemNameOptions">
-			<option value="">---SELECT ITEM TYPE---</option>
-		</select>
-		<span asp-validation-for="Item.ItemName" class="text-danger"></span>
-	</div>
+    <div class="card p-4 shadow-sm mb-5 form-background" style="width: 100%; max-width: 600px;">
 
-	<div>
-		<label asp-for="Item.Description">Item Description</label>
-		<input asp-for="Item.Description"/>
-	</div>
+        @if (!string.IsNullOrEmpty(Model.Message))
+        {
+            <div class="alert alert-success mb-2">@Model.Message</div>
+        }
 
-	<!-- CHANGED: Currency to Pounds -->
-	<div>
-		<label asp-for="Item.EstimatedValue">Estimated Value (£)</label>
-		<input asp-for="Item.EstimatedValue" type="number" step="0.01" min="0"/>
-	</div>
+        @if (!string.IsNullOrEmpty(Model.Error))
+        {
+            <div class="alert alert-danger mb-2">@Model.Error</div>
+        }
 
-	<!-- CHANGED: Size to dropdown -->
-	<div>
-		<label asp-for="Item.Size">Item Size *</label>
-		<select asp-for="Item.Size" asp-items="Model.SizeOptions">
-			<option value="">---SELECT SIZE---</option>
-		</select>
-		<span asp-validation-for="Item.Size" class="text-danger"></span>
-	</div>
+        <form method="post" enctype="multipart/form-data">
 
-	<!-- CHANGED: Gender to dropdown -->
-	<div>
-		<label asp-for="Item.Gender">Item Gender *</label>
-		<select asp-for="Item.Gender" asp-items="Model.GenderOptions">
-			<option value="">---SELECT GENDER---</option>
-		</select>
-		<span asp-validation-for="Item.Gender" class="text-danger"></span>
-	</div>
+            <div asp-validation-summary="All" class="text-danger mb-3"></div>
 
-	<!-- CHANGED: Condition to dropdown -->
-	<div>
-		<label asp-for="Item.Condition">Item Condition *</label>
-		<select asp-for="Item.Condition" asp-items="Model.ConditionOptions">
-			<option value="">---SELECT CONDITION---</option>
-		</select>
-		<span asp-validation-for="Item.Condition" class="text-danger"></span>
-	</div>
+            <div class="mb-3">
+                <label asp-for="CharityID" class="form-label">Choose Charity *</label>
+                <select asp-for="CharityID" asp-items="Model.CharityOptions" class="form-select">
+                    <option value="">---SELECT CHARITY---</option>
+                </select>
+                <span asp-validation-for="CharityID" class="text-danger small"></span>
+            </div>
 
-	<div>
-		<label>Photo</label>
-		<input asp-for="Photos" type="file" multiple />
-	</div>
+            <div class="mb-3">
+                <label asp-for="Item.ItemName" class="form-label">Item Type *</label>
+                <select asp-for="Item.ItemName" asp-items="Model.ItemNameOptions" class="form-select">
+                    <option value="">---SELECT ITEM TYPE---</option>
+                </select>
+                <span asp-validation-for="Item.ItemName" class="text-danger small"></span>
+            </div>
 
-	<button type="submit">Submit Donation</button>
-</form>
+            <div class="mb-3">
+                <label asp-for="Item.Description" class="form-label">Item Description</label>
+                <input asp-for="Item.Description" class="form-control" />
+                <span asp-validation-for="Item.Description" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Item.EstimatedValue" class="form-label">Estimated Value (£)</label>
+                <input asp-for="Item.EstimatedValue" type="number" step="0.01" min="0" class="form-control" />
+                <span asp-validation-for="Item.EstimatedValue" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Item.Size" class="form-label">Item Size *</label>
+                <select asp-for="Item.Size" asp-items="Model.SizeOptions" class="form-select">
+                    <option value="">---SELECT SIZE---</option>
+                </select>
+                <span asp-validation-for="Item.Size" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Item.Gender" class="form-label">Item Gender *</label>
+                <select asp-for="Item.Gender" asp-items="Model.GenderOptions" class="form-select">
+                    <option value="">---SELECT GENDER---</option>
+                </select>
+                <span asp-validation-for="Item.Gender" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Item.Condition" class="form-label">Item Condition *</label>
+                <select asp-for="Item.Condition" asp-items="Model.ConditionOptions" class="form-select">
+                    <option value="">---SELECT CONDITION---</option>
+                </select>
+                <span asp-validation-for="Item.Condition" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Photo</label>
+                <input asp-for="Photos" type="file" multiple class="form-control" />
+                <span asp-validation-for="Photos" class="text-danger small"></span>
+            </div>
+
+            <div class="text-center d-flex justify-content-center mb-3 mt-5">
+                <button type="submit" class="btn">Submit Donation</button>
+            </div>
+
+        </form>
+
+        <div class="text-center d-flex justify-content-center">
+            <a href="Doner_Dashboard" class="btn">Return</a>
+        </div>
+    </div>
+</div>

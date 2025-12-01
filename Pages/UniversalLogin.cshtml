@@ -1,7 +1,8 @@
 ﻿@page
 @model Group_Project_Offical.Pages.UniversalLoginModel
 @{
-
+    Layout = "_Layout";
+    ViewData["HideNav"] = true;
 }
 
 <!DOCTYPE html>
@@ -11,10 +12,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
 <body>
-    <div class="d-flex flex-column align-items-center min-vh-100">
+    <div class="d-flex flex-column align-items-center min-vh-100 form-background">
         <h1 class="roboto-black mt-4">Welcome</h1>
 
-        <div class="login-container mt-3 w-100" style="max-width:400px;">
+        <div class="card p-4 shadow-sm mb-5 form-background w-100" style="max-width:400px;">
 
             <p class="login-p text-center mb-4">Please Sign In</p>
 
@@ -56,7 +57,6 @@
 
                 <button type="submit" class="btn btn-primary w-100 py-2">Sign In</button>
 
-                <!-- ADDED: Sign up link for new users -->
                 <div class="mt-3 text-center">
                     <a href="/SignUp" class="text-decoration-none">Don't have an account? Sign up here</a>
                 </div>

@@ -71,7 +71,6 @@ namespace Group_Project_Offical.Pages
 			if (string.IsNullOrWhiteSpace(q))
 			{
 				command.CommandText = @"SELECT Username, Email, UserRole, IsActive, DateCreated FROM Users ORDER BY DateCreated DESC;";
-
 			}
 
 			using var reader = await command.ExecuteReaderAsync();
@@ -83,7 +82,6 @@ namespace Group_Project_Offical.Pages
 					Email = reader.GetString(1),
 					UserRole = reader.GetString(2),
 					IsActive = reader.GetInt32(3) == 1
-
 				});
 			}
 			return list;

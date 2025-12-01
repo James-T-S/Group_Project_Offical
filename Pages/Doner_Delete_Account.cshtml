@@ -4,13 +4,13 @@
     ViewData["Title"] = "My Donor Account";
 }
 
-<div class="d-flex flex-column align-items-center mt-4">
+<div class="d-flex flex-column align-items-center mt-4 content-wrapper">
 
     <h1 class="mb-4">My Account</h1>
 
     @if (!string.IsNullOrWhiteSpace(Model.error))
     {
-            <div class="text-danger mb-2">@Model.error</div>
+            <div class="text-danger mb-2 roboto-black">@Model.error</div>
     }
 
     @if (!string.IsNullOrWhiteSpace(Model.message))
@@ -63,7 +63,6 @@
                         <span asp-validation-for="profile.Address" class="text-danger small"></span>
                     </div>
 
-                    <!-- ADDED: Password Change Section -->
                     <div class="mb-4 border-top pt-3">
                         <h5 class="mb-3">Change Password</h5>
 
@@ -97,9 +96,8 @@
                 </form>
 
                 <form method="post" asp-page-handler="Delete" onsubmit="return confirm('Are you sure you want to permanently delete your account? This action cannot be undone.')" class="text-center">
-                    <button type="submit" class="btn btn-danger mx-auto d-block">Delete Account</button>
+                <button type="submit" class="btn mx-auto d-block" style="background: #E43F3F;">Delete Account</button>
                 </form>
             </div>
     }
-
 </div>

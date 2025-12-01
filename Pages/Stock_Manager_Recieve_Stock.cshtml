@@ -13,11 +13,11 @@
 </head>
 
 <body>
-    <div class="container my-5 px-3" style="max-width: 800px;">
+    <div class="container my-5 px-3">
         <h1 class="mb-4" style="font-family: 'Roboto', sans-serif; font-weight: 800;">Incoming Donations</h1>
 
         <div class="table-responsive">
-            <table class="table table-bordered table-striped text-center align-middle custom-table">
+            <table class="table table-bordered table-striped text-center align-middle custom-table text-nowrap">
                 <thead style="background-color: #C2A68C;">
                     <tr>
                         <th>Donation ID</th>
@@ -51,7 +51,7 @@
                                         <button type="submit" class="btn btn-success btn-sm w-100">Approve</button>
                                     </form>
                                 </td>
-                                <td class="text-center">
+                                <td class="d-flex justify-content-center align-items-center">
                                     <form method="post" asp-page-handler="Delete" class="d-flex justify-content-center">
                                         <input type="hidden" name="Id" value="@donation.DonationID" />
                                         <button type="submit" class="btn btn-danger btn-sm w-100">Disapprove</button>
