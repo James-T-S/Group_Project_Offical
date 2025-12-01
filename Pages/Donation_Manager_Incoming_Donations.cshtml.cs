@@ -23,37 +23,24 @@ namespace Group_Project_Offical.Pages
             _env = env;
         }
 
-
         public class ItemSummary
         {
             public string ItemName { get; set; } = "";
             public string Description { get; set; }
             public string size { get; set; }
-
             public string Gender { get; set; }
-
             public string Condition { get; set; }
-
             public string PhotoURL { get; set; }
-
-
         }
 
         public class IncomingDonationRow
         {
             public int DonationID { get; set; }
-
             public DateTime DonationDate { get; set; }
-
             public string DonerName { get; set; } = string.Empty;
-
             public int TotalItems { get; set; }
-
             public Decimal EstimatedValue { get; set; }
-            public List<ItemSummary> Items
-            {
-                get; set;
-            }
+            public List<ItemSummary> Items { get; set; } = new List<ItemSummary>();
         }
 
         public List<IncomingDonationRow> IncomingDonations { get; set; } = new();
@@ -61,43 +48,40 @@ namespace Group_Project_Offical.Pages
         public string Message { get; set; } = string.Empty;
         public string ErrorMessage { get; set; } = string.Empty;
 
-
         public async Task<IActionResult> OnGetAsync()
         {
             var user = _sessionService.GetUserSession();
-            if(user == null )
+            if (user == null)
             {
                 return RedirectToPage("/UniversalLogin");
             }
-            await LoadIncomingDonationsAsync();
+            await LoadIncomingDonationsAsync(user.UserId);
             return Page();
         }
-
 
         public async Task<IActionResult> OnPostAcceptAsync(int donationId)
         {
             using var conn = new SQLiteConnection(_connectionstring);
             await conn.OpenAsync();
-            
 
             int acceptedstatusid = await GetOrCreateStatusIdAsync(conn, "Accepted");
 
             using (var comm = new SQLiteCommand("UPDATE Donations SET StatusID = @statusId WHERE DonationId = @donationId;", conn))
             {
-                ///HEY CHAT GPT CAN YOU DO THE PARAEMETERS FOR THE ABOVE SQL STATEMENT THANKS
                 comm.Parameters.AddWithValue("@statusId", acceptedstatusid);
                 comm.Parameters.AddWithValue("@donationId", donationId);
                 await comm.ExecuteNonQueryAsync();
             }
-            // 3) Also update all DonationItems for this donation
-            var processedBy = _sessionService.GetUserId(); // or 0 / NULL if you prefer
+
+            // Also update all DonationItems for this donation
+            var processedBy = _sessionService.GetUserId();
 
             using (var cmdItems = new SQLiteCommand(
                 @"UPDATE DonationItems 
-          SET Status = @status, 
-              DateProcessed = @dateProcessed, 
-              ProcessedBy = @processedBy
-          WHERE DonationId = @donationId;",
+                  SET Status = @status, 
+                      DateProcessed = @dateProcessed, 
+                      ProcessedBy = @processedBy
+                  WHERE DonationId = @donationId;",
                 conn))
             {
                 cmdItems.Parameters.AddWithValue("@status", "Accepted");
@@ -108,10 +92,13 @@ namespace Group_Project_Offical.Pages
                 await cmdItems.ExecuteNonQueryAsync();
             }
             Message = "Donation Accepted";
-            return RedirectToPage();
+
+            // Reload list
+            var user = _sessionService.GetUserSession();
+            if (user != null) await LoadIncomingDonationsAsync(user.UserId);
+
+            return Page();
         }
-
-
 
         public async Task<IActionResult> OnPostRejectAsync(int donationId)
         {
@@ -119,9 +106,8 @@ namespace Group_Project_Offical.Pages
             await conn.OpenAsync();
 
             var photourls = new List<string>();
-            using (var comphotos = new SQLiteCommand("SELECT PhotoURL FROM DonationItems WHERE DonationId = @donationId AND PhotoURL IS NOT NULL AND PhotoURL != '';",conn))
+            using (var comphotos = new SQLiteCommand("SELECT PhotoURL FROM DonationItems WHERE DonationId = @donationId AND PhotoURL IS NOT NULL AND PhotoURL != '';", conn))
             {
-                //Hey Chat gpt can you geneerate the paraemeters for this sqlitestatement 
                 comphotos.Parameters.AddWithValue("@donationId", donationId);
                 using var reader = await comphotos.ExecuteReaderAsync();
                 while (await reader.ReadAsync())
@@ -130,53 +116,60 @@ namespace Group_Project_Offical.Pages
                 }
             }
 
-            using(var comdeleteitems = new SQLiteCommand("DELETE FROM DonationItems WHERE DonationId = @donationId;",conn))
+            using (var comdeleteitems = new SQLiteCommand("DELETE FROM DonationItems WHERE DonationId = @donationId;", conn))
             {
-                comdeleteitems.Parameters.AddWithValue("@donationId",donationId);
+                comdeleteitems.Parameters.AddWithValue("@donationId", donationId);
                 await comdeleteitems.ExecuteNonQueryAsync();
             }
-
 
             using (var comdeletedonation = new SQLiteCommand("DELETE FROM Donations WHERE DonationId = @donationId;", conn))
             {
                 comdeletedonation.Parameters.AddWithValue("@donationId", donationId);
                 await comdeletedonation.ExecuteNonQueryAsync();
-
             }
 
-            foreach(var item in photourls)
+            foreach (var item in photourls)
             {
-                if(string.IsNullOrWhiteSpace(item)) continue;
+                if (string.IsNullOrWhiteSpace(item)) continue;
 
                 var path = Path.Combine(_env.WebRootPath, item.TrimStart('/'));
-                if(System.IO.File.Exists(path))
+                if (System.IO.File.Exists(path))
                 {
                     System.IO.File.Delete(path);
                 }
-
             }
             Message = "Donation rejected and deleted";
-            return RedirectToPage();
 
+            // Reload list
+            var user = _sessionService.GetUserSession();
+            if (user != null) await LoadIncomingDonationsAsync(user.UserId);
 
-
-
+            return Page();
         }
 
-
-
-
-
-
-        private async Task LoadIncomingDonationsAsync()
+        private async Task LoadIncomingDonationsAsync(int userId)
         {
-            ////HEY CHATGPT BASED ON MY PREVIOUS INCOMING CHARITYS LOAD USERS ECT DO LOAD INCOMING DONATIONS {I PROVIDED CHATGPT MY PREVIOUS CODE FOR REFRENCE};
             IncomingDonations.Clear();
 
             using var con = new SQLiteConnection(_connectionstring);
             await con.OpenAsync();
 
-            // Join Donations + Users + Status + DonationItems so we can see items
+            // 1. Get the Charity ID linked to this Manager
+            int managerCharityId = 0;
+            using (var cmdCharity = new SQLiteCommand("SELECT CharityID FROM StaffAssignment WHERE UserID = @uid AND IsActive = 1 LIMIT 1;", con))
+            {
+                cmdCharity.Parameters.AddWithValue("@uid", userId);
+                var result = await cmdCharity.ExecuteScalarAsync();
+                if (result != null)
+                {
+                    managerCharityId = Convert.ToInt32(result);
+                }
+            }
+
+            // If no charity is linked, they see nothing (or you could show error)
+            if (managerCharityId == 0) return;
+
+            // 2. Filter Donations by this CharityID
             using var cmd = new SQLiteCommand(@"
                 SELECT 
                     d.DonationId,
@@ -193,9 +186,12 @@ namespace Group_Project_Offical.Pages
                 FROM Donations d
                 LEFT JOIN Users u ON d.DonorId = u.UserID
                 LEFT JOIN DonationStatus ds ON d.StatusID = ds.StatusID
-                LEFT JOIN DonationItems i ON i.DonationId = d.DonationId
+                JOIN DonationItems i ON i.DonationId = d.DonationId
                 WHERE ds.StatusName = 'Pending'
+                AND i.CharityID = @charityId
                 ORDER BY d.DonationDate ASC, d.DonationId ASC;", con);
+
+            cmd.Parameters.AddWithValue("@charityId", managerCharityId);
 
             using var reader = await cmd.ExecuteReaderAsync();
 
@@ -223,7 +219,7 @@ namespace Group_Project_Offical.Pages
                     lastDonationId = donationId;
                 }
 
-                // Item info (may be null if no items – but in your flow there should be at least one)
+                // Item info
                 if (!reader.IsDBNull(5))
                 {
                     var item = new ItemSummary
@@ -265,6 +261,5 @@ namespace Group_Project_Offical.Pages
                 return Convert.ToInt32(id);
             }
         }
-
     }
 }
