@@ -9,6 +9,8 @@ namespace Group_Project_Offical.Pages
     {
         private readonly SessionService _sessionService;
         private readonly string _connectionString;
+        private readonly ISustainabilityInsightService _insightService;
+
 
         // ADDED: Properties for dashboard data
         [BindProperty]
@@ -19,10 +21,13 @@ namespace Group_Project_Offical.Pages
         public DateTime? AccountCreatedDate { get; set; }
         public List<RecentDonation> RecentDonations { get; set; } = new List<RecentDonation>();
 
-        public Doner_DashboardModel(IConfiguration configuration, SessionService sessionService)
+        public DonorInsights AiInsights { get; set; }
+
+        public Doner_DashboardModel(IConfiguration configuration, SessionService sessionService,ISustainabilityInsightService insightService)
         {
             _connectionString = configuration.GetConnectionString("DefaultConnection");
             _sessionService = sessionService;
+            _insightService = insightService;
         }
 
         public async Task OnGetAsync()
@@ -37,6 +42,8 @@ namespace Group_Project_Offical.Pages
                 TotalItemsDonated = await GetTotalItemsDonatedAsync(user.UserId);
                 AccountCreatedDate = await GetAccountCreatedDateAsync(user.UserId);
                 RecentDonations = await GetRecentDonationsAsync(user.UserId);
+
+                AiInsights = _insightService.GetInsightsForDonor(user.UserId);
             }
         }
 

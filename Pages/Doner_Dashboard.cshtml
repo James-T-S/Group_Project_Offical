@@ -16,6 +16,25 @@
             <div class="col-12">
                 <h1 class="mb-4">Welcome to Your Dashboard</h1>
 
+                @if (Model.AiInsights != null)
+                {
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h3 class="mb-3">AI Sustainability Insights</h3>
+                            <div class="card">
+                                <div class="card-body">
+                                    <p><strong>Total items donated (AI):</strong> @Model.AiInsights.TotalItems</p>
+                                    <p><strong>Total CO₂ saved (AI):</strong> @Model.AiInsights.TotalCo2Saved.ToString("F1") kg</p>
+                                    <p><strong>Total water saved (AI):</strong> @Model.AiInsights.TotalWaterSaved.ToString("F0") L</p>
+                                    <p><strong>Top impact category:</strong> @Model.AiInsights.TopCategory</p>
+                                    <p><strong>Recommendation:</strong> @Model.AiInsights.Recommendation</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+
                 @if (Model.sustainabilitymetrics != null)
                 {
                     <div class="row mb-5">

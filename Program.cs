@@ -16,6 +16,8 @@ builder.Services.AddSession(options =>
 
 builder.Services.AddScoped<SessionService>();
 
+builder.Services.AddScoped<ISustainabilityInsightService,SustainabilityInsightService>();
+
 var app = builder.Build();
 
 // Usual middleware
