@@ -21,20 +21,42 @@ namespace Group_Project_Offical.Pages
 
         public async Task OnGetAsync()
         {
-            Donations = await GetDonationsAsync();
-            await GetDonationsItemsAsync();
+            var user = _SessionService.GetUserSession();
+            if (user == null) return;
+
+            Donations = await GetDonationsAsync(user.UserId);
+            await GetDonationsItemsAsync(user.UserId);
         }
 
-        private async Task<List<Donation>> GetDonationsAsync()
+        private async Task<List<Donation>> GetDonationsAsync(int userId)
         {
             List<Donation> list = new List<Donation>();
             using SQLiteConnection connection = new SQLiteConnection(_connectionString);
             await connection.OpenAsync();
 
+            // 1. Get Manager's Charity ID
+            int managerCharityId = 0;
+            using (var cmdCharity = new SQLiteCommand("SELECT CharityID FROM StaffAssignment WHERE UserID = @uid AND IsActive = 1 LIMIT 1;", connection))
+            {
+                cmdCharity.Parameters.AddWithValue("@uid", userId);
+                var result = await cmdCharity.ExecuteScalarAsync();
+                if (result != null) managerCharityId = Convert.ToInt32(result);
+            }
+
+            if (managerCharityId == 0) return list;
+
             using SQLiteCommand command = connection.CreateCommand();
 
-            command.CommandText ="SELECT d.DonationID, d.DonationDate, s.StatusName, s.StatusID FROM Donations d " +
-                "JOIN DonationStatus s ON d.StatusID = s.StatusID;";
+            // 2. Filter by CharityID via DonationItems
+            command.CommandText = @"
+                SELECT DISTINCT d.DonationID, d.DonationDate, s.StatusName, s.StatusID 
+                FROM Donations d 
+                JOIN DonationStatus s ON d.StatusID = s.StatusID
+                JOIN DonationItems i ON d.DonationID = i.DonationID
+                WHERE i.CharityID = @charityId
+                AND lower(s.StatusName) = 'shipped';"; // Only show shipped items ready to be received
+
+            command.Parameters.AddWithValue("@charityId", managerCharityId);
 
             using DbDataReader reader = await command.ExecuteReaderAsync();
 
@@ -45,14 +67,24 @@ namespace Group_Project_Offical.Pages
 
             return list;
         }
-        private async Task GetDonationsItemsAsync()
+
+        private async Task GetDonationsItemsAsync(int userId)
         {
             if (Donations.Count == 0) return;
 
-            List<Donation> list = new List<Donation>();
-
             using SQLiteConnection connection = new SQLiteConnection(_connectionString);
             await connection.OpenAsync();
+
+            // Get Charity ID again (or could pass it)
+            int managerCharityId = 0;
+            using (var cmdCharity = new SQLiteCommand("SELECT CharityID FROM StaffAssignment WHERE UserID = @uid AND IsActive = 1 LIMIT 1;", connection))
+            {
+                cmdCharity.Parameters.AddWithValue("@uid", userId);
+                var result = await cmdCharity.ExecuteScalarAsync();
+                if (result != null) managerCharityId = Convert.ToInt32(result);
+            }
+
+            if (managerCharityId == 0) return;
 
             using SQLiteCommand command = connection.CreateCommand();
 
@@ -63,28 +95,33 @@ namespace Group_Project_Offical.Pages
                 IDs.Add(param);
                 command.Parameters.AddWithValue(param, Donations[i].DonationID);
             }
+            command.Parameters.AddWithValue("@charityId", managerCharityId);
 
-            command.CommandText = $@"SELECT di.DonationID, di.DonationItemID, di.ItemName 
-                FROM DonationItems di JOIN Donations d ON di.DonationID = d.DonationID JOIN DonationStatus s 
-                ON d.StatusID = s.StatusID WHERE di.DonationID IN ({string.Join(", ", IDs)}) 
-                AND lower(s.StatusName) = 'Shipped';";
-
+            command.CommandText = $@"
+                SELECT di.DonationID, di.DonationItemID, di.ItemName 
+                FROM DonationItems di 
+                JOIN Donations d ON di.DonationID = d.DonationID 
+                JOIN DonationStatus s ON d.StatusID = s.StatusID 
+                WHERE di.DonationID IN ({string.Join(", ", IDs)}) 
+                AND di.CharityID = @charityId
+                AND lower(s.StatusName) = 'shipped';";
 
             Dictionary<int, Donation> DonationItemDictionary = Donations.ToDictionary(d => d.DonationID, d => d);
 
             using DbDataReader reader = await command.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
-                DonationItemDictionary[reader.GetInt32(0)].Items.Add(new DonationItem(reader.GetInt32(1), reader.GetString(2)));
+                if (DonationItemDictionary.ContainsKey(reader.GetInt32(0)))
+                {
+                    DonationItemDictionary[reader.GetInt32(0)].Items.Add(new DonationItem(reader.GetInt32(1), reader.GetString(2)));
+                }
             }
         }
 
         public async Task OnPostDeleteAsync(int Id)
         {
             using var connection = new SQLiteConnection(_connectionString);
-
             await connection.OpenAsync();
-
             using var cmd = connection.CreateCommand();
 
             cmd.CommandText = "DELETE FROM Donations WHERE DonationID = @id";
@@ -92,46 +129,54 @@ namespace Group_Project_Offical.Pages
 
             await cmd.ExecuteNonQueryAsync();
 
-            Donations = await GetDonationsAsync();
-            await GetDonationsItemsAsync();
+            var user = _SessionService.GetUserSession();
+            if (user != null)
+            {
+                Donations = await GetDonationsAsync(user.UserId);
+                await GetDonationsItemsAsync(user.UserId);
+            }
         }
 
         public async Task<IActionResult> OnPostApproveAsync(int Id)
         {
-            Donations = await GetDonationsAsync();
+            var user = _SessionService.GetUserSession();
+            if (user == null) return RedirectToPage("/UniversalLogin");
 
-            Donation? donationToUpdate = new Donation();
-            foreach (var donation in Donations)
-            {
-                if (donation.DonationID == Id)
-                {
-                    donationToUpdate = donation;
-                    break;
-                }
-            }
+            // Re-fetch to get status ID safely
+            Donations = await GetDonationsAsync(user.UserId);
+            Donation? donationToUpdate = Donations.FirstOrDefault(d => d.DonationID == Id);
 
-            if (donationToUpdate == null) return Page(); 
+            if (donationToUpdate == null) return Page();
 
             using SQLiteConnection connection = new SQLiteConnection(_connectionString);
             await connection.OpenAsync();
 
             using var transaction = connection.BeginTransaction();
-            using var command = connection.CreateCommand();
 
-            command.CommandText = @"UPDATE DonationStatus SET StatusName = 'received' WHERE StatusID = @StatusID;";
-            command.Parameters.AddWithValue("@StatusID", donationToUpdate.StatusID);
+            // 1. Update Donation Status
+            using (var command = connection.CreateCommand())
+            {
+                command.CommandText = @"UPDATE DonationStatus SET StatusName = 'Received' WHERE StatusID = @StatusID;";
+                command.Parameters.AddWithValue("@StatusID", donationToUpdate.StatusID);
+                await command.ExecuteNonQueryAsync();
+            }
 
-            await command.ExecuteNonQueryAsync();
+            // 2. Update DonationItems Status as well
+            using (var cmdItems = connection.CreateCommand())
+            {
+                cmdItems.CommandText = @"UPDATE DonationItems SET Status = 'Received' WHERE DonationID = @donationId;";
+                cmdItems.Parameters.AddWithValue("@donationId", Id);
+                await cmdItems.ExecuteNonQueryAsync();
+            }
+
             transaction.Commit();
 
-            Donations = await GetDonationsAsync();
-            await GetDonationsItemsAsync();
+            // Refresh list
+            Donations = await GetDonationsAsync(user.UserId);
+            await GetDonationsItemsAsync(user.UserId);
 
             return Page();
         }
-
-
-
 
         public class Donation
         {
@@ -148,7 +193,7 @@ namespace Group_Project_Offical.Pages
                 this.Status = Status;
                 StatusID = statusID;
             }
-            public Donation() 
+            public Donation()
             {
                 DonationID = 0;
                 ExpectedDeliveryDate = DateTime.MinValue;

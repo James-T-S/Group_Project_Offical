@@ -31,9 +31,12 @@ namespace Group_Project_Offical.Pages
 
         public async Task OnGetAsync()
         {
-            Donations = await GetDonationsAsync();
+            var user = _SessionService.GetUserSession();
+            if (user == null) return;
+
+            Donations = await GetDonationsAsync(user.UserId);
             Categories = await GetCategoriesAsync();
-            await GetDonationsItemsAsync(null);
+            await GetDonationsItemsAsync(user.UserId);
 
             if (Id != null)
             {
@@ -41,16 +44,37 @@ namespace Group_Project_Offical.Pages
             }
         }
 
-        private async Task<List<Donation>> GetDonationsAsync()
+        private async Task<List<Donation>> GetDonationsAsync(int userId)
         {
             List<Donation> list = new List<Donation>();
             using SQLiteConnection connection = new SQLiteConnection(_connectionString);
             await connection.OpenAsync();
 
+            // 1. Get Manager's Charity ID
+            int managerCharityId = 0;
+            using (var cmdCharity = new SQLiteCommand("SELECT CharityID FROM StaffAssignment WHERE UserID = @uid AND IsActive = 1 LIMIT 1;", connection))
+            {
+                cmdCharity.Parameters.AddWithValue("@uid", userId);
+                var result = await cmdCharity.ExecuteScalarAsync();
+                if (result != null) managerCharityId = Convert.ToInt32(result);
+            }
+
+            if (managerCharityId == 0) return list;
+
             using SQLiteCommand command = connection.CreateCommand();
 
-            command.CommandText = @"SELECT d.DonationID, d.DonationDate, s.StatusName, d.EstimatedValue
-                FROM Donations d JOIN DonationStatus s  ON d.StatusID = s.StatusID WHERE s.StatusName <> 'Sold';";
+            // 2. Filter by CharityID via DonationItems
+            // Only show items that are 'Received', 'Processing', 'Completed' (Not 'Sold' per your original query, and not 'Shipped'/'Pending' usually for handling)
+            // Or just exclude 'Sold' as per original logic, but add Charity filter
+            command.CommandText = @"
+                SELECT DISTINCT d.DonationID, d.DonationDate, s.StatusName, d.EstimatedValue
+                FROM Donations d 
+                JOIN DonationStatus s ON d.StatusID = s.StatusID 
+                JOIN DonationItems i ON d.DonationID = i.DonationID
+                WHERE s.StatusName <> 'Sold'
+                AND i.CharityID = @charityId;";
+
+            command.Parameters.AddWithValue("@charityId", managerCharityId);
 
             using DbDataReader reader = await command.ExecuteReaderAsync();
 
@@ -63,14 +87,23 @@ namespace Group_Project_Offical.Pages
             return list;
         }
 
-        private async Task GetDonationsItemsAsync(string? query)
+        private async Task GetDonationsItemsAsync(int userId)
         {
             if (Donations.Count == 0) return;
 
-            List<Donation> list = new List<Donation>();
-
             using SQLiteConnection connection = new SQLiteConnection(_connectionString);
             await connection.OpenAsync();
+
+            // Get Charity ID again
+            int managerCharityId = 0;
+            using (var cmdCharity = new SQLiteCommand("SELECT CharityID FROM StaffAssignment WHERE UserID = @uid AND IsActive = 1 LIMIT 1;", connection))
+            {
+                cmdCharity.Parameters.AddWithValue("@uid", userId);
+                var result = await cmdCharity.ExecuteScalarAsync();
+                if (result != null) managerCharityId = Convert.ToInt32(result);
+            }
+
+            if (managerCharityId == 0) return;
 
             using SQLiteCommand command = connection.CreateCommand();
 
@@ -81,19 +114,28 @@ namespace Group_Project_Offical.Pages
                 IDs.Add(param);
                 command.Parameters.AddWithValue(param, Donations[i].DonationID);
             }
+            command.Parameters.AddWithValue("@charityId", managerCharityId);
 
-            command.CommandText = $@"SELECT di.DonationItemID, di.DonationID, c.CategoryName,
-                di.ItemName, di.Description, di.Size FROM DonationItems di JOIN Donations d 
-                ON di.DonationID = d.DonationID JOIN DonationStatus s ON d.StatusID = s.StatusID
-                JOIN Categories c ON di.CategoryID = c.CategoryID WHERE di.DonationID IN ({string.Join(", ", IDs)});";
+            command.CommandText = $@"
+                SELECT di.DonationItemID, di.DonationID, c.CategoryName,
+                di.ItemName, di.Description, di.Size 
+                FROM DonationItems di 
+                JOIN Donations d ON di.DonationID = d.DonationID 
+                JOIN DonationStatus s ON d.StatusID = s.StatusID
+                JOIN Categories c ON di.CategoryID = c.CategoryID 
+                WHERE di.DonationID IN ({string.Join(", ", IDs)})
+                AND di.CharityID = @charityId;";
 
             Dictionary<int, Donation> DonationItemDictionary = Donations.ToDictionary(d => d.DonationID, d => d);
 
             using DbDataReader reader = await command.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
-                DonationItemDictionary[reader.GetInt32(1)].Items.Add(new DonationItem(reader.GetInt32(0), reader.GetInt32(1),
-                    reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetString(5)));
+                if (DonationItemDictionary.ContainsKey(reader.GetInt32(1)))
+                {
+                    DonationItemDictionary[reader.GetInt32(1)].Items.Add(new DonationItem(reader.GetInt32(0), reader.GetInt32(1),
+                        reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetString(5)));
+                }
             }
         }
 
@@ -126,34 +168,39 @@ namespace Group_Project_Offical.Pages
             await connection.OpenAsync();
 
             using var transaction = connection.BeginTransaction();
-            using var command = connection.CreateCommand();
 
-            command.CommandText = @"UPDATE Donations SET EstimatedValue = @value,
-                StatusID = (SELECT StatusID FROM DonationStatus WHERE StatusName = @status) 
-                WHERE DonationID = @donationId;";
+            // 1. Update Donation (Parent)
+            using (var command = connection.CreateCommand())
+            {
+                command.CommandText = @"
+                    UPDATE Donations SET EstimatedValue = @value,
+                    StatusID = (SELECT StatusID FROM DonationStatus WHERE StatusName = @status) 
+                    WHERE DonationID = @donationId;";
 
-            command.Parameters.AddWithValue("@value", UpdateEstimatedValue);
-            command.Parameters.AddWithValue("@status", UpdateStatusName);
-            command.Parameters.AddWithValue("@donationId", Id);
+                command.Parameters.AddWithValue("@value", UpdateEstimatedValue);
+                command.Parameters.AddWithValue("@status", UpdateStatusName);
+                command.Parameters.AddWithValue("@donationId", Id);
+                await command.ExecuteNonQueryAsync();
+            }
 
-            await command.ExecuteNonQueryAsync();
-            command.Parameters.Clear();
+            // 2. Update DonationItem (Child)
+            using (var command = connection.CreateCommand())
+            {
+                command.CommandText = @"
+                    UPDATE DonationItems SET ItemName = @name, Description = @desc,
+                    Size = @size, CategoryID = (SELECT CategoryID FROM Categories 
+                    WHERE CategoryName = @category) WHERE DonationItemID = @itemId;";
 
-            command.CommandText = @"UPDATE DonationItems SET ItemName = @name, Description = @desc,
-            Size = @size, CategoryID = (SELECT CategoryID FROM Categories 
-            WHERE CategoryName = @category) WHERE DonationItemID = @itemId;";
-
-            command.Parameters.AddWithValue("@name", UpdatedItemName);
-            command.Parameters.AddWithValue("@desc", UpdatedItemDesc);
-            command.Parameters.AddWithValue("@size", UpdatedItemSize);
-            command.Parameters.AddWithValue("@category", UpdatedItemCategory);
-            command.Parameters.AddWithValue("@itemId", DonationItemID);
-
-            await command.ExecuteNonQueryAsync();
+                command.Parameters.AddWithValue("@name", UpdatedItemName);
+                command.Parameters.AddWithValue("@desc", UpdatedItemDesc);
+                command.Parameters.AddWithValue("@size", UpdatedItemSize);
+                command.Parameters.AddWithValue("@category", UpdatedItemCategory);
+                command.Parameters.AddWithValue("@itemId", DonationItemID);
+                await command.ExecuteNonQueryAsync();
+            }
 
             transaction.Commit();
 
-            // Redirect back to the page to refresh the data
             return RedirectToPage(new { id = (int?)null });
         }
 
