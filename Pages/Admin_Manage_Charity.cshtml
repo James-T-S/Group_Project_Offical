@@ -98,15 +98,15 @@
                     @foreach (var x in Model.c)
                     {
                         <tr>
-                            <td>@x.CharityID</td>
-                            <td>@x.CharityName</td>
-                            <td>@x.Email</td>
-                            <td>@x.PhoneNum</td>
-                            <td>@x.RegistrationNum</td>
-                            <td>@(x.DateRegistered?.Split('T')[0] ?? "N/A")</td>
-                            <td>@(x.IsActive ? "Yes" : "No")</td>
+                            <td style="white-space: nowrap;">@x.CharityID</td>
+                            <td style="white-space: nowrap;">@x.CharityName</td>
+                            <td style="white-space: nowrap;">@x.Email</td>
+                            <td style="white-space: nowrap;">@x.PhoneNum</td>
+                            <td style="white-space: nowrap;">@x.RegistrationNum</td>
+                            <td style="white-space: nowrap;">@(x.DateRegistered?.Split('T')[0] ?? "N/A")</td>
+                            <td style="white-space: nowrap;">@(x.IsActive ? "Yes" : "No")</td>
 
-                            <td class="d-flex justify-content-center align-items-center">
+                            <td class="d-flex justify-content-center align-items-center" style="white-space: nowrap;">
                                 <form method="post" asp-page-handler="ToggleActive" class="d-inline w-auto">
                                     <input type="hidden" name="charityID" value="@x.CharityID" />
                                     <input type="hidden" name="makeActive" value="@(!x.IsActive)" />
@@ -115,7 +115,7 @@
                                     </button>
                                 </form>
                             </td>
-                            <td class="d-flex justify-content-center align-items-center">
+                            <td class="d-flex justify-content-center align-items-center" style="white-space: nowrap;">
                                 <form method="post" asp-page-handler="ToggleDelete" class="d-inline w-auto" onsubmit="return confirm('Delete this charity?');">
                                     <input type="hidden" name="charityID" value="@x.CharityID" />
                                     <button type="submit" class="btn">Delete</button>
