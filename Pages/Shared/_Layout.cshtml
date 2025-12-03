@@ -15,167 +15,219 @@
     <header>
         @if (ViewData["HideNav"] as bool? != true)
         {
-            <!--ADMIN-->
-            <!--Mobile-->
-            <nav class="navbar navbar-expand-lg mobile-nav navbar-light"
-                 style="background-color:#C2A68C; padding:0.5vh; margin:0;">
-                <div class="container-fluid">
-                    <a href="Admin_Dashboard" class="navbar-brand fw-bold"
-                       style="color:#374F40;font-size:1.5rem;line-height:1;">
-                        Sustain <br /> Wear
-                    </a>
+            @if (ViewData["UserType"] as string == "admin")
+            {
+                <!--ADMIN-->
+                <!--Mobile-->
+                <nav class="navbar navbar-expand-lg mobile-nav navbar-light"
+                     style="background-color:#C2A68C; padding:0.5vh; margin:0;">
+                    <div class="container-fluid">
+                        <a href="Admin_Dashboard" class="navbar-brand fw-bold"
+                           style="color:#374F40;font-size:1.5rem;line-height:1;">
+                            Sustain <br /> Wear
+                        </a>
 
-                    <button class="navbar-toggler" type="button"
-                            data-bs-toggle="collapse" data-bs-target="#adminMobileMenu">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
+                        <button class="navbar-toggler" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#adminMobileMenu">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
 
-                    <div class="collapse navbar-collapse" id="adminMobileMenu">
-                        <ul class="navbar-nav ms-auto mt-2">
-                            <li class="nav-item border-bottom py-2"><a href="Admin_Manage_Charity" class="nav-link">Manage Charities</a></li>
-                            <li class="nav-item border-bottom py-2"><a href="Admin_Manage_Accounts" class="nav-link">Manage Accounts</a></li>
-                            <li class="nav-item border-bottom py-2"><a href="Admin_Create_Staff_Accounts" class="nav-link">Create Staff Accounts</a></li>
-                            <li class="nav-item border-bottom py-2"><a href="Admin_Generate_Reports" class="nav-link">Generate Report</a></li>
+                        <div class="collapse navbar-collapse" id="adminMobileMenu">
+                            <ul class="navbar-nav ms-auto mt-2">
+                                <li class="nav-item border-bottom py-2"><a href="Admin_Manage_Charity" class="nav-link fw-bolder text-black">Manage Charities</a></li>
+                                <li class="nav-item border-bottom py-2"><a href="Admin_Manage_Accounts" class="nav-link fw-bolder text-black">Manage Accounts</a></li>
+                                <li class="nav-item border-bottom py-2"><a href="Admin_Create_Staff_Accounts" class="nav-link fw-bolder text-black">Create Staff Accounts</a></li>
+                                <li class="nav-item border-bottom py-2"><a href="Admin_Generate_Reports" class="nav-link fw-bolder text-black">Generate Report</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+
+                <!--Desktop-->
+                <nav class="navbar navbar-expand-lg desktop-nav" style="background-color:#C2A68C; padding:0.5vh; margin:0;">
+                    <div class="container-fluid d-flex justify-content-between">
+                        <a href="Admin_Dashboard" class="navbar-brand fw-bold"
+                           style="color:#374F40; font-size:1.5rem; line-height:1;">
+                            Sustain <br /> Wear
+                        </a>
+
+                        <ul class="navbar-nav mb-0 me-3 d-flex flex-row">
+                            <li class="nav-item ms-3"><a href="Admin_Manage_Charity" class="nav-link fw-bolder text-black">Manage<br />Charities</a></li>
+                            <li class="nav-item ms-3"><a href="Admin_Manage_Accounts" class="nav-link fw-bolder text-black">Manage<br />Accounts</a></li>
+                            <li class="nav-item ms-3"><a href="Admin_Create_Staff_Accounts" class="nav-link fw-bolder text-black">Create<br />Staff Accounts</a></li>
+                            <li class="nav-item ms-3"><a href="Admin_Generate_Reports" class="nav-link fw-bolder text-black">Generate<br />Report</a></li>
                         </ul>
                     </div>
-                </div>
-            </nav>
+                </nav>
+            }
+            else if (ViewData["UserType"] as string == "stock manager")
+            {
+                <!--Stock Manager-->
+                <!--Mobile-->
+                <nav class="navbar navbar-expand-lg mobile-nav navbar-light"
+                     style="background-color:#C2A68C; padding:0.5vh; margin:0;">
+                    <div class="container-fluid">
+                        <a href="Admin_Dashboard" class="navbar-brand fw-bold"
+                           style="color:#374F40;font-size:1.5rem;line-height:1;">
+                            Sustain <br /> Wear
+                        </a>
 
-            <!--Desktop-->
-            <nav class="navbar navbar-expand-lg desktop-nav" style="background-color:#C2A68C; padding:0.5vh; margin:0;">
-                <div class="container-fluid d-flex justify-content-between">
-                    <a href="Admin_Dashboard" class="navbar-brand fw-bold"
-                       style="color:#374F40; font-size:1.5rem; line-height:1;">
-                        Sustain <br /> Wear
-                    </a>
+                        <button class="navbar-toggler" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#adminMobileMenu">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
 
-                    <ul class="navbar-nav mb-0 me-3 d-flex flex-row">
-                        <li class="nav-item ms-3"><a href="Admin_Manage_Charity" class="nav-link fw-bolder text-black">Manage<br />Charities</a></li>
-                        <li class="nav-item ms-3"><a href="Admin_Manage_Accounts" class="nav-link fw-bolder text-black">Manage<br />Accounts</a></li>
-                        <li class="nav-item ms-3"><a href="Admin_Create_Staff_Accounts" class="nav-link fw-bolder text-black">Create<br />Staff Accounts</a></li>
-                        <li class="nav-item ms-3"><a href="Admin_Generate_Reports" class="nav-link fw-bolder text-black">Generate<br />Report</a></li>
-                    </ul>
-                </div>
-            </nav>
+                        <div class="collapse navbar-collapse" id="adminMobileMenu">
+                            <ul class="navbar-nav ms-auto mt-2">
+                                <li class="nav-item border-bottom py-2"><a href="Stock_Manager_Handle_Stock" class="nav-link fw-bolder text-black">Handle <br /> Stock</a></li>
+                                <li class="nav-item border-bottom py-2"><a href="Stock_Manager_Recieve_Stock" class="nav-link fw-bolder text-black">Recieve <br /> Stock</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
 
-            <!--Stock Manager-->
-            <!--Mobile-->
-            <nav class="navbar navbar-expand-lg mobile-nav navbar-light"
-                 style="background-color:#C2A68C; padding:0.5vh; margin:0;">
-                <div class="container-fluid">
-                    <a href="Admin_Dashboard" class="navbar-brand fw-bold"
-                       style="color:#374F40;font-size:1.5rem;line-height:1;">
-                        Sustain <br /> Wear
-                    </a>
+                <!--Desktop-->
+                <nav class="navbar navbar-expand-lg desktop-nav" style="background-color:#C2A68C; padding:0.5vh; margin:0;">
+                    <div class="container-fluid d-flex justify-content-between">
+                        <a href="Admin_Dashboard" class="navbar-brand fw-bold"
+                           style="color:#374F40; font-size:1.5rem; line-height:1;">
+                            Sustain <br /> Wear
+                        </a>
 
-                    <button class="navbar-toggler" type="button"
-                            data-bs-toggle="collapse" data-bs-target="#adminMobileMenu">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-
-                    <div class="collapse navbar-collapse" id="adminMobileMenu">
-                        <ul class="navbar-nav ms-auto mt-2">
-                            <li class="nav-item border-bottom py-2"><a href="Stock_Manager_Handle_Stock" class="nav-link">Handle <br /> Stock</a></li>
-                            <li class="nav-item border-bottom py-2"><a href="Stock_Manager_Recieve_Stock" class="nav-link">Recieve <br /> Stock</a></li>
+                        <ul class="navbar-nav mb-0 me-3 d-flex flex-row">
+                            <li class="nav-item ms-3"><a href="Stock_Manager_Handle_Stock" class="nav-link fw-bolder text-black">Handle <br /> Stock</a></li>
+                            <li class="nav-item ms-3"><a href="Stock_Manager_Recieve_Stock" class="nav-link fw-bolder text-black">Recieve <br /> Stock</a></li>
                         </ul>
                     </div>
-                </div>
-            </nav>
+                </nav>
+            }
+            else if (ViewData["UserType"] as string == "donation manager")
+            {
+                <!--Donation Manager-->
+                <!--Mobile-->
+                <nav class="navbar navbar-expand-lg mobile-nav navbar-light"
+                     style="background-color:#C2A68C; padding:0.5vh; margin:0;">
+                    <div class="container-fluid">
+                        <a href="Admin_Dashboard" class="navbar-brand fw-bold"
+                           style="color:#374F40;font-size:1.5rem;line-height:1;">
+                            Sustain <br /> Wear
+                        </a>
 
-            <!--Desktop-->
-            <nav class="navbar navbar-expand-lg desktop-nav" style="background-color:#C2A68C; padding:0.5vh; margin:0;">
-                <div class="container-fluid d-flex justify-content-between">
-                    <a href="Admin_Dashboard" class="navbar-brand fw-bold"
-                       style="color:#374F40; font-size:1.5rem; line-height:1;">
-                        Sustain <br /> Wear
-                    </a>
+                        <button class="navbar-toggler" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#adminMobileMenu">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
 
-                    <ul class="navbar-nav mb-0 me-3 d-flex flex-row">
-                        <li class="nav-item border-bottom py-2"><a href="Stock_Manager_Handle_Stock" class="nav-link">Handle <br /> Stock</a></li>
-                        <li class="nav-item border-bottom py-2"><a href="Stock_Manager_Recieve_Stock" class="nav-link">Recieve <br /> Stock</a></li>
-                    </ul>
-                </div>
-            </nav>
+                        <div class="collapse navbar-collapse" id="adminMobileMenu">
+                            <ul class="navbar-nav ms-auto mt-2">
+                                <li class="nav-item border-bottom py-2"><a href="Donation_Manager_Incoming_Donations" class="nav-link fw-bolder text-black">Incoming <br /> Donations</a></li>
+                                <li class="nav-item border-bottom py-2"><a href="Donation_Manager_Send_Donations" class="nav-link fw-bolder text-black">Send <br /> Donations</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
 
-            <!--Donation Manager-->
-            <!--Mobile-->
-            <nav class="navbar navbar-expand-lg mobile-nav navbar-light"
-                 style="background-color:#C2A68C; padding:0.5vh; margin:0;">
-                <div class="container-fluid">
-                    <a href="Admin_Dashboard" class="navbar-brand fw-bold"
-                       style="color:#374F40;font-size:1.5rem;line-height:1;">
-                        Sustain <br /> Wear
-                    </a>
+                <!--Desktop-->
+                <nav class="navbar navbar-expand-lg desktop-nav" style="background-color:#C2A68C; padding:0.5vh; margin:0;">
+                    <div class="container-fluid d-flex justify-content-between">
+                        <a href="Admin_Dashboard" class="navbar-brand fw-bold"
+                           style="color:#374F40; font-size:1.5rem; line-height:1;">
+                            Sustain <br /> Wear
+                        </a>
 
-                    <button class="navbar-toggler" type="button"
-                            data-bs-toggle="collapse" data-bs-target="#adminMobileMenu">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-
-                    <div class="collapse navbar-collapse" id="adminMobileMenu">
-                        <ul class="navbar-nav ms-auto mt-2">
-                            <li class="nav-item border-bottom py-2"><a href="Donation_Manager_Incoming_Donations" class="nav-link">Incoming <br /> Donations</a></li>
-                            <li class="nav-item border-bottom py-2"><a href="Donation_Manager_Send_Donations" class="nav-link">Send <br /> Donations</a></li>
+                        <ul class="navbar-nav mb-0 me-3 d-flex flex-row">
+                            <li class="nav-item ms-3"><a href="Donation_Manager_Incoming_Donations" class="nav-link fw-bolder text-black">Incoming <br /> Donations</a></li>
+                            <li class="nav-item ms-3"><a href="Donation_Manager_Send_Donations" class="nav-link fw-bolder text-black">Send <br /> Donations</a></li>
                         </ul>
                     </div>
-                </div>
-            </nav>
+                </nav>
+            }
+            else if (ViewData["UserType"] as string == "doner")
+            {
+                <!--Doner-->
+                <!--Mobile-->
+                <nav class="navbar navbar-expand-lg mobile-nav navbar-light"
+                     style="background-color:#C2A68C; padding:0.5vh; margin:0;">
+                    <div class="container-fluid">
+                        <a href="Admin_Dashboard" class="navbar-brand fw-bold"
+                           style="color:#374F40;font-size:1.5rem;line-height:1;">
+                            Sustain <br /> Wear
+                        </a>
 
-            <!--Desktop-->
-            <nav class="navbar navbar-expand-lg desktop-nav" style="background-color:#C2A68C; padding:0.5vh; margin:0;">
-                <div class="container-fluid d-flex justify-content-between">
-                    <a href="Admin_Dashboard" class="navbar-brand fw-bold"
-                       style="color:#374F40; font-size:1.5rem; line-height:1;">
-                        Sustain <br /> Wear
-                    </a>
+                        <button class="navbar-toggler" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#adminMobileMenu">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
 
-                    <ul class="navbar-nav mb-0 me-3 d-flex flex-row">
-                        <li class="nav-item border-bottom py-2"><a href="Donation_Manager_Incoming_Donations" class="nav-link">Incoming <br /> Donations</a></li>
-                        <li class="nav-item border-bottom py-2"><a href="Donation_Manager_Send_Donations" class="nav-link">Send <br /> Donations</a></li>
-                    </ul>
-                </div>
-            </nav>
+                        <div class="collapse navbar-collapse" id="adminMobileMenu">
+                            <ul class="navbar-nav ms-auto mt-2">
+                                <li class="nav-item border-bottom py-2"><a href="Doner_Donate" class="nav-link fw-bolder text-black">Donate</a></li>
+                                <li class="nav-item border-bottom py-2"><a href="Doner_Donation_History" class="nav-link fw-bolder text-black">Donation <br /> History</a></li>
+                                <li class="nav-item border-bottom py-2"><a href="Doner_Delete_Account" class="nav-link fw-bolder text-black">Manage <br /> Account</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
 
-            <!--Doner-->
-            <!--Mobile-->
-            <nav class="navbar navbar-expand-lg mobile-nav navbar-light"
-                 style="background-color:#C2A68C; padding:0.5vh; margin:0;">
-                <div class="container-fluid">
-                    <a href="Admin_Dashboard" class="navbar-brand fw-bold"
-                       style="color:#374F40;font-size:1.5rem;line-height:1;">
-                        Sustain <br /> Wear
-                    </a>
+                <!--Desktop-->
+                <nav class="navbar navbar-expand-lg desktop-nav" style="background-color:#C2A68C; padding:0.5vh; margin:0;">
+                    <div class="container-fluid d-flex justify-content-between">
+                        <a href="Admin_Dashboard" class="navbar-brand fw-bold"
+                           style="color:#374F40; font-size:1.5rem; line-height:1;">
+                            Sustain <br /> Wear
+                        </a>
 
-                    <button class="navbar-toggler" type="button"
-                            data-bs-toggle="collapse" data-bs-target="#adminMobileMenu">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-
-                    <div class="collapse navbar-collapse" id="adminMobileMenu">
-                        <ul class="navbar-nav ms-auto mt-2">
-                            <li class="nav-item ms-3"><a href="Doner_Donate" class="nav-link fw-bolder text-black">Manage<br />Donate</a></li>
-                            <li class="nav-item ms-3"><a href="Doner_Donation_History" class="nav-link fw-bolder text-black">Create<br />Donation <br /> History</a></li>
-                            <li class="nav-item ms-3"><a href="Doner_Delete_Account" class="nav-link fw-bolder text-black">Generate<br />Manage <br /> Account</a></li>
+                        <ul class="navbar-nav mb-0 me-3 d-flex flex-row">
+                            <li class="nav-item ms-3"><a href="Doner_Donate" class="btn fw-bolder text-black">Donate</a></li>
+                            <li class="nav-item ms-3"><a href="Doner_Donation_History" class="nav-link fw-bolder text-black">Donation <br /> History</a></li>
+                            <li class="nav-item ms-3"><a href="Doner_Delete_Account" class="nav-link fw-bolder text-black">Manage <br /> Account</a></li>
                         </ul>
                     </div>
-                </div>
-            </nav>
+                </nav>
+            }
+            else
+            {
+                <!--Guest-->
+                <!--Mobile-->
+                <nav class="navbar navbar-expand-lg mobile-nav navbar-light"
+                     style="background-color:#C2A68C; padding:0.5vh; margin:0;">
+                    <div class="container-fluid">
+                        <a href="Admin_Dashboard" class="navbar-brand fw-bold"
+                           style="color:#374F40;font-size:1.5rem;line-height:1;">
+                            Sustain <br /> Wear
+                        </a>
 
-            <!--Desktop-->
-            <nav class="navbar navbar-expand-lg desktop-nav" style="background-color:#C2A68C; padding:0.5vh; margin:0;">
-                <div class="container-fluid d-flex justify-content-between">
-                    <a href="Admin_Dashboard" class="navbar-brand fw-bold"
-                       style="color:#374F40; font-size:1.5rem; line-height:1;">
-                        Sustain <br /> Wear
-                    </a>
+                        <button class="navbar-toggler" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#adminMobileMenu">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
 
-                    <ul class="navbar-nav mb-0 me-3 d-flex flex-row">
-                        <li class="nav-item ms-3 btn"><a href="Doner_Donate" class="nav-link fw-bolder text-black">Manage<br />Donate</a></li>
-                        <li class="nav-item ms-3"><a href="Doner_Donation_History" class="nav-link fw-bolder text-black">Create<br />Donation <br /> History</a></li>
-                        <li class="nav-item ms-3"><a href="Doner_Delete_Account" class="nav-link fw-bolder text-black">Generate<br />Manage <br /> Account</a></li>
-                    </ul>
-                </div>
-            </nav>
+                        <div class="collapse navbar-collapse" id="adminMobileMenu">
+                            <ul class="navbar-nav ms-auto mt-2">
+                                <li class="nav-item border-bottom py-2"><a href="UniversalLogin" class="nav-link fw-bolder text-black">Donate</a></li>
+                                <li class="nav-item border-bottom py-2"><a href="UniversalLogin" class="nav-link fw-bolder text-black">Login</a></li>
+                                <li class="nav-item border-bottom py-2"><a href="SignUp" class="nav-link fw-bolder text-black">Sign Up</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+
+                <!--Desktop-->
+                <nav class="navbar navbar-expand-lg desktop-nav" style="background-color:#C2A68C; padding:0.5vh; margin:0;">
+                    <div class="container-fluid d-flex justify-content-between">
+                        <a href="Admin_Dashboard" class="navbar-brand fw-bold"
+                           style="color:#374F40; font-size:1.5rem; line-height:1;">
+                            Sustain <br /> Wear
+                        </a>
+
+                        <ul class="navbar-nav mb-0 me-3 d-flex flex-row">
+                            <li class="nav-item ms-3"><a href="UniversalLogin" class="btn fw-bolder text-black">Donate</a></li>
+                            <li class="nav-item ms-3"><a href="UniversalLogin" class="nav-link fw-bolder text-black">Login</a></li>
+                            <li class="nav-item ms-3"><a href="SignUp" class="nav-link fw-bolder text-black">Sign Up</a></li>
+                        </ul>
+                    </div>
+                </nav>
+            }
         }
     </header>
 
