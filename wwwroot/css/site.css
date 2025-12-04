@@ -96,6 +96,64 @@ body {
     padding: 0 10vw 0 10vw;
 }
 
+.big-card {
+    padding: 2rem !important;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+}
+
+    .big-card .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        height: 100%;
+    }
+
+    .big-card h4, .big-card h3 {
+        font-size: 2.3rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+
+    .big-card p {
+        font-size: 1.2rem;
+        margin: 0;
+        text-align: center;
+    }
+
+.big-card {
+    padding: 2rem !important;
+    min-height: 220px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+    .big-card .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+
+.metrics-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 70vh;
+}
+
+
 
 /*Index*/
 .hero-container {
@@ -117,7 +175,7 @@ body {
     bottom: 0;
     right: 0;
     background-color: #5D866C;
-    color: black;
+    color: White;
     font-weight: 600;
     padding: 1vh 2vw;
     text-decoration: none;

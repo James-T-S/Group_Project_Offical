@@ -2,61 +2,73 @@
 @model Group_Project_Offical.Pages.Stock_Manager_DashboardModel
 @{
     Layout = "_Layout";
-    ViewData["HideNav"] = true;
     ViewData["UserType"] = "stock manager";
 }
-<body>
 
-    <div class="d-flex flex-grow-1">
-        <div class="d-flex flex-column pt-4" style="width:250px; background-color:#C2A68C; min-height:100vh;">
-            <a href="Stock_Manager_Handle_Stock" class="text-decoration-none text-white py-3 px-4 d-block">Handle Stock</a>
-        </div>
+<div class="d-flex" style="min-height:100vh;">
+
+    <div style="width:250px; background-color:#C2A68C;" class="d-flex flex-column pt-4">
+        <a href="Stock_Manager_Handle_Stock" class="text-decoration-none text-black py-3 px-4 d-block">Handle Stock</a>
+
+        <a href="Doner_Delete_Account" class="text-decoration-none text-black py-3 px-4 d-block mt-auto">Manage Account</a>
     </div>
 
-    <div class="flex-grow-1">
-        <h1>Total Sustainability Metrics</h1>
+    <div class="flex-grow-1 p-4">
 
-        <h2>Overall System Impact</h2>
+        <h1 class="mb-4 text-center">Stock Manager Dashboard</h1>
 
-        <div class="row mb-4">
-            <div class="col-md-4 mb-3">
-                <div class="card">
-                    <h3>CO2 Saved</h3>
-                    <p>@Model.TotalMetrics.TotalCO2Saved kg</p>
-                    <p>Carbon dioxide reduction</p>
+        <div class="row mb-5">
+            <div class="col-12">
+                <h3 class="mb-3 text-center">Overall Sustainability Metrics</h3>
 
+                <div class="row">
+
+                    <div class="col-md-3 col-6 mb-3">
+                        <div class="card text-center bg-success text-white big-card">
+                            <div class="card-body">
+                                <h4>@Model.TotalMetrics.TotalCO2Saved.ToString("F1") kg</h4>
+                                <p>CO₂ Saved</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-6 mb-3">
+                        <div class="card text-center bg-info text-white big-card">
+                            <div class="card-body">
+                                <h4>@Model.TotalMetrics.TotalWaterSaved.ToString("F0") L</h4>
+                                <p>Water Saved</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-6 mb-3">
+                        <div class="card text-center bg-warning text-dark big-card">
+                            <div class="card-body">
+                                <h4>@Model.TotalMetrics.TotalLandfillReduction.ToString("F1") kg</h4>
+                                <p>Landfill Reduced</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-6 mb-3">
+                        <div class="card text-center bg-primary text-white big-card">
+                            <div class="card-body">
+                                <h4>@Model.TotalMetrics.TotalItemsSaved</h4>
+                                <p>Items Saved</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-6 mb-3">
+                        <div class="card text-center bg-secondary text-white big-card">
+                            <div class="card-body">
+                                <h4>@Model.TotalMetrics.TotalBeneficiariesSupported</h4>
+                                <p>People Helped</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <div>
-                <h3>Water Saved</h3>
-                <p>@Model.TotalMetrics.TotalWaterSaved liters</p>
-                <p>Water conservation</p>
-            </div>
-        </div>
-
-        <div class="col-md-4 mb-3">
-            <div class="card">
-                <h3>Landfill Reduced</h3>
-                <p>@Model.TotalMetrics.TotalLandfillReduction kg</p>
-                <p>Waste diversion from landfills</p>
-            </div>
-        </div>
-
-        <div class="col-md-4 mb-3">
-            <div class="card">
-                <h3>Items Saved</h3>
-                <p>@Model.TotalMetrics.TotalItemsSaved</p>
-                <p>Items rescued from disposal</p>
-            </div>
-        </div>
-
-        <div class="col-md-4 mb-3">
-            <div class="card">
-                <h3>Beneficiaries Supported</h3>
-                <p>@Model.TotalMetrics.TotalBeneficiariesSupported</p>
-                <p>People helped by donations</p>
-            </div>
         </div>
     </div>
-</body>
+</div>

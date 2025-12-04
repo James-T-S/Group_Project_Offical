@@ -7,60 +7,73 @@
 }
 
 <body>
-    <div class="d-flex flex-grow-1">
-        <div class="d-flex flex-column pt-4" style="width:250px; background-color:#C2A68C; min-height:100vh;">
-            <a href="Admin_Create_Staff_Accounts" class="text-decoration-none text-white py-3 px-4 d-block">Create Accounts</a>
-            <a href="Admin_Manage_Accounts" class="text-decoration-none text-white py-3 px-4 d-block">Manage Accounts</a>
-            <a href="Admin_Manage_Charity" class="text-decoration-none text-white py-3 px-4 d-block">Manage Charities</a>
-            <a href="Admin_Generate_Reports" class="text-decoration-none text-white py-3 px-4 d-block">Generate Reports</a>
+    <div class="d-flex" style="min-height:100vh;">
+
+        <div style="width:250px; background-color:#C2A68C;"
+             class="d-flex flex-column pt-4">
+
+            <a href="Admin_Create_Staff_Accounts" class="text-decoration-none text-black py-3 px-4 d-block">Create Accounts</a>
+            <a href="Admin_Manage_Accounts" class="text-decoration-none text-black py-3 px-4 d-block">Manage Accounts</a>
+            <a href="Admin_Manage_Charity" class="text-decoration-none text-black py-3 px-4 d-block">Manage Charities</a>
+            <a href="Admin_Generate_Reports" class="text-decoration-none text-black py-3 px-4 d-block">Generate Reports</a>
+
+            <a href="Doner_Delete_Account" class="text-decoration-none text-black py-3 px-4 d-block mt-auto">Manage Account</a>
         </div>
 
+        <div class="flex-grow-1 p-5">
 
-        <div class="d-flex flex-grow-1 align-content-center justify-content-center mt-5">
-            <h1>Total Sustainability Metrics</h1>
+            <h1 class="mb-4">Admin Dashboard</h1>
+            <h3 class="mb-4">Total Sustainability Metrics</h3>
 
-            <h2>Overall System Impact</h2>
+            <div class="metrics-wrapper">
+                <div class="row justify-content-center align-items-center" style="max-width: 1100px; width: 100%;">
 
-            <div class="row mb-4">
-                <div class="col-md-4 mb-3">
-                    <div class="card">
-                        <h3>CO2 Saved</h3>
-                        <p>@Model.TotalMetrics.TotalCO2Saved kg</p>
-                        <p>Carbon dioxide reduction</p>
+                    <div class="col-md-3 col-6 mb-3 d-flex">
+                        <div class="card bg-success text-white big-card w-100">
+                            <div class="card-body">
+                                <h4>@Model.TotalMetrics.TotalCO2Saved.ToString("F1") kg</h4>
+                                <p>CO₂ Saved</p>
+                            </div>
+                        </div>
                     </div>
-                </div>
 
-                <div class="col-md-4 mb-3">
-                    <div class="card">
-                        <h3>Water Saved</h3>
-                        <p>@Model.TotalMetrics.TotalWaterSaved liters</p>
-                        <p>Water conservation</p>
+                    <div class="col-md-3 col-6 mb-3 d-flex">
+                        <div class="card bg-info text-white big-card w-100">
+                            <div class="card-body">
+                                <h4>@Model.TotalMetrics.TotalWaterSaved.ToString("F0") L</h4>
+                                <p>Water Saved</p>
+                            </div>
+                        </div>
                     </div>
-                </div>
 
-                <div class="col-md-4 mb-3">
-                    <div class="card">
-                        <h3>Landfill Reduced</h3>
-                        <p>@Model.TotalMetrics.TotalLandfillReduction kg</p>
-                        <p>Waste diversion from landfills</p>
+                    <div class="col-md-3 col-6 mb-3 d-flex">
+                        <div class="card bg-warning text-dark big-card w-100">
+                            <div class="card-body">
+                                <h4>@Model.TotalMetrics.TotalLandfillReduction.ToString("F1") kg</h4>
+                                <p>Landfill Reduced</p>
+                            </div>
+                        </div>
                     </div>
-                </div>
 
-                <div class="col-md-4 mb-3">
-                    <div class="card">
-                        <h3>Items Saved</h3>
-                        <p>@Model.TotalMetrics.TotalItemsSaved</p>
-                        <p>Items rescued from disposal</p>
+                    <div class="col-md-3 col-6 mb-3 d-flex">
+                        <div class="card bg-primary text-white big-card w-100">
+                            <div class="card-body">
+                                <h4>@Model.TotalMetrics.TotalItemsSaved</h4>
+                                <p>Items Saved</p>
+                            </div>
+                        </div>
                     </div>
-                </div>
 
-                <div class="col-md-4 mb-3">
-                    <div class="card">
-                        <h3>Beneficiaries Supported</h3>
-                        <p>@Model.TotalMetrics.TotalBeneficiariesSupported</p>
-                        <p>People helped by donations</p>
+                    <div class="col-md-3 col-6 mb-3 d-flex">
+                        <div class="card bg-secondary text-white big-card w-100">
+                            <div class="card-body">
+                                <h4>@Model.TotalMetrics.TotalBeneficiariesSupported</h4>
+                                <p>People Helped</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 </body>
