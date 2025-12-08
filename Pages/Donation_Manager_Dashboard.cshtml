@@ -9,69 +9,118 @@
 <body>
     <div class="d-flex" style="min-height:100vh;">
 
-        <div style="width:250px; background-color:#C2A68C;"
-             class="d-flex flex-column pt-4">
+        <div style="width:250px; background-color:#C2A68C;" class="d-flex flex-column pt-2 fw-bold">
+            <a href="Donation_Manager_Dashboard" class="navbar-brand fw-bold text-center px-4 mb-4"
+               style="color:#374F40;font-size:2rem;line-height:1; align-self:center; margin:0 !important;">
+                Sustain <br /> Wear
+            </a>
 
-            <a href="/Donation_Manager_Incoming_Donations" class="text-decoration-none text-black py-3 px-4 d-block">Incoming Donations</a>
-            <a href="/Donation_Manager_Send_Donations" class="text-decoration-none text-black py-3 px-4 d-block">Send Stock</a>
+            <a href="/Donation_Manager_Incoming_Donations"
+               class="text-decoration-none text-black pt-5 px-4 d-block fw-bold text-center"
+               style="font-size:1.5rem;">
+               Incoming Donations
+            </a>
+            <a href="/Donation_Manager_Send_Donations"
+               class="text-decoration-none text-black pt-5 px-4 d-block fw-bold text-center"
+               style="font-size:1.5rem;">
+               Send Stock
+            </a>
 
-            <a href="Doner_Delete_Account" class="text-decoration-none text-black py-3 px-4 d-block mt-auto">Manage Account</a>
+            <a href="Doner_Delete_Account"
+               class="text-decoration-none text-black py-3 px-4 d-block mt-auto fw-bold text-center"
+               style="font-size:1.5rem;">
+               Manage Account
+            </a>
         </div>
 
         <div class="flex-grow-1 p-5">
 
-            <h1 class="mb-4">Donation Manager Dashboard</h1>
-            <h3 class="mb-4">Total Sustainability Metrics</h3>
+            <h1 class="mb-5">Donation Manager Dashboard</h1>
+            <h2 class="mt-4 mb-4">Total Sustainability Metrics</h2>
 
-            <div class="metrics-wrapper">
-                <div class="row justify-content-center align-items-center" style="max-width: 1100px; width: 100%;">
-
-                    <div class="col-md-3 col-6 mb-3 d-flex">
-                        <div class="card bg-success text-white big-card w-100">
-                            <div class="card-body">
-                                <h4>@Model.TotalMetrics.TotalCO2Saved.ToString("F1") kg</h4>
-                                <p>CO₂ Saved</p>
+            <div class="metrics-wrapper pt-4 pb-2 mb-4">
+                <div class="row row-cols-xl-5 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 g-4 mx-0" style="max-width: 1200px; width: 100%;">
+                    <div class="col d-flex">
+                        <div class="card card-co2 text-white metric-card w-100 text-center">
+                            <div class="card-body py-4">
+                                <h4 class="metric-value">@Model.TotalMetrics.TotalCO2Saved.ToString("F1") kg</h4>
+                                <p class="metric-label mb-0">CO₂ Saved</p>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-md-3 col-6 mb-3 d-flex">
-                        <div class="card bg-info text-white big-card w-100">
-                            <div class="card-body">
-                                <h4>@Model.TotalMetrics.TotalWaterSaved.ToString("F0") L</h4>
-                                <p>Water Saved</p>
+                    <div class="col d-flex">
+                        <div class="card card-water text-white metric-card w-100 text-center">
+                            <div class="card-body py-4">
+                                <h4 class="metric-value">@Model.TotalMetrics.TotalWaterSaved.ToString("F0") L</h4>
+                                <p class="metric-label mb-0">Water Saved</p>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-md-3 col-6 mb-3 d-flex">
-                        <div class="card bg-warning text-dark big-card w-100">
-                            <div class="card-body">
-                                <h4>@Model.TotalMetrics.TotalLandfillReduction.ToString("F1") kg</h4>
-                                <p>Landfill Reduced</p>
+                    <div class="col d-flex">
+                        <div class="card card-landfill metric-card w-100 text-center">
+                            <div class="card-body py-4">
+                                <h4 class="metric-value">@Model.TotalMetrics.TotalLandfillReduction.ToString("F1") kg</h4>
+                                <p class="metric-label mb-0">Landfill Reduced</p>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-md-3 col-6 mb-3 d-flex">
-                        <div class="card bg-primary text-white big-card w-100">
-                            <div class="card-body">
-                                <h4>@Model.TotalMetrics.TotalItemsSaved</h4>
-                                <p>Items Saved</p>
+                    <div class="col d-flex">
+                        <div class="card card-items text-white metric-card w-100 text-center">
+                            <div class="card-body py-4">
+                                <h4 class="metric-value">@Model.TotalMetrics.TotalItemsSaved</h4>
+                                <p class="metric-label mb-0">Items Saved</p>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-md-3 col-6 mb-3 d-flex">
-                        <div class="card bg-secondary text-white big-card w-100">
-                            <div class="card-body">
-                                <h4>@Model.TotalMetrics.TotalBeneficiariesSupported</h4>
-                                <p>People Helped</p>
+                    <div class="col d-flex">
+                        <div class="card card-people text-white metric-card w-100 text-center">
+                            <div class="card-body py-4">
+                                <h4 class="metric-value">@Model.TotalMetrics.TotalBeneficiariesSupported</h4>
+                                <p class="metric-label mb-0">People Helped</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <h4 class="mb-4">
+                We are incredibly proud to celebrate the significant milestones SustainWear
+                has reached in our commitment to environmental stewardship. Your collective
+                across all teams have translated into tangible, measurable positive impacts
+                that reinforce our mission as a responsible charitable distribution organization.
+                Thanks to your dedication to optimized logistics and sustainable sourcing,
+                we are delighted to announce that in the last period, we successfully saved
+                over 200 metric tons of material from landfill, ensuring that valuable resources
+                were channeled back into communities instead of contributing to waste burdens.
+                Furthermore, your efforts in route optimization, consolidating shipments, and
+                increasing the use of lower-emission transportation partners have helped us
+                prevent the emission of 300 metric tons of C02 equivalent. This reduction is
+                vital in combating climate change and reducing our operational footprint,
+                and we have also enhanced the lifespan of 1000 units of clothing
+                and goods, extending their utility and delaying the need for new production,
+                which inherently conserves water, energy, and raw materials. These achievements
+                are not merely numbers; they represent thousands of deliberate, sustainable choices
+                made by each of you, and this success belongs to everyone at SustainWear!<br /><br />While we pause
+                to recognize these accomplishments, the pursuit of a fully circular and sustainable future
+                demands continuous improvement. For the upcoming cycle, we are setting even more ambitious
+                targets to cement SustainWear's leadership in ethical operations, focusing on three key areas:
+                First, our major objective is to reduce our non-recyclable packaging waste by an additional 15%,
+                which will involve implementing new, standardized reusable tote systems and transitioning entirely
+                to compostable mailing materials. Second, we will be deepening our efforts in supply chain
+                transparency, investing in new tracking technology to achieve 100% visibility on the origin and
+                environmental cost of our sourced materials by the end of the second quarter, ensuring our ethical
+                standards extend to every component we distribute. Finally, a crucial focus will be on the
+                reduction of our facility-level energy consumption by 10%, and we urge all staff to actively
+                participate by being mindful of lighting, HVAC usage, and optimizing machinery run times.
+                I urge every employee to embrace this renewed challenge; your ingenuity, operational
+                efficiency, and commitment are the driving forces behind our ability to meet these next-generation metrics.
+                Let us maintain this momentum, continue to innovate, and proudly lead the way in responsible
+                distribution. By working together, we will ensure SustainWear remains synonymous with positive impact.
+            </h4>
         </div>
     </div>
 </body>
