@@ -170,9 +170,8 @@ body {
     .index-sustainability div {
         display: flex;
         flex: 1;
-        max-width: 25vw;
+        max-width: 30vw;
         flex-direction: column;
-        justify-content: center;
         box-sizing: border-box;
     }
 
@@ -319,9 +318,9 @@ body {
 }
 
 .metric-card {
-    border-radius: 1rem; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-    transition: transform 0.2s; 
+    border-radius: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
 }
 
     .metric-card:hover {
@@ -335,23 +334,27 @@ body {
 }
 
 .metric-label {
-    font-size: 0.9rem; 
+    font-size: 0.9rem;
     opacity: 0.8;
 }
 
 .card-co2 {
     background-color: #28a745;
 }
+
 .card-water {
     background-color: #007bff;
 }
+
 .card-landfill {
     background-color: #ffc107;
     color: #212529 !important;
 }
+
 .card-items {
     background-color: #6c757d;
 }
+
 .card-people {
     background-color: #17a2b8;
 }
@@ -421,4 +424,18 @@ select {
     .mobile-nav {
         display: block !important;
     }
+
+    .index-sustainability {
+        gap: 20px;
+    }
+
+        .index-sustainability div {
+            margin: 0;
+            padding-bottom: 1rem;
+            max-width: 35vw;
+        }
+
+        .index-sustainability img {
+            min-width: 30vw !important;
+        }
 }
