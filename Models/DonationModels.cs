@@ -79,11 +79,11 @@ namespace Group_Project_Offical.Models
         public string ItemName { get; set; }
         public string Description { get; set; }
 
-        public string size { get; set; }
+        public string Size { get; set; }
 
-        public string gender { get; set; }
+        public string Gender { get; set; }
 
-        public string condition { get; set; }
+        public string Condition { get; set; }
 
         public string Photourl { get; set; }
 
@@ -98,5 +98,6 @@ namespace Group_Project_Offical.Models
         public int? ProcessedBy { get; set; }
 
         public string CategoryName { get; set; } = string.Empty;
-    }
+		public decimal EstimatedValue { get; set; }
+	}
 }

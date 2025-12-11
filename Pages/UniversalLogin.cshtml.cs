@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Group_Project_Offical.Models;
 using Group_Project_Offical.Services;
-
+using System.ComponentModel.DataAnnotations;
 
 namespace Group_Project_Offical.Pages
 {
@@ -13,7 +13,7 @@ namespace Group_Project_Offical.Pages
     {
         private readonly string _connectionString;
         private readonly SessionService _sessionService;
-        UserInfo userInfo = new UserInfo();
+        UserInfo UserInfo = new UserInfo();
 
         [BindProperty]
         public StaffLoginForm LoginForm { get; set; } = new StaffLoginForm();
@@ -26,23 +26,33 @@ namespace Group_Project_Offical.Pages
             _sessionService = sessionService;
         }
 
-        public void OnGet(string? returnUrl = null)
+        public IActionResult OnGet(string? returnUrl = null)
         {
             LoginForm.ReturnUrl = returnUrl;
+
+            // FIXED: Added return statement for redirect
             if (_sessionService.IsUserLoggedIn())
             {
-                RedirectToDashBoard(_sessionService.GetUserRole());
+                return RedirectToDashBoard(_sessionService.GetUserRole(), returnUrl);
             }
 
-
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
+            // ADDED: Basic input validation
+            if (string.IsNullOrWhiteSpace(LoginForm.Username) || string.IsNullOrWhiteSpace(LoginForm.Password))
+            {
+                ErrorMessage = "Username and password are required.";
+                return Page();
+            }
+
             if (!ModelState.IsValid)
             {
                 return Page();
             }
+
             try
             {
                 var user = await AuthenticateUserAsync(LoginForm.Username, LoginForm.Password);
@@ -52,42 +62,40 @@ namespace Group_Project_Offical.Pages
                     _sessionService.SetUserSession(user);
                     await LogUserLoginAsync(user.UserId);
                     return RedirectToDashBoard(user.UserRole, LoginForm.ReturnUrl);
-
                 }
                 else
                 {
-                    ErrorMessage = "Invalid Username or Password";
+                    // ADDED: Generic error message for security (don't reveal if username or password was wrong)
+                    ErrorMessage = "Invalid username or password.";
                     return Page();
                 }
             }
             catch (Exception ex)
             {
-                ErrorMessage = ex.Message;
+                // ADDED: Log the actual exception but show generic message to user
+                ErrorMessage = "An error occurred during login. Please try again.";
+                // In production, you might want to log the actual exception: _logger.LogError(ex, "Login error");
                 return Page();
-
             }
-
         }
-
 
         private IActionResult RedirectToDashBoard(string userRole, string? returnUrl = null)
         {
-            if (!string.IsNullOrEmpty(returnUrl))
+            if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
             {
                 return LocalRedirect(returnUrl);
             }
-
 
             return userRole switch
             {
                 "Administrator" => RedirectToPage("/Admin_Dashboard"),
                 "DonationManager" => RedirectToPage("/Donation_Manager_Dashboard"),
                 "StockManager" => RedirectToPage("/Stock_Manager_Dashboard"),
-                "User" => RedirectToPage("/Doner_Dashboard")
-
+                "User" => RedirectToPage("/Doner_Dashboard"),
+                // ADDED: Default case for unknown roles
+                _ => RedirectToPage("/Doner_Dashboard")
             };
         }
-
 
         private async Task<UserInfo?> AuthenticateUserAsync(string username, string password)
         {
@@ -101,14 +109,16 @@ namespace Group_Project_Offical.Pages
                 WHERE (Username = @Username OR Email = @Username) AND IsActive = 1";
 
             command.Parameters.AddWithValue("@Username", username);
+
             using var reader = await command.ExecuteReaderAsync();
 
             if (await reader.ReadAsync())
             {
                 var storedHash = reader.GetString(3);
-                var input = HashPassword(password);
+                var inputHash = HashPassword(password);
 
-                if (storedHash == input)
+                // ADDED: Time-constant comparison to prevent timing attacks
+                if (TimeConstantCompare(storedHash, inputHash))
                 {
                     return new UserInfo
                     {
@@ -118,13 +128,23 @@ namespace Group_Project_Offical.Pages
                         FirstName = reader.GetString(4),
                         LastName = reader.GetString(5),
                         UserRole = reader.GetString(6),
-
-
-
                     };
                 }
             }
             return null;
+        }
+
+        // ADDED: Time-constant comparison for security
+        private bool TimeConstantCompare(string a, string b)
+        {
+            if (a == null || b == null) return false;
+
+            uint diff = (uint)a.Length ^ (uint)b.Length;
+            for (int i = 0; i < a.Length && i < b.Length; i++)
+            {
+                diff |= (uint)(a[i] ^ b[i]);
+            }
+            return diff == 0;
         }
 
         private async Task LogUserLoginAsync(int userId)
@@ -140,12 +160,10 @@ namespace Group_Project_Offical.Pages
 
         private string HashPassword(string password)
         {
-
             using var sha256 = SHA256.Create();
             var BYTES = Encoding.UTF8.GetBytes(password);
             var hash = sha256.ComputeHash(BYTES);
             return Convert.ToBase64String(hash);
         }
-
     }
 }

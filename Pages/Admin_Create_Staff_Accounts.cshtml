@@ -1,4 +1,129 @@
 ﻿@page
 @model Group_Project_Offical.Pages.Admin_Create_Staff_AccountsModel
 @{
+    ViewData["Title"] = "Create Staff";
+    ViewData["UserType"] = "admin";
 }
+
+<div class="d-flex flex-column align-items-center mt-4">
+
+    <h1 class="mb-4">Create Staff Accounts</h1>
+
+    <div class="card p-4 shadow-sm mb-5 form-background" style="width: 100%; max-width: 600px;">
+
+        @if (!string.IsNullOrEmpty(Model.Message))
+        {
+                <div class="alert alert-success mb-2">@Model.Message</div>
+        }
+
+        @if (!string.IsNullOrEmpty(Model.ErroredMessage))
+        {
+                <div class="alert alert-danger mb-2">@Model.ErroredMessage</div>
+        }
+
+        <form method="post">
+
+            <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="StaffForm.FirstName" class="form-label"></label>
+                <input asp-for="StaffForm.FirstName" class="form-control" />
+                <span asp-validation-for="StaffForm.FirstName" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="StaffForm.LastName" class="form-label"></label>
+                <input asp-for="StaffForm.LastName" class="form-control" />
+                <span asp-validation-for="StaffForm.LastName" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="StaffForm.UserName" class="form-label"></label>
+                <input asp-for="StaffForm.UserName" class="form-control" />
+                <span asp-validation-for="StaffForm.UserName" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="StaffForm.Email" class="form-label"></label>
+                <input asp-for="StaffForm.Email" class="form-control" />
+                <span asp-validation-for="StaffForm.Email" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="StaffForm.Password" class="form-label"></label>
+                <input asp-for="StaffForm.Password" type="password" class="form-control" />
+                <span asp-validation-for="StaffForm.Password" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="StaffForm.ConfirmPassword" class="form-label">Confirm Password</label>
+                <input asp-for="StaffForm.ConfirmPassword" type="password" class="form-control" />
+                <span asp-validation-for="StaffForm.ConfirmPassword" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="StaffForm.Address" class="form-label"></label>
+                <input asp-for="StaffForm.Address" class="form-control" />
+                <span asp-validation-for="StaffForm.Address" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="StaffForm.PhoneNumber" class="form-label"></label>
+                <input asp-for="StaffForm.PhoneNumber" class="form-control" />
+                <span asp-validation-for="StaffForm.PhoneNumber" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="StaffForm.Role" class="form-label">Role</label>
+                <select id="roleSelect" asp-for="StaffForm.Role" class="form-select">
+                    <option value="">-- select role --</option>
+                    <option value="DonationManager">Donation Manager</option>
+                    <option value="StockManager">Stock Manager</option>
+                    <option value="User">User</option>
+                </select>
+                <span asp-validation-for="StaffForm.Role" class="text-danger small"></span>
+            </div>
+
+            <!-- Charity Selection (Hidden by default, shown via JS) -->
+            <div id="charitySection" class="mb-4" style="display:none;">
+                <label asp-for="StaffForm.AssignedCharityID" class="form-label">Assign Charity</label>
+                <select asp-for="StaffForm.AssignedCharityID" asp-items="Model.CharityOptions" class="form-select">
+                    <option value="">-- select charity to link --</option>
+                </select>
+                <span asp-validation-for="StaffForm.AssignedCharityID" class="text-danger small"></span>
+                <div class="form-text">Managers must be linked to a charity.</div>
+            </div>
+
+            <div class="text-center d-flex justify-content-center mb-3 mt-3">
+                <button type="submit" class="btn btn-primary">Create Account</button>
+            </div>
+
+        </form>
+
+        <div class="text-center d-flex justify-content-center">
+            <a href="Admin_Dashboard" class="btn btn-secondary">Return</a>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var roleSelect = document.getElementById('roleSelect');
+            var charitySection = document.getElementById('charitySection');
+
+            function toggleCharity() {
+                var role = roleSelect.value;
+                if (role === 'DonationManager' || role === 'StockManager') {
+                    charitySection.style.display = 'block';
+                } else {
+                    charitySection.style.display = 'none';
+                }
+            }
+
+            // Run on load and on change
+            roleSelect.addEventListener('change', toggleCharity);
+            toggleCharity(); 
+        });
+    </script>
+
+</div>

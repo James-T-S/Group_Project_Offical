@@ -1,72 +1,66 @@
 ﻿@page
 @model Group_Project_Offical.Pages.UniversalLoginModel
 @{
-
+    Layout = "_Layout";
+    ViewData["HideNav"] = true;
 }
 
 <!DOCTYPE html>
-    <head>
-         <title>@ViewData["Title"]</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1"
+<html lang="en">
+<head>
+    <title>@ViewData["Title"]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body>
+    <div class="d-flex flex-column align-items-center min-vh-100 form-background">
+        <h1 class="roboto-black mt-4">Welcome</h1>
+        <div class="card p-4 shadow-sm mb-5 form-background w-100" style="max-width:400px;">
 
-    </head>
-    <body>
-        <div>
-            <div>
-                <div>
-                    <h1>Welcome</h1>
-                   <p>Please Sign into your account</p>
-                </div>
-                <div>
-                    <span>Admin</span>
-                    <span>Donation Manager</span>
-                    <span>Stock Manager</span>
-                    <span>Doner</span>
-                </div>
+            <p class="login-p text-center mb-4">Please Sign In</p>
+
             @if (!string.IsNullOrEmpty(Model.Message))
             {
-                   <div>
+                    <div class="alert alert-info d-flex justify-content-between align-items-center">
                     @Model.Message
-                       <button type="button">x</button>
-                       </div>
-
+                        <button type="button" class="btn-close"></button>
+                    </div>
             }
 
             @if (!string.IsNullOrEmpty(Model.ErrorMessage))
             {
-                          <div>
+                    <div class="alert alert-danger d-flex justify-content-between align-items-center">
                     @Model.ErrorMessage
-                           <button type="button">x</button>
-                           </div>
-
+                        <button type="button" class="btn-close"></button>
+                    </div>
             }
-            <form method="post">
-                <input type="hidden" asp-for="LoginForm.ReturnUrl"/>
 
+            <form method="post" class="login-form d-flex flex-column align-items-center w-100">
+                <input type="hidden" asp-for="LoginForm.ReturnUrl" />
 
-                <div>
-                  <label asp-for="LoginForm.Username">Username</label>
-                  <input asp-for="LoginForm.Username"/>
-                  <span asp-validation-for="LoginForm.Username"></span>
+                <div class="mb-3 w-100">
+                    <label asp-for="LoginForm.Username" class="form-label">Username</label>
+                    <input asp-for="LoginForm.Username" class="form-control" />
+                    <span asp-validation-for="LoginForm.Username" class="text-danger"></span>
                 </div>
 
-                 <div>
-                  <label asp-for="LoginForm.Password">Password</label>
-                  <input asp-for="LoginForm.Password"/>
-                  <span asp-validation-for="LoginForm.Password"></span>
+                <div class="mb-3 w-100">
+                    <label asp-for="LoginForm.Password" class="form-label">Password</label>
+                    <input asp-for="LoginForm.Password" class="form-control" />
+                    <span asp-validation-for="LoginForm.Password" class="text-danger"></span>
                 </div>
 
-                <div>
-                  <input asp-for="LoginForm.RememberMe" type="checkbox"/>
-                  <label asp-for="LoginForm.RememberMe">Remember Me</label>
+                <div class="form-check mb-4 w-100">
+                    <input asp-for="LoginForm.RememberMe" type="checkbox" class="form-check-input" id="rememberCheck" />
+                    <label asp-for="LoginForm.RememberMe" class="form-check-label" for="rememberCheck">Remember Me</label>
                 </div>
 
-                <div>
-                    <button type="submit">Sign In</button>
+                <button type="submit" class="btn btn-primary w-100 py-2">Sign In</button>
+
+                <div class="mt-3 text-center">
+                    <a href="/SignUp" class="text-decoration-none">Don't have an account? Sign up here</a>
                 </div>
             </form>
         </div>
-        </div>
-
-    </body>
+    </div>
+</body>
 </html>

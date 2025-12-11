@@ -14,6 +14,9 @@ namespace Group_Project_Offical.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
+
+
+
         public void SetUserSession(UserInfo user)
         {
             var session = _httpContextAccessor.HttpContext?.Session;
@@ -64,6 +67,7 @@ namespace Group_Project_Offical.Services
         {
             return _httpContextAccessor.HttpContext?.Session.GetString("UserRole") ?? "";
         }
+
 
         public int GetUserId()
         {

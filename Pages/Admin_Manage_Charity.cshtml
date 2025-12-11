@@ -1,0 +1,136 @@
+﻿@page
+@model Group_Project_Offical.Pages.Admin_Manage_CharityModel
+@{
+    ViewData["UserType"] = "admin";
+}
+
+<div class="container d-flex flex-column" style="margin:0 auto;">
+
+    <div class="d-flex align-items-center flex-column">
+        <h1 class="mb-4" style="font-family: 'Roboto', sans-serif; font-weight: 800;">Manage Charities</h1>
+
+        @if (!string.IsNullOrWhiteSpace(Model.errormessage))
+        {
+            <div class="alert alert-danger w-100 text-center">@Model.errormessage</div>
+        }
+        @if (!string.IsNullOrWhiteSpace(Model.Message))
+        {
+            <div class="alert alert-success w-100 text-center">@Model.Message</div>
+        }
+
+        <form method="post" class="card p-4 shadow-sm mb-5 form-background align-items-center" style="max-width:80vw; width:80%;" asp-page-handler="">
+            <h2 class="mb-4 text-center">Create Charity</h2>
+
+            <div class="mb-3 w-100" style="max-width:70vw;">
+                <label class="form-label">Charity Name *</label>
+                <input asp-for="charity.CharityName" class="form-control text-center" required />
+                <span asp-validation-for="charity.CharityName" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3 w-100" style="max-width:70vw;">
+                <label class="form-label">Description *</label>
+                <textarea asp-for="charity.Description" class="form-control text-center" rows="4" required></textarea>
+                <span asp-validation-for="charity.Description" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3 w-100" style="max-width:70vw;">
+                <label class="form-label">Email *</label>
+                <input asp-for="charity.Email" class="form-control text-center" required />
+                <span asp-validation-for="charity.Email" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3 w-100" style="max-width:70vw;">
+                <label class="form-label">Phone Number *</label>
+                <input asp-for="charity.PhoneNum" class="form-control text-center" required />
+                <span asp-validation-for="charity.PhoneNum" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3 w-100" style="max-width:70vw;">
+                <label class="form-label">Address *</label>
+                <input asp-for="charity.Address" class="form-control text-center" required />
+                <span asp-validation-for="charity.Address" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3 w-100" style="max-width:70vw;">
+                <label class="form-label">Registration Number *</label>
+                <input asp-for="charity.RegistrationNum" class="form-control text-center" required />
+                <span asp-validation-for="charity.RegistrationNum" class="text-danger"></span>
+            </div>
+
+            <div class="form-check mb-3 w-100" style="max-width:70vw;">
+                <input asp-for="charity.IsActive" class="form-check-input" id="IsActiveCheck" />
+                <label class="form-check-label fs-5" for="IsActiveCheck">Active</label>
+            </div>
+
+            <button type="submit" class="btn btn-success px-5 text-center" style="display:flex; justify-content:center; align-items:center;">Create</button>
+        </form>
+    </div>
+
+    <hr class="w-100" />
+
+    <form method="get" class="mb-4 d-flex gap-2 w-100 justify-content-center">
+        <input type="text" name="query" value="@Model.query" placeholder="please enter to search" class="form-control w-auto" />
+        <button type="submit" class="btn text-center">Search</button>
+    </form>
+
+    <h2 class="mb-3 text-center">Charities</h2>
+
+    @if (Model.c == null || Model.c.Count == 0)
+    {
+        <p class="text-center">No charities Found</p>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped text-center align-middle custom-table text-nowrap">
+                <thead style="background-color: #C2A68C;">
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Registration</th>
+                        <th>Registered</th>
+                        <th>Active</th>
+                        <th>Freeze/Unfreeze</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    @foreach (var x in Model.c)
+                    {
+                        <tr>
+                            <td style="white-space: nowrap;">@x.CharityID</td>
+                            <td style="white-space: nowrap;">@x.CharityName</td>
+                            <td style="white-space: nowrap;">@x.Email</td>
+                            <td style="white-space: nowrap;">@x.PhoneNum</td>
+                            <td style="white-space: nowrap;">@x.RegistrationNum</td>
+                            <td style="white-space: nowrap;">@(x.DateRegistered?.Split('T')[0] ?? "N/A")</td>
+                            <td style="white-space: nowrap;">@(x.IsActive ? "Yes" : "No")</td>
+
+                            <td>
+                                <div class="d-flex justify-content-center">
+                                    <form method="post" asp-page-handler="ToggleActive" class="d-inline w-auto">
+                                        <input type="hidden" name="charityID" value="@x.CharityID" />
+                                        <input type="hidden" name="makeActive" value="@(!x.IsActive)" />
+                                        <button type="submit" class="btn">
+                                            @(x.IsActive ? "Freeze" : "Activate")
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex justify-content-center">
+                                    <form method="post" asp-page-handler="ToggleDelete" class="d-inline w-auto" onsubmit="return confirm('Delete this charity?');">
+                                        <input type="hidden" name="charityID" value="@x.CharityID" />
+                                        <button type="submit" class="btn">Delete</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
