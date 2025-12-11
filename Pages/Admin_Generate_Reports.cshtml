@@ -6,10 +6,10 @@
 
 
 <body>
-    <div class="content-wrapper mt-5 text-center">
+    <div class="content-wrapper mt-5 text-center d-flex align-items-center flex-column">
         <h1 class="roboto-black">Total Sustainability Metrics</h1>
 
-        <div class="mt-5">
+        <div class="card p-4 shadow-sm mb-5 form-background" style="max-width:40vw; width:40%;">
             <h2>Overall System Impact</h2>
 
             <div class="mt-5">
@@ -37,14 +37,14 @@
             </div>
 
             <div class="mt-4">
-                <h3 >Beneficiaries Supported</h3>
+                <h3>Beneficiaries Supported</h3>
                 <p>@Model.TotalMetrics.TotalBeneficiariesSupported</p>
                 <p>People helped by donations</p>
             </div>
         </div>
-        <form method="post" asp-page-handler="GeneratePdf" class="mt-5">
+        <form method="post" asp-page-handler="GeneratePdf">
             <button type="submit" class="btn d-block mx-auto">Export to PDF</button>
         </form>
-        <p class="mt-3">Download a PDF report showing the total sustainability metrics for the entire system.</p>
+            <p class="mb-5" style="max-width:400px;">Download a PDF report showing the total sustainability metrics for the entire system.</p>
     </div>
 </body>

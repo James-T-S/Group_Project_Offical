@@ -77,16 +77,20 @@
                                 }
                             </td>
                             <td>
-                                <form method="post" asp-page-handler="Accept">
-                                    <input type="hidden" name="donationId" value="@d.DonationID" />
-                                    <button type="submit" class="btn btn-success btn-sm">Accept</button>
-                                </form>
+                                <div class="d-flex justify-content-center">
+                                    <form method="post" asp-page-handler="Accept">
+                                        <input type="hidden" name="donationId" value="@d.DonationID" />
+                                        <button type="submit" class="btn btn-success btn-sm">Accept</button>
+                                    </form>
+                                </div>
                             </td>
                             <td>
-                                <form method="post" asp-page-handler="Reject" onsubmit="return confirm('Are you sure you want to reject and delete this donation?');">
-                                    <input type="hidden" name="donationId" value="@d.DonationID" />
-                                    <button type="submit" class="btn btn-danger btn-sm">Reject</button>
-                                </form>
+                                <div class="d-flex justify-content-center">
+                                    <form method="post" asp-page-handler="Reject" onsubmit="return confirm('Are you sure you want to reject and delete this donation?');">
+                                        <input type="hidden" name="donationId" value="@d.DonationID" />
+                                        <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     }

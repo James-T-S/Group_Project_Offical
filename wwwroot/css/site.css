@@ -411,12 +411,6 @@ select {
         padding: 0 5vw 0 5vw;
     }
 
-    .form-background {
-        box-shadow: none !important;
-        background-color: #F5F5F0 !important;
-        border: none !important;
-    }
-
     .desktop-nav {
         display: none !important;
     }

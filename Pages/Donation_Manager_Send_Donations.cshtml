@@ -76,11 +76,13 @@
                                 </ul>
                             }
                         </td>
-                        <td class="d-flex justify-content-center align-items-center">
-                            <form method="post" asp-page-handler="Ship">
-                                <input type="hidden" name="donationId" value="@d.DonationID" />
-                                <button type="submit">Ship Item</button>
-                            </form>
+                        <td>
+                            <div class="d-flex justify-content-center">
+                                <form method="post" asp-page-handler="Ship">
+                                    <input type="hidden" name="donationId" value="@d.DonationID" />
+                                    <button type="submit" class="btn">Ship Item</button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 }

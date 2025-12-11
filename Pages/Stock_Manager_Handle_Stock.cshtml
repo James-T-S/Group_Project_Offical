@@ -11,9 +11,9 @@
 
             @if (Model.Id != null)
             {
-                                                <text>
-                                                    new bootstrap.Modal(document.getElementById('donationModal')).show();
-                                                </text>
+                    <text>
+                        new bootstrap.Modal(document.getElementById('donationModal')).show();
+                    </text>
             }
 
             const sel = document.getElementById("ItemSelect");
@@ -75,8 +75,10 @@
                                     <div>@item.ItemName</div>
                                 }
                             </td>
-                            <td class="d-flex justify-content-center align-items-center">
-                                <a href="?id=@donation.DonationID" class="btn">Edit</a>
+                            <td>
+                                <div class="d-flex justify-content-center">
+                                    <a href="?id=@donation.DonationID" class="btn">Edit</a>
+                                </div>
                             </td>
                         </tr>
                     }

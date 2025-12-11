@@ -50,23 +50,27 @@
                         <td>@u.Email</td>
                         <td>@u.UserRole</td>
                         <td>@(u.IsActive ? "Yes" : "No")</td>
-                        <td class="justify-content-center align-items-center">
-                            <form method="post" asp-page-handler="ToggleActive">
-                                <div class="mb-3">
-                                    <input type="hidden" name=Username value="@u.Username" class="form-control" />
-                                    <input type="hidden" name="MakeActive" value="@(u.IsActive ? "false" : "true")" class="form-control" />
-                                    <button type="submit" class="btn">@(u.IsActive ? "Freeze" : "Unfreeze")</button>
-                                </div>
-                            </form>
+                        <td>
+                            <div class="d-flex justify-content-center">
+                                <form method="post" asp-page-handler="ToggleActive">
+                                    <div class="mb-3">
+                                        <input type="hidden" name=Username value="@u.Username" class="form-control" />
+                                        <input type="hidden" name="MakeActive" value="@(u.IsActive ? "false" : "true")" class="form-control" />
+                                        <button type="submit" class="btn">@(u.IsActive ? "Freeze" : "Unfreeze")</button>
+                                    </div>
+                                </form>
+                            </div>
                         </td>
 
-                        <td class="justify-content-center align-items-center">
-                            <form method="post" asp-page-handler="Delete" onsubmit="return confirm('Delete @u.Username?');">
-                                <div class="mb-3">
-                                    <input type="hidden" name=Username value="@u.Username" class="form-control" />
-                                    <button type="submit" class="btn btn-light">Delete</button>
-                                </div>
-                            </form>
+                        <td>
+                            <div class="d-flex justify-content-center">
+                                <form method="post" asp-page-handler="Delete" onsubmit="return confirm('Delete @u.Username?');">
+                                    <div class="mb-3">
+                                        <input type="hidden" name=Username value="@u.Username" class="form-control" />
+                                        <button type="submit" class="btn btn-light">Delete</button>
+                                    </div>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 }
