@@ -20,7 +20,7 @@ User Logins:
 4.Username: testing2 Password: Hak12345 Role Type: Stock Manager
 
 Work flow works as:
-Admin Creates Charity and the two manager types(donation and stock).
+Admin Creates Charity and the two manager types(donation and stock),
 User creates account and then donation linking to charity,
 Donation Manager accepts or rejects stock,
 Donation Manager Confirm item has been ship,
