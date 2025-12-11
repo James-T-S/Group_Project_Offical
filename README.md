@@ -1,24 +1,31 @@
 # Group_Project_Offical
 
-1.To change Users permission you must change UserRole in Users
+SustainWear
 
-2.There are 4 types of users {Admin,User,DonationManager,StockManager}
+Prerequisites:
+.NET SDK
+Visual Studio 2022
+SQLite
 
-3.Work flow works as;
+There are 4 types of users:
+Admin
+User
+Donation Manager
+Stock Manager
 
-3.1 Admin Creates Charity and the two manager types(donation and stock)
+User Logins:
+1.Username: Q Password: Hak12345 Role Type: Admin
+2.Username: User Password: Hak12345 Role Type: User
+3.Username: testing Password: Hak12345 Role Type: Donation Manager
+4.Username: testing2 Password: Hak12345 Role Type: Stock Manager
 
-3.2 User creates account and then donation linking to charity
+Work flow works as:
+Admin Creates Charity and the two manager types(donation and stock).
+User creates account and then donation linking to charity.
+Donation Manager accepts or rejects stock.
+Donation Manager Confirm item has been ship.
+Stock Manager changes status confirming once recieved sold ect.
 
-3.3 Donation Manager accepts or rejects stock
 
-3.4 Donation Manager Confirm item has been ship
-
-3.5 Stock Manager changes status confirming once recieved sold ect
-
-
-IMPORTANT!
-
-1.Sustanbility report on Admin will launch as pdf
-
-2.Nothing will appear launch it as a notepad all data will appear
+Sustanbility report on Admin will launch as pdf.
+Nothing will appear launch it as a notepad all data will appear.
