@@ -1,4 +1,70 @@
 ﻿@page
+@using static Group_Project_Offical.Pages.Stock_Manager_Recieve_StockModel
 @model Group_Project_Offical.Pages.Stock_Manager_Recieve_StockModel
 @{
+    Layout = "_Layout";
+    ViewData["HideNav"] = true;
+    ViewData["UserType"] = "stock manager";
 }
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>@ViewData["Title"]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+
+<body>
+    <div class="container my-5 px-3">
+        <h1 class="mb-4" style="font-family: 'Roboto', sans-serif; font-weight: 800;">Incoming Donations</h1>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped text-center align-middle custom-table text-nowrap">
+                <thead style="background-color: #C2A68C;">
+                    <tr>
+                        <th>Donation ID</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Items</th>
+                        <th>Approve</th>
+                        <th>Disapprove</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    @foreach (Donation donation in Model.Donations)
+                    {
+                        if (donation.Status == "shipped")
+                        {
+                            <tr class="bg-light">
+                                <td>@donation.DonationID</td>
+                                <td>@donation.ExpectedDeliveryDate</td>
+                                <td>@donation.Status</td>
+                                <td>
+                                    <select class="form-select select">
+                                        @foreach (DonationItem item in donation.Items)
+                                        {
+                                            <option>@item.ItemName</option>
+                                        }
+                                    </select>
+                                </td>
+                                <td class="text-center">
+                                    <form method="post" asp-page-handler="Approve" class="d-flex justify-content-center">
+                                        <input type="hidden" name="Id" value="@donation.DonationID" />
+                                        <button type="submit" class="btn btn-success btn-sm w-100">Approve</button>
+                                    </form>
+                                </td>
+                                <td class="d-flex justify-content-center align-items-center">
+                                    <form method="post" asp-page-handler="Delete" class="d-flex justify-content-center">
+                                        <input type="hidden" name="Id" value="@donation.DonationID" />
+                                        <button type="submit" class="btn btn-danger btn-sm w-100">Disapprove</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

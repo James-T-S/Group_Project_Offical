@@ -1,4 +1,160 @@
 ﻿@page
 @model Group_Project_Offical.Pages.Stock_Manager_Handle_StockModel
 @{
+    ViewData["UserType"] = "stock manager";
 }
+
+<body>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            @if (Model.Id != null)
+            {
+                    <text>
+                        new bootstrap.Modal(document.getElementById('donationModal')).show();
+                    </text>
+            }
+
+            const sel = document.getElementById("ItemSelect");
+            if (!sel) return;
+
+            sel.addEventListener("change", function () {
+                let opt = this.selectedOptions[0];
+                if (!opt) return;
+
+                document.getElementById("ItemName").value = opt.dataset.name;
+                document.getElementById("ItemDesc").value = opt.dataset.desc;
+                document.getElementById("ItemSize").value = opt.dataset.size;
+
+                let categoryName = opt.dataset.category;
+                let categorySelect = document.getElementById("ItemCategory");
+
+                for (let option of categorySelect.options) {
+                    option.selected = (option.text === categoryName);
+                }
+            });
+
+            if (sel.selectedIndex >= 0)
+                sel.dispatchEvent(new Event("change"));
+        });
+    </script>
+
+
+
+
+
+
+    <div class="container my-5 px-3">
+        >
+        <h1 class="mb-4" style="font-family: 'Roboto', sans-serif; font-weight: 800;">Donations</h1>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped text-center align-middle custom-table">
+                <thead style="background-color: #C2A68C;">
+                    <tr>
+                        <th>ID</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Value</th>
+                        <th>Items</th>
+                        <th>Edit</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    @foreach (var donation in Model.Donations)
+                    {
+                        <tr class="bg-light">
+                            <td>@donation.DonationID</td>
+                            <td>@donation.DonationDate</td>
+                            <td>@donation.StatusName</td>
+                            <td>@donation.EstimatedValue</td>
+                            <td>
+                                @foreach (var item in donation.Items)
+                                {
+                                    <div>@item.ItemName</div>
+                                }
+                            </td>
+                            <td>
+                                <div class="d-flex justify-content-center">
+                                    <a href="?id=@donation.DonationID" class="btn">Edit</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="modal fade" id="donationModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5>Edit Donation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <form method="post" asp-page-handler="Update">
+                    <div class="modal-body d-flex flex-column gap-4">
+
+                        <input type="hidden" name="Id" value="@Model.SelectedDonation?.DonationID" />
+
+                        <div>
+                            <label>Current Estimated Value: £@Model.SelectedDonation?.EstimatedValue</label>
+                        </div>
+
+                        <select id="ItemSelect" name="DonationItemID" class="form-select">
+                            @if (Model.SelectedDonation != null)
+                            {
+                                foreach (var item in Model.SelectedDonation.Items)
+                                {
+                                    <option value="@item.DonationItemID"
+                                            data-name="@item.ItemName"
+                                            data-desc="@item.Description"
+                                            data-size="@item.Size"
+                                            data-category="@item.CategoryName">
+                                        @item.ItemName
+                                    </option>
+                                }
+                            }
+                            else
+                            {
+                                <option disabled>No Items</option>
+                            }
+                        </select>
+
+                        <input id="ItemName" name="UpdatedItemName" class="form-control" placeholder="Name" />
+                        <input id="ItemDesc" name="UpdatedItemDesc" class="form-control" placeholder="Description" />
+                        <input id="ItemSize" name="UpdatedItemSize" class="form-control" placeholder="Size" />
+
+                        <select id="ItemCategory" name="UpdatedItemCategory" class="form-control">
+                            @foreach (var category in Model.Categories)
+                            {
+                                <option value="@category.Value">@category.Value</option>
+                            }
+                        </select>
+
+                        <select name="UpdateStatusName" class="form-control">
+                            <option value="Pending">Pending</option>
+                            <option value="Processing">Processing</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Sold">Sold</option>
+                        </select>
+
+                        <div>
+                            <label>Update Estimated Value (£)</label>
+                            <input type="number" name="UpdateEstimatedValue" class="form-control"
+                                   placeholder="Estimated Value" value="@Model.SelectedDonation?.EstimatedValue"
+                                   step="0.01" min="0" />
+                        </div>
+
+                        <button type="submit" class="btn btn-primary mx-auto">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

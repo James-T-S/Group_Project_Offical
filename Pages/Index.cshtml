@@ -2,9 +2,99 @@
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
+    Layout = "_Layout";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn all about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!doctype html>
+<html lang="en">
+<head>
+    <title>SustainWear</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+</head>
+<body>
+
+    <div class="hero-container position-relative">
+        <img src="images/HomelessMan.webp" alt="Homeless Man" class="hero-shot" />
+        <a href="UniversalLogin" class="donate-btn">Donate</a>
+    </div>
+
+    <div class="max-width py-5">
+
+        <div class="row align-items-center gx-4 mb-5">
+            <div class="col-sm-6 index-text pe-sm-4">
+                <h1 class="fw-bold mb-4">Sustaining People. Sustaining the Planet.</h1>
+                <p class="lead">
+                    At Sustain Wear, we believe no good garment should go to waste — and no one should go without.
+                    We collect, sort, and distribute quality clothing donations to trusted charities that serve
+                    communities in need. Every shirt, jacket, and pair of shoes we handle is another step toward a
+                    more sustainable and compassionate world, where the cycle of waste is replaced by a circle of
+                    care.
+                </p>
+            </div>
+            <div class="col-sm-6 d-flex justify-content-end ps-sm-4">
+                <img src="images/PeopleGivingOutClothes.jpeg" class="img-fluid">
+            </div>
+        </div>
+
+        <div class="index-sustainability row justify-content-center g-4 my-5">
+
+            <h1 class="text-center fw-bold col-12 ">Our Global Impact</h1>
+
+            <div class="col-lg-4 col-md-6 col-12 d-flex shadow-sm" style="background-color: #FFF;">
+                <div class="text-center d-flex flex-column pb-4">
+                    <img src="images\PeopleGivingOutClothes.jpeg" alt="Sustainability metric image" class="img-fluid mb-3" />
+                    <h3 class="fs-1 fw-bold text-success">200KG</h3>
+                    <p class="fs-4 fw-bold mb-0">CO₂ Saved</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-12 d-flex shadow-sm" style="background-color: #FFF;">
+                <div class="text-center d-flex flex-column pb-4">
+                    <img src="images\PeopleGivingOutClothes.jpeg" alt="Sustainability metric image" class="img-fluid mb-3" />
+                    <h3 class="fs-1 fw-bold text-success">200 Litres</h3>
+                    <p class="fs-4 fw-bold mb-0">Water Saved</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-12 d-flex shadow-sm" style="background-color: #FFF;">
+                <div class="text-center d-flex flex-column pb-4">
+                    <img src="images\PeopleGivingOutClothes.jpeg" alt="Sustainability metric image" class="img-fluid mb-3" />
+                    <h3 class="fs-1 fw-bold text-success">200KG</h3>
+                    <p class="fs-4 fw-bold mb-0">Landfill Saved</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row align-items-center gx-4 mb-5">
+            <div class="col-sm-6 d-flex pe-sm-4">
+                <img src="images\TreeSaplingGrowing.jpg" alt="Tree sapling growing" class="img-fluid" />
+            </div>
+            <div class="col-sm-6 index-text justify-content-end ps-sm-4">
+                <h1 class="fw-bold mb-4">Making Sustainable Giving Simple.</h1>
+                <p class="lead">
+                    Fashion shouldn’t cost the earth, and helping others shouldn’t be complicated. Sustain Wear
+                    connects surplus clothing with the people and charities that need it most, reducing textile
+                    waste while supporting dignity and comfort for all. By streamlining donation and distribution,
+                    we make it easy for individuals and brands to do good — responsibly.
+                </p>
+            </div>
+        </div>
+
+        <div class="row align-items-center gx-4 mb-5">
+            <div class="col-sm-6 index-text pe-sm-4 order-2 order-sm-1">
+                <h1 class="fw-bold mb-4">Every Garment Deserves a Second Story.</h1>
+                <p class="lead">
+                    What we wear tells a story — and at Sustain Wear, we’re helping those stories continue. Through
+                    partnerships with local charities, shelters, and aid groups, we ensure that gently used clothes
+                    find their way to new owners who truly need them. Together, we’re building a future where
+                    sustainability meets generosity, one garment at a time.
+                </p>
+            </div>
+            <div class="col-sm-6 d-flex justify-content-end ps-sm-4 order-1 order-sm-2">
+                <img src="images/HomelessMan.webp" alt="Person receiving clothing donation" class="img-fluid" />
+            </div>
+        </div>
+    </div>
+</body>
+</html>

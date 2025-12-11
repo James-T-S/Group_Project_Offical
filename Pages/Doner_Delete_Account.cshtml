@@ -1,0 +1,104 @@
+﻿@page
+@model Group_Project_Offical.Pages.Doner_Delete_AccountModel
+@{
+    ViewData["Title"] = "My Donor Account";
+    ViewData["UserType"] = "doner";
+}
+
+<div class="d-flex flex-column align-items-center mt-4 content-wrapper">
+
+    <h1 class="mb-4">My Account</h1>
+
+    @if (!string.IsNullOrWhiteSpace(Model.error))
+    {
+        <div class="text-danger mb-2 roboto-black">@Model.error</div>
+    }
+
+    @if (!string.IsNullOrWhiteSpace(Model.message))
+    {
+        <div class="text-success mb-2">@Model.message</div>
+    }
+
+    @if (Model.profile is null)
+    {
+        <p>ERROR</p>
+    }
+    else
+    {
+        <div class="card p-4 shadow-sm mb-5" style="width: 100%; max-width: 450px;">
+
+            <form method="post" asp-page-handler="Update" class="login-form">
+
+                <div class="mb-3">
+                    <label class="form-label">Username</label>
+                    <input value="@Model.profile.Username" disabled class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="profile.Email" class="form-label"></label>
+                    <input asp-for="profile.Email" class="form-control" />
+                    <span asp-validation-for="profile.Email" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="profile.FirstName" class="form-label"></label>
+                    <input asp-for="profile.FirstName" class="form-control" />
+                    <span asp-validation-for="profile.FirstName" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="profile.LastName" class="form-label"></label>
+                    <input asp-for="profile.LastName" class="form-control" />
+                    <span asp-validation-for="profile.LastName" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="profile.PhoneNumber" class="form-label"></label>
+                    <input asp-for="profile.PhoneNumber" class="form-control" />
+                    <span asp-validation-for="profile.PhoneNumber" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="profile.Address" class="form-label"></label>
+                    <input asp-for="profile.Address" class="form-control" />
+                    <span asp-validation-for="profile.Address" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-4 border-top pt-3">
+                    <h5 class="mb-3">Change Password</h5>
+
+                    <div class="mb-3">
+                        <label asp-for="profile.CurrentPassword" class="form-label">Current Password</label>
+                        <input asp-for="profile.CurrentPassword" type="password" class="form-control" />
+                        <span asp-validation-for="profile.CurrentPassword" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="profile.NewPassword" class="form-label">New Password</label>
+                        <input asp-for="profile.NewPassword" type="password" class="form-control" />
+                        <span asp-validation-for="profile.NewPassword" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="profile.ConfirmPassword" class="form-label">Confirm New Password</label>
+                        <input asp-for="profile.ConfirmPassword" type="password" class="form-control" />
+                        <span asp-validation-for="profile.ConfirmPassword" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <div class="mb-4 d-flex align-items-center gap-2">
+                    <input asp-for="profile.IsActive" type="checkbox" class="form-check-input" disabled />
+                    <label class="form-check-label">Active</label>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn mx-auto d-block mb-2">Save Changes</button>
+                </div>
+            </form>
+
+            <form method="post" asp-page-handler="Delete" onsubmit="return confirm('Are you sure you want to permanently delete your account? This action cannot be undone.')" class="text-center">
+                <button type="submit" class="btn mx-auto d-block" style="background: #E43F3F;">Delete Account</button>
+            </form>
+        </div>
+    }
+</div>

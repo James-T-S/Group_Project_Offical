@@ -1,4 +1,50 @@
 ﻿@page
 @model Group_Project_Offical.Pages.Admin_Generate_ReportsModel
 @{
+    ViewData["UserType"] = "admin";
 }
+
+
+<body>
+    <div class="content-wrapper mt-5 text-center d-flex align-items-center flex-column">
+        <h1 class="roboto-black">Total Sustainability Metrics</h1>
+
+        <div class="card p-4 shadow-sm mb-5 form-background" style="max-width:40vw; width:40%;">
+            <h2>Overall System Impact</h2>
+
+            <div class="mt-5">
+                <h3>CO2 Saved</h3>
+                <p>@Model.TotalMetrics.TotalCO2Saved kg</p>
+                <p>Carbon dioxide reduction</p>
+            </div>
+
+            <div class="mt-4">
+                <h3>Water Saved</h3>
+                <p>@Model.TotalMetrics.TotalWaterSaved liters</p>
+                <p>Water conservation</p>
+            </div>
+
+            <div class="mt-4">
+                <h3>Landfill Reduced</h3>
+                <p>@Model.TotalMetrics.TotalLandfillReduction kg</p>
+                <p>Waste diversion from landfills</p>
+            </div>
+
+            <div class="mt-4">
+                <h3>Items Saved</h3>
+                <p>@Model.TotalMetrics.TotalItemsSaved</p>
+                <p>Items rescued from disposal</p>
+            </div>
+
+            <div class="mt-4">
+                <h3>Beneficiaries Supported</h3>
+                <p>@Model.TotalMetrics.TotalBeneficiariesSupported</p>
+                <p>People helped by donations</p>
+            </div>
+        </div>
+        <form method="post" asp-page-handler="GeneratePdf">
+            <button type="submit" class="btn d-block mx-auto">Export to PDF</button>
+        </form>
+            <p class="mb-5" style="max-width:400px;">Download a PDF report showing the total sustainability metrics for the entire system.</p>
+    </div>
+</body>
