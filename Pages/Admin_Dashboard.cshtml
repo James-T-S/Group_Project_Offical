@@ -2,90 +2,63 @@
 @model Group_Project_Offical.Pages.Admin_DashbaordModel
 @{
     Layout = "_Layout";
-    ViewData["HideNav"] = true;
     ViewData["UserType"] = "admin";
 }
 
 <body>
-    <div class="d-flex" style="min-height:100vh;">
-
-        <div style="background-color:#C2A68C;" class="d-flex flex-column pt-2 fw-bold">
-            <a href="Admin_Dashboard" class="navbar-brand fw-bold text-center px-2 mb-4"
-               style="color:#374F40;font-size:2rem;line-height:1; align-self:center; margin:0 !important;">
-                Sustain <br /> Wear
-            </a>
-
-            <a href="Admin_Create_Staff_Accounts"
-               class="text-decoration-none text-black d-block mb-4 fw-bold text-center">
-                Create Accounts
-            </a>
-            <a href="Admin_Manage_Accounts"
-               class="text-decoration-none text-black d-block mb-4 fw-bold text-center">
-                Manage Accounts
-            </a>
-            <a href="Admin_Manage_Charity"
-               class="text-decoration-none text-black d-block mb-4 fw-bold text-center">
-                Manage Charities
-            </a>
-            <a href="Admin_Generate_Reports"
-               class="text-decoration-none text-black d-block mb-4 fw-bold text-center">
-                Generate Reports
-            </a>
-
-            <a href="Doner_Delete_Account"
-               class="text-decoration-none text-black d-block mb-4 mt-auto fw-bold text-center">
-               Manage Account
-            </a>
-        </div>
-
+    <div class="d-flex container" style="min-height:100vh;">
         <div class="flex-grow-1 p-5">
 
             <h1 class="mb-5">Admin Dashboard</h1>
             <h2 class="mt-4 mb-4">Total Sustainability Metrics</h2>
 
-            <div class="metrics-wrapper pt-4 pb-2 mb-4">
-                <div class="row row-cols-xl-5 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 g-4 mx-0" style="max-width: 1200px; width: 100%;">
-                    <div class="col d-flex">
-                        <div class="card card-co2 text-white metric-card w-100 text-center">
-                            <div class="card-body py-4">
-                                <h4 class="metric-value">@Model.TotalMetrics.TotalCO2Saved.ToString("F1") kg</h4>
-                                <p class="metric-label mb-0">CO₂ Saved</p>
+            <div class="row mb-5">
+                <div class="col-12">
+
+                    <div class="row g-4 mx-0">
+
+                        <div class="col d-flex">
+                            <div class="card text-center text-white metric-card w-100 h-100" style="background-color: #5D866C;">
+                                <div class="card-body py-3">
+                                    <h4 class="metric-value">@Model.TotalMetrics.TotalCO2Saved.ToString("F1") kg</h4>
+                                    <p class="metric-label mb-0">CO₂ Saved</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="col d-flex">
-                        <div class="card card-water text-white metric-card w-100 text-center">
-                            <div class="card-body py-4">
-                                <h4 class="metric-value">@Model.TotalMetrics.TotalWaterSaved.ToString("F0") L</h4>
-                                <p class="metric-label mb-0">Water Saved</p>
+                        <div class="col d-flex">
+                            <div class="card text-center text-white metric-card w-100 h-100" style="background-color: #5D866C;">
+                                <div class="card-body py-3">
+                                    <h4 class="metric-value">@Model.TotalMetrics.TotalWaterSaved.ToString("F0") L</h4>
+                                    <p class="metric-label mb-0">Water Saved</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="col d-flex">
-                        <div class="card card-landfill metric-card w-100 text-center">
-                            <div class="card-body py-4">
-                                <h4 class="metric-value">@Model.TotalMetrics.TotalLandfillReduction.ToString("F1") kg</h4>
-                                <p class="metric-label mb-0">Landfill Reduced</p>
+                        <div class="col d-flex">
+                            <div class="card text-center text-white metric-card w-100 h-100" style="background-color: #5D866C;">
+                                <div class="card-body py-3">
+                                    <h4 class="metric-value">@Model.TotalMetrics.TotalLandfillReduction.ToString("F1") kg</h4>
+                                    <p class="metric-label mb-0">Landfill Reduced</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="col d-flex">
-                        <div class="card card-items text-white metric-card w-100 text-center">
-                            <div class="card-body py-4">
-                                <h4 class="metric-value">@Model.TotalMetrics.TotalItemsSaved</h4>
-                                <p class="metric-label mb-0">Items Saved</p>
+                        <div class="col d-flex">
+                            <div class="card text-center text-white metric-card w-100 h-100" style="background-color: #5D866C;">
+                                <div class="card-body py-3">
+                                    <h4 class="metric-value">@Model.TotalMetrics.TotalItemsSaved</h4>
+                                    <p class="metric-label mb-0">Items Saved</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="col d-flex">
-                        <div class="card card-people text-white metric-card w-100 text-center">
-                            <div class="card-body py-4">
-                                <h4 class="metric-value">@Model.TotalMetrics.TotalBeneficiariesSupported</h4>
-                                <p class="metric-label mb-0">People Helped</p>
+                        <div class="col d-flex">
+                            <div class="card text-center text-white metric-card w-100 h-100" style="background-color: #5D866C;">
+                                <div class="card-body py-3">
+                                    <h4 class="metric-value">@Model.TotalMetrics.TotalBeneficiariesSupported</h4>
+                                    <p class="metric-label mb-0">People Helped</p>
+                                </div>
                             </div>
                         </div>
                     </div>
